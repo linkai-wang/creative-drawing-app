@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creative Drawing App is an interactive drawing-based teaching tool designed for special education classroom activities.">
+  <meta name="referrer" content="no-referrer">
+  <title>创意小画家 - 儿童绘画乐园</title>
+
+  <!-- 生产环境静态样式；GitHub Pages 不再依赖 Tailwind runtime CDN。 -->
+  <link rel="stylesheet" href="./css/tailwind.css">
+  <!-- 项目自定义样式保持独立，并在 Tailwind 之后加载。 -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- 其余第三方资源保持现状。 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-nunito bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen text-dark overflow-x-hidden">
+  <!-- 页面容器 -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- 顶部导航 -->
+    <header class="py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-paint-brush text-primary text-3xl"></i>
+        <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-primary text-shadow">创意小画家</h1>
+      </div>
+      <div class="hidden md:flex items-center space-x-6">
+        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
+          <i class="fa fa-user-circle-o text-2xl"></i>
+        </button>
+        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
+          <i class="fa fa-cog text-2xl"></i>
+        </button>
+        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
+          <i class="fa fa-question-circle-o text-2xl"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+      <!-- 1. 场景选择界面 (默认显示) -->
+      <section id="scene-selection" class="py-8">
+        <div class="text-center mb-10">
+          <h2 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold mb-3">你想去哪里探险？选一个喜欢的世界吧！</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">完成绘画小挑战,AI 老师会把你的画变成神奇故事哦！✨</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- 海滩场景 -->
+          <div class="scene-card" data-scene="beach">
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/70 to-transparent z-10"></div>
+            <img data-image-src="./assets/scenes/beach/sunny-beach.webp" alt="海滩场景" loading="lazy" decoding="async"  class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+              <h3 class="text-white text-xl font-bold">海滩</h3>
+              <p class="text-white/90 text-sm">画贝壳、海浪和小螃蟹</p>
+            </div>
+          </div>
+
+          <!-- 森林场景 -->
+          <div class="scene-card" data-scene="forest">
+            <div class="absolute inset-0 bg-gradient-to-t from-green-900/70 to-transparent z-10"></div>
+            <img data-image-src="./assets/scenes/forest/sunny-forest.webp" alt="森林场景" loading="lazy" decoding="async"  class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+              <h3 class="text-white text-xl font-bold">森林</h3>
+              <p class="text-white/90 text-sm">画树木、小动物和花朵</p>
+            </div>
+          </div>
+
+          <!-- 星空场景 -->
+          <div class="scene-card" data-scene="starry">
+            <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/70 to-transparent z-10"></div>
+            <img data-image-src="./assets/scenes/starry/starry-night.webp" alt="星空场景" loading="lazy" decoding="async"  class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+              <h3 class="text-white text-xl font-bold">星空</h3>
+              <p class="text-white/90 text-sm">画星星、月亮和流星</p>
+            </div>
+          </div>
+
+          <!-- 小镇场景 -->
+          <div class="scene-card" data-scene="town">
+            <div class="absolute inset-0 bg-gradient-to-t from-amber-900/70 to-transparent z-10"></div>
+            <img data-image-src="./assets/scenes/town/town-street.webp" alt="小镇场景" loading="lazy" decoding="async"  class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+              <h3 class="text-white text-xl font-bold">小镇</h3>
+              <p class="text-white/90 text-sm">画房子、街道和小汽车</p>
+            </div>
+          </div>
+
+          <!-- 水族馆场景 - 已修复图片 -->
+          <div class="scene-card" data-scene="aquarium">
+            <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/70 to-transparent z-10"></div>
+            <img data-image-src="./assets/scenes/aquarium/aquarium-deep.webp" alt="水族馆场景" loading="lazy" decoding="async"  class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+              <h3 class="text-white text-xl font-bold">水族馆</h3>
+              <p class="text-white/90 text-sm">画鱼、水草和珊瑚</p>
+            </div>
+          </div>
+
+          <!-- 更多场景 -->
+          <div class="scene-card bg-gray-100 flex items-center justify-center border-2 dashed border-gray-300" aria-disabled="true" title="更多场景暂未开放">
+            <div class="text-center p-4">
+              <i class="fa fa-plus-circle text-4xl text-gray-400 mb-2"></i>
+              <h3 class="text-gray-500 text-xl font-bold">更多场景</h3>
+              <p class="text-gray-400 text-sm">即将上线...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 场景素材任务列表 (默认隐藏) -->
+      <section id="scene-tasks" class="py-8 hidden">
+        <div class="flex items-center mb-6">
+          <button id="back-to-scenes"
+            class="flex items-center text-primary hover:text-primary/80 transition-colors mr-4">
+            <i class="fa fa-arrow-left mr-2"></i>
+            <span>返回场景选择</span>
+          </button>
+          <h2 id="scene-title" class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold">海滩场景</h2>
+        </div>
+
+        <!-- 进度条 -->
+        <div class="mb-8">
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">完成进度</span>
+            <span id="progress-text">0/0 元素</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div id="progress-bar" class="bg-accent h-4 rounded-full transition-all duration-500" style="width: 0%">
+            </div>
+          </div>
+        </div>
+
+<div class="mb-6 p-4 bg-white rounded-xl shadow-inner border border-gray-100">
+    <div class="flex justify-between items-center mb-3">
+        <h3 class="font-bold text-lg flex items-center text-dark">
+            <i class="fa fa-picture-o mr-2 text-primary"></i>
+            背景图选择
+        </h3>
+    </div>
+    <div id="background-selector" class="flex flex-wrap gap-4">
+    </div>
+</div>
+
+        <!-- 场景预览 -->
+        <div id="scene-preview"
+          class="relative rounded-2xl overflow-hidden min-h-[240px] md:min-h-[380px] mb-10 border-4 border-white shadow-lg mx-auto max-w-5xl w-full">
+          <!-- 场景背景图 -->
+          <div id="scene-bg-container" class="relative w-full overflow-hidden rounded-lg flex items-center justify-center">
+  <img 
+    id="scene-bg"
+    alt="场景背景"
+    class="mx-auto w-auto h-auto object-contain max-h-[240px] md:max-h-[380px]"
+  >
+</div>
+
+          <!-- 已完成的元素会在这里显示 -->
+          <div id="completed-elements" class="absolute inset-0"></div>
+
+          <!-- 缩放和调整位置控制 -->
+          <div id="preview-zoom-controls" class="absolute top-3 right-3 z-40 flex gap-2 items-center">
+            <div class="flex gap-2 items-center">
+              <button id="zoom-in" title="放大" class="bg-white w-10 h-10 p-2 rounded-full shadow-md hover:shadow-lg transition-colors text-gray-700 text-lg">
+                <i class="fa fa-plus"></i>
+              </button>
+              <button id="zoom-out" title="缩小" class="bg-white w-10 h-10 p-2 rounded-full shadow-md hover:shadow-lg transition-colors text-gray-700 text-lg">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="w-px bg-gray-200 h-6 mx-2"></div>
+            <!-- 调整物体位置按钮 -->
+            <button id="toggle-element-drag" class="bg-secondary hover:bg-secondary/90 text-white px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
+              <i class="fa fa-arrows"></i>
+              <span>调整物体位置</span>
+            </button>
+          </div>
+
+          <!-- 通关标志 (默认隐藏) -->
+          <div id="completed-badge"
+            class="hidden absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+            已通关！
+          </div>
+        </div>
+
+        <!-- 任务列表 -->
+        <h3 class="text-xl font-bold mb-4">请选择要绘制的元素：</h3>
+        <div id="tasks-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 tasks-container">
+          <!-- 任务项会通过JS动态生成 -->
+        </div>
+
+        <!-- AI讲故事按钮 (始终可见) -->
+        <div class="text-center mt-10">
+          <button id="enter-story-mode" class="btn-secondary">
+            <i class="fa fa-book mr-2"></i>AI讲故事
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. 绘画教学界面 (默认隐藏) -->
+      <section id="drawing-mode" class="py-8 hidden">
+        <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+          <div>
+            <button id="back-to-tasks"
+              class="flex items-center text-primary hover:text-primary/80 transition-colors mr-4">
+              <i class="fa fa-arrow-left mr-2"></i>
+              <span>返回任务列表</span>
+            </button>
+            <h2 id="drawing-title" class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold mt-2">画一个贝壳</h2>
+            <span id="drawing-status" class="drawing-status" role="status" aria-live="polite">
+              <i class="fa fa-pencil"></i><span>准备绘画</span>
+            </span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button id="undo-btn" type="button" disabled aria-label="撤销上一笔" title="暂无可撤销内容" class="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all">
+              <i class="fa fa-undo text-gray-600"></i>
+            </button>
+            <button id="clear-btn" type="button" disabled aria-label="清空画布" title="画布当前为空" class="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all">
+              <i class="fa fa-trash text-gray-600"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="drawing-layout">
+          <!-- 左侧：素材库和教程（含上传） - 固定宽度280px -->
+          <div class="sidebar-fixed space-y-6">
+            <!-- 虚拟老师 -->
+            <div class="bg-white rounded-xl shadow-md p-4">
+              <div class="flex items-center mb-3">
+                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+                  <i class="fa fa-graduation-cap text-primary"></i>
+                </div>
+                <h3 class="font-bold text-lg">绘画小老师</h3>
+              </div>
+              <div id="teacher-instructions" class="bg-light rounded-lg p-3 text-gray-700 min-h-[100px]">
+                让我们来画一个漂亮的贝壳吧！先画一个半圆作为贝壳的身体...
+              </div>
+              <button id="play-instruction"
+                class="mt-3 w-full bg-primary/10 hover:bg-primary/20 text-primary py-2 rounded-lg transition-colors flex items-center justify-center">
+                <i class="fa fa-volume-up mr-2"></i> 听老师讲解
+              </button>
+              <!-- TTS 控件：仅保留中文语音选择与示例/保存 -->
+              <div id="tts-controls" class="mt-3 space-y-2 text-sm text-gray-600">
+                <label for="tts-voice-select" class="block">语音：</label>
+                <select id="tts-voice-select" class="w-full border rounded p-2 bg-white"></select>
+                <div class="flex gap-2">
+                  <button id="tts-sample" class="flex-1 bg-primary text-white py-1 rounded">示例播放</button>
+                  <button id="tts-save" class="flex-1 bg-gray-200 py-1 rounded">保存偏好</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 素材库 -->
+            <div class="bg-white rounded-xl shadow-md p-4">
+              <h3 class="font-bold text-lg mb-3">参考素材</h3>
+              <div id="reference-materials" class="gap-2">
+                <!-- 参考图片会通过JS动态生成，网格列数将动态设置 -->
+              </div>
+              <div class="mt-3 flex gap-2">
+                <button id="trace-mode" type="button" aria-pressed="false" class="mode-button flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg text-sm">
+                  描摹模式
+                </button>
+                <button id="free-mode" type="button" aria-pressed="true"
+                  class="mode-button is-active flex-1 py-2 rounded-lg text-sm">
+                  自由画
+                </button>
+              </div>
+            </div>
+
+            <!-- 用户上传自定义参考素材 (已并入左侧) -->
+            <div class="bg-white rounded-xl shadow-md p-4 mt-2">
+              <h3 class="font-bold text-lg mb-3">上传你的参考图片</h3>
+              <input type="file" id="upload-trace" accept="image/*" aria-label="上传描摹参考图片"
+                class="w-full text-sm border rounded-lg p-2 cursor-pointer mb-2" />
+              <p class="text-gray-500 text-sm">选择一张图片作为描摹参考，上传后会自动显示在画布上。</p>
+            </div>
+          </div>
+
+          <!-- (上传区已并入左侧工具栏) -->
+
+
+          <!-- 右侧：绘画区域 -->
+          <div class="flex-1">
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+              <!-- 工具栏 -->
+              <div id="toolbar">
+                <div class="flex items-center bg-light rounded-lg px-3 py-2">
+                  <label for="brush-size" class="mr-2 text-gray-600">画笔粗细:</label>
+                  <input type="range" min="1" max="20" value="3" class="w-24" id="brush-size">
+                  <span id="size-value" class="ml-2 text-gray-600">3px</span>
+                </div>
+
+                <div class="flex items-center bg-light rounded-lg px-3 py-2">
+                  <span class="mr-2 text-gray-600">画笔类型:</span>
+                  <div id="brush-select" class="flex gap-2">
+                    <button class="brush-btn active" data-brush="fineliner" title="勾线笔">
+                      <i class="fa fa-paint-brush"></i><span>勾线</span>
+                    </button>
+                    <button class="brush-btn" data-brush="crayon" title="蜡笔">
+                      <i class="fa fa-circle"></i><span>蜡笔</span>
+                    </button>
+                    <button class="brush-btn" data-brush="watercolor" title="水彩">
+                      <i class="fa fa-tint"></i><span>水彩</span>
+                    </button>
+                    <button class="brush-btn" data-brush="pencil" title="铅笔">
+                      <i class="fa fa-pencil"></i><span>铅笔</span>
+                    </button>
+                    <button class="brush-btn" data-brush="brushstroke" title="毛笔">
+                      <i class="fa fa-leaf"></i><span>毛笔</span>
+                    </button>
+                    <button class="brush-btn" data-brush="spray" title="喷枪">
+                      <i class="fa fa-cloud"></i><span>喷枪</span>
+                    </button>
+                    <button class="brush-btn" data-brush="oilpaint" title="油画">
+                      <i class="fa fa-square"></i><span>油画</span>
+                    </button>
+                    <button class="brush-btn" data-brush="eraser" title="橡皮">
+                      <i class="fa fa-eraser"></i><span>橡皮</span>
+                    </button>
+                  </div>
+                  <canvas id="brush-preview" width="64" height="24" class="ml-3 rounded border bg-white"></canvas>
+                </div>
+
+                <div class="flex gap-2" id="color-palette">
+                  <button class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow-sm color-btn active" aria-label="红色"
+                    data-color="#EF4444"></button>
+                  <button class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-sm color-btn" aria-label="蓝色"
+                    data-color="#3B82F6"></button>
+                  <button class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-white shadow-sm color-btn" aria-label="黄色"
+                    data-color="#FBBF24"></button>
+                  <button class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow-sm color-btn" aria-label="绿色"
+                    data-color="#10B981"></button>
+                  <button class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow-sm color-btn" aria-label="紫色"
+                    data-color="#8B5CF6"></button>
+                  <button class="w-8 h-8 rounded-full bg-orange-500 border-2 border-white shadow-sm color-btn" aria-label="橙色"
+                    data-color="#F97316"></button>
+                  <button class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow-sm color-btn" aria-label="粉色"
+                    data-color="#EC4899"></button>
+                  <button class="w-8 h-8 rounded-full bg-gray-900 border-2 border-white shadow-sm color-btn" aria-label="黑色"
+                    data-color="#111827" title="黑色"></button>
+                  <button class="w-8 h-8 rounded-full bg-blue-900 border-2 border-white shadow-sm color-btn" aria-label="深蓝色"
+                    data-color="#1E3A8A" title="深蓝"></button>
+                  <button class="w-8 h-8 rounded-full bg-emerald-900 border-2 border-white shadow-sm color-btn" aria-label="深绿色"
+                    data-color="#064E3B" title="深绿"></button>
+                </div>
+              </div>
+
+              <!-- 画布 -->
+              <div class="relative border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 h-[480px] md:h-[600px]">
+                <canvas id="drawing-canvas" class="w-full h-full"></canvas>
+                <!-- 描摹层 (默认隐藏) -->
+                <div id="trace-layer" class="absolute top-0 left-0 w-full h-full pointer-events-none hidden">
+                  <img id="trace-image" alt="描摹参考" decoding="async" class="w-full h-full object-contain opacity-30">
+                </div>
+              </div>
+
+              <!-- 橡皮光标预览 (独立 DOM 元素，非画布绘制) -->
+              <div id="eraser-cursor-preview" class="eraser-cursor-preview"></div>
+
+              <!-- 笔刷光标预览 (独立 DOM 元素，非画布绘制) -->
+              <div id="brush-cursor-preview" class="brush-cursor-preview"></div>
+
+              <!-- 底部按钮 -->
+              <div class="mt-6 flex justify-end">
+                <button id="save-drawing" class="btn-primary" disabled title="先画几笔再完成作品">
+                  <i class="fa fa-check mr-2"></i>完成绘画
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. AI讲故事模式 (默认隐藏) - 功能预留 -->
+      <section id="story-mode" class="py-8 hidden">
+        <div class="flex items-center mb-6">
+          <button id="back-from-story"
+            class="flex items-center text-primary hover:text-primary/80 transition-colors mr-4">
+            <i class="fa fa-arrow-left mr-2"></i>
+            <span>返回</span>
+          </button>
+          <h2 id="story-title" class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold">🎨 看看你的杰作 🎨</h2>
+        </div>
+
+        <!-- 分屏布局：左侧绘画预览，右侧故事内容 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          
+          <!-- 左侧：孩子的完整艺术作品（背景+绘画），像一幅画框 -->
+          <div class="flex flex-col">
+            <div class="bg-gradient-to-b from-purple-100 to-blue-100 p-4 rounded-t-xl">
+              <h3 class="text-lg font-bold text-primary flex items-center">
+                <i class="fa fa-picture-o mr-2"></i>
+                你的杰作
+              </h3>
+            </div>
+            <!-- 画框效果容器 -->
+            <div class="bg-white rounded-b-xl shadow-xl overflow-hidden border-8 border-amber-100">
+              <!-- 内边距形成画框效果 -->
+              <div class="p-6 bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center min-h-[300px] md:min-h-[450px]">
+                <div id="story-canvas-preview" class="w-full h-full flex items-center justify-center bg-white rounded-lg shadow-inner border-2 border-amber-200">
+                  <div class="text-center">
+                    <div class="animate-spin mb-3">
+                      <i class="fa fa-spinner text-3xl text-primary"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">正在加载你的艺术作品...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：故事内容（可滚动） -->
+          <div class="flex flex-col">
+            <div class="bg-gradient-to-b from-orange-100 to-pink-100 p-4 rounded-t-xl">
+              <h3 class="text-lg font-bold text-secondary flex items-center">
+                <i class="fa fa-book mr-2"></i>
+                🌟 艺术导师的评价
+              </h3>
+            </div>
+            <!-- 故事内容容器 -->
+            <div class="bg-white rounded-b-xl shadow-xl overflow-hidden border-4 border-secondary/10 flex-1 flex flex-col">
+              <div id="story-content" class="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-purple-50 to-pink-50">
+                <div class="flex flex-col items-center justify-center h-full min-h-[300px] md:min-h-[450px]">
+                  <div class="animate-spin mb-4">
+                    <i class="fa fa-spinner text-4xl text-primary"></i>
+                  </div>
+                  <p class="text-gray-600 text-center">AI艺术导师正在欣赏你的杰作...✨</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button id="choose-new-scene-story" class="btn-primary flex-1 sm:flex-none">
+            <i class="fa fa-map-o mr-2"></i>选择新场景
+          </button>
+          <button id="replay-drawing-story" class="btn-secondary flex-1 sm:flex-none">
+            <i class="fa fa-paint-brush mr-2"></i>继续绘画
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="mt-16 py-6 border-t border-gray-200 text-center text-gray-500 text-sm">
+      <p>© 2025 创意小画家 - 让孩子在绘画中快乐成长</p>
+      <div class="flex justify-center space-x-4 mt-3">
+        <span class="opacity-70" title="内容暂未开放">关于我们</span>
+        <span class="opacity-70" title="内容暂未开放">使用帮助</span>
+        <span class="opacity-70" title="内容暂未开放">隐私政策</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 成功提示弹窗 (默认隐藏) -->
+  <div id="success-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center transform transition-all">
+      <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fa fa-check text-2xl text-accent"></i>
+      </div>
+      <h3 id="success-title" class="text-2xl font-bold mb-2">太棒了！画得真好！</h3>
+      <p id="success-message" class="text-gray-600 mb-6">你成功完成了贝壳的绘制，快去看看它出现在海滩上吧！</p>
+      <button id="close-modal" class="btn-primary w-full">
+        查看场景并继续
+      </button>
+    </div>
+  </div>
+
+  <!-- 故事任务确认弹窗 (默认隐藏) -->
+  <div id="story-confirmation-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="story-confirmation-title">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center transform transition-all">
+      <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fa fa-book text-2xl text-secondary"></i>
+      </div>
+      <h3 id="story-confirmation-title" class="text-2xl font-bold mb-3 text-dark">还没完成所有绘画哦！</h3>
+      <p class="text-gray-600 mb-6">你想先听一个故事，还是继续画画呢？</p>
+      <div class="flex gap-3">
+        <button id="confirm-listen-story" class="flex-1 btn-secondary rounded-lg">
+          <i class="fa fa-headphones mr-2"></i>听故事
+        </button>
+        <button id="confirm-keep-drawing" class="flex-1 btn-primary rounded-lg">
+          <i class="fa fa-pencil mr-2"></i>继续画
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通用确认弹窗：用于清空画布和恢复草稿 -->
+  <div id="choice-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="choice-title">
+    <div class="bg-white rounded-2xl p-7 max-w-md w-full text-center shadow-2xl">
+      <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i id="choice-icon" class="fa fa-question text-2xl text-primary"></i>
+      </div>
+      <h3 id="choice-title" class="text-xl font-bold mb-2">请确认</h3>
+      <p id="choice-message" class="text-gray-600 mb-6"></p>
+      <div class="flex gap-3">
+        <button id="choice-secondary" type="button" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-full transition-colors">取消</button>
+        <button id="choice-primary" type="button" class="flex-1 btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 已完成作品查看弹窗 -->
+  <div id="artwork-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="artwork-title">
+    <div class="bg-white rounded-2xl p-6 max-w-lg w-full text-center shadow-2xl">
+      <h3 id="artwork-title" class="text-2xl font-bold mb-4">我的作品</h3>
+      <div class="bg-gradient-to-br from-purple-50 to-orange-50 rounded-xl p-3 mb-5 border border-purple-100">
+        <img id="artwork-image" alt="已完成的绘画作品" class="mx-auto max-h-[55vh] w-full object-contain rounded-lg bg-white" />
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button id="artwork-close" type="button" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-full transition-colors">返回任务</button>
+        <button id="artwork-redraw" type="button" class="flex-1 btn-secondary"><i class="fa fa-refresh mr-2"></i>重新绘制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 轻量状态提示 -->
+  <div id="app-toast" class="toast-hidden fixed left-1/2 bottom-6 z-[70] max-w-[calc(100%-2rem)] rounded-full bg-gray-900 text-white px-5 py-3 text-sm font-bold shadow-xl" role="status" aria-live="polite"></div>
+
+  <script src="./js/scenes.js"></script>
+  <script src="./js/state.js"></script>
+  <script src="./js/images.js"></script>
+  <script src="./js/storage.js"></script>
+  <script src="./js/scene.js"></script>
+  <script src="./js/drawing.js"></script>
+  <script src="./js/tts.js"></script>
+  <script src="./js/story.js"></script>
+  <script src="./js/app.js"></script>
+
+    <!-- 🎉 奖励反馈组件 -->
+    <div id="reward-feedback" class="fixed inset-0 flex items-center justify-center z-[999] pointer-events-none hidden">
+      <div class="text-center transform transition-all duration-500 scale-0" id="reward-content">
+        <div class="text-6xl mb-4 animate-bounce">
+          <i class="fa fa-thumbs-up text-yellow-500"></i>
+      </div>
+          <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-2xl font-bold px-8 py-4 rounded-full shadow-xl animate-pulse">
+          太棒了！画得真好！
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+  </html>

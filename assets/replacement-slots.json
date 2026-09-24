@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "status": "PARTIALLY_LOCALIZED",
+  "pathPolicy": "Paths are repository-relative and GitHub Pages project-subpath compatible. LOCALIZED entries are active in index.html/js/scenes.js; MISSING entries retain their remote URL and fallback.",
+  "slots": [
+    {
+      "id": "sunny-beach",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/beach/sunny-beach.webp",
+      "replaces": ["海滩/背景/阳光沙滩", "海滩/缩略图/阳光沙滩", "海滩/默认背景"]
+    },
+    {
+      "id": "sunny-forest",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/forest/sunny-forest.webp",
+      "replaces": ["首页/森林场景", "森林/背景/晴天森林", "森林/缩略图/晴天森林", "森林/默认背景"]
+    },
+    {
+      "id": "snowy-forest",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/forest/snowy-forest.webp",
+      "replaces": ["森林/背景/雪景森林", "森林/缩略图/雪景森林"]
+    },
+    {
+      "id": "shell",
+      "status": "LOCALIZED",
+      "path": "./assets/references/beach/shell.webp",
+      "replaces": ["海滩/贝壳/参考"]
+    },
+    {
+      "id": "wave",
+      "status": "LOCALIZED",
+      "path": "./assets/references/beach/wave.webp",
+      "replaces": ["海滩/海浪/参考"]
+    },
+    {
+      "id": "crab",
+      "status": "LOCALIZED",
+      "path": "./assets/references/beach/crab.webp",
+      "replaces": ["海滩/小螃蟹/参考"]
+    },
+    {
+      "id": "rabbit",
+      "status": "LOCALIZED",
+      "path": "./assets/references/forest/rabbit.webp",
+      "replaces": ["森林/兔子/参考"]
+    },
+    {
+      "id": "tiger",
+      "status": "LOCALIZED",
+      "path": "./assets/references/forest/tiger.webp",
+      "replaces": ["森林/老虎/参考"]
+    },
+    {
+      "id": "lion",
+      "status": "LOCALIZED",
+      "path": "./assets/references/forest/lion.webp",
+      "replaces": ["森林/狮子/参考"]
+    },
+    {
+      "id": "flower-1",
+      "status": "MISSING",
+      "path": "./assets/references/forest/flower-1.png",
+      "replaces": ["森林/花朵1/参考"]
+    },
+    {
+      "id": "house-3",
+      "status": "LOCALIZED",
+      "path": "./assets/references/town/house-3.webp",
+      "replaces": ["小镇/房子3/参考"]
+    },
+    {
+      "id": "starry-night",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/starry/starry-night.webp",
+      "replaces": ["首页/星空场景", "星空/背景/星空夜景", "星空/缩略图/星空夜景", "星空/默认背景"]
+    },
+    {
+      "id": "town-street",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/town/town-street.webp",
+      "replaces": ["首页/小镇场景", "小镇/背景/小镇街景", "小镇/缩略图/小镇街景", "小镇/默认背景"]
+    },
+    {
+      "id": "aquarium-deep",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/aquarium/aquarium-deep.webp",
+      "replaces": ["首页/水族馆场景", "水族馆/背景/深海探险", "水族馆/缩略图/深海探险", "水族馆/默认背景"]
+    },
+    {
+      "id": "aquarium-coral",
+      "status": "LOCALIZED",
+      "path": "./assets/scenes/aquarium/aquarium-coral.webp",
+      "replaces": ["水族馆/背景/珊瑚王国", "水族馆/缩略图/珊瑚王国"]
+    },
+    {
+      "id": "person",
+      "status": "LOCALIZED",
+      "path": "./assets/references/beach/person.webp",
+      "replaces": ["海滩/玩耍的人/参考"]
+    },
+    {
+      "id": "elephant",
+      "status": "LOCALIZED",
+      "path": "./assets/references/forest/elephant.webp",
+      "replaces": ["森林/大象/参考"]
+    },
+    {
+      "id": "mushroom",
+      "status": "LOCALIZED",
+      "path": "./assets/references/forest/mushroom.webp",
+      "replaces": ["森林/蘑菇/参考"]
+    },
+    {
+      "id": "dolphin",
+      "status": "LOCALIZED",
+      "path": "./assets/references/aquarium/dolphin.webp",
+      "replaces": ["水族馆/海豚/参考"]
+    },
+    {
+      "id": "turtle",
+      "status": "LOCALIZED",
+      "path": "./assets/references/aquarium/turtle.webp",
+      "replaces": ["水族馆/海龟/参考"]
+    }
+  ],
+  "requiredSourceRecord": {
+    "acceptedOrigins": ["self-created", "user-owned", "Public Domain", "CC0", "explicit redistribution permission"],
+    "fields": ["file", "creator/source", "license or permission", "source URL when applicable", "attribution requirements"]
+  }
+}

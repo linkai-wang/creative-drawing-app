@@ -1,0 +1,25 @@
+node_modules/
+outputs/
+work/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor settings and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local logs, temporary files, and backups
+*.log
+*.tmp
+*.bak
+
+# Local environment configuration
+.env
+.env.*
+!.env.example

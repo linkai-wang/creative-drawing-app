@@ -1,0 +1,56 @@
+.hidden { display: none !important; }
+button:disabled { cursor: not-allowed; opacity: .5; transform: none !important; box-shadow: none !important; }
+#drawing-canvas { touch-action: none; display: block; }
+
+/* 图片层级独立于 Tailwind：图片 → 半透明渐变 → 文字。 */
+.scene-card[data-scene] { position: relative; isolation: isolate; background: #f5f3ff; }
+.scene-card[data-scene] > img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+.scene-card[data-scene] > div:first-child {
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(23, 30, 63, .62), rgba(23, 30, 63, .08) 55%, transparent 78%);
+}
+.scene-card[data-scene] > div:last-child { z-index: 2; }
+img[data-image-state="loading"], img[data-image-state="error"] {
+  object-fit: contain !important; background: #f5f3ff; opacity: 1 !important;
+}
+#scene-preview { position: relative; isolation: isolate; }
+#scene-bg-container { position: relative; z-index: 0; min-height: 240px; background: #f5f3ff; }
+#scene-bg { display: block; width: 100%; height: 100%; }
+#completed-elements { position: absolute; inset: 0; z-index: 10; background: transparent !important; pointer-events: none; }
+#completed-elements > img { pointer-events: auto; }
+#preview-zoom-controls { z-index: 30; }
+#completed-badge { z-index: 20; }
+.reference-image-button { display: block; width: 100%; height: 80px; position: relative; overflow: hidden; border-radius: 6px; background: #f5f3ff; }
+.reference-image-button img { width: 100%; height: 100%; object-fit: contain; }
+#artwork-image { min-height: 160px; }
+#trace-layer { background: transparent; }
+/* 描摹失败提示只占一个角落，不挡住孩子的画。 */
+#trace-image[data-image-state="loading"], #trace-image[data-image-state="error"] { width: 160px; height: 100px; margin: 12px; border-radius: 10px; }
+
+.scene-card:not([data-scene]) { cursor: default !important; }
+#success-modal, #story-confirmation-modal, #choice-modal, #artwork-modal { padding: 1rem; }
+.scene-card[data-scene]:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible { outline: 3px solid rgba(79, 70, 229, .35); outline-offset: 3px; }
+.mode-button { transition: background-color .2s, color .2s, box-shadow .2s, transform .2s; }
+.mode-button.is-active { background: #4F46E5; color: white; box-shadow: inset 0 2px 5px rgba(0,0,0,.16); }
+.drawing-status { display: inline-flex; align-items: center; gap: .35rem; margin-top: .5rem; padding: .25rem .65rem; border-radius: 999px; background: #EEF2FF; color: #4338CA; font-size: .8rem; font-weight: 700; }
+.drawing-status.saved { background: #ECFDF5; color: #047857; }
+.drawing-status.completed { background: #D1FAE5; color: #047857; }
+.task-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.task-button-secondary { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
+.task-button-secondary:hover { background: #FFEDD5; }
+#app-toast { transition: opacity .2s ease, transform .2s ease; }
+#app-toast.toast-visible { opacity: 1; transform: translate(-50%, 0); }
+#app-toast.toast-hidden { opacity: 0; transform: translate(-50%, 12px); pointer-events: none; }
+/* Allow the drawing grid's main column to shrink instead of clipping the canvas on phones. */
+.drawing-layout > .flex-1 { min-width: 0; }
+@media (max-width: 480px) {
+  #preview-zoom-controls { max-width: calc(100% - 1.5rem); }
+  #toggle-element-drag span { display: none; }
+  .task-item { gap: .75rem; padding: .75rem; align-items: flex-start; }
+  .task-thumbnail { width: 64px; height: 64px; }
+  .task-status { width: 26px; height: 26px; }
+  .task-button { padding: .65rem .8rem; }
+}

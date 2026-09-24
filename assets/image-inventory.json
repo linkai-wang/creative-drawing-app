@@ -1,0 +1,931 @@
+{
+  "generatedAt": "2026-09-21",
+  "sourceAuditDate": "2026-09-21",
+  "verificationMethod": "HTTP GET with no Referer and simulated https://example.github.io/ Referer; local Chromium browser decoding; no GitHub Pages deployment performed",
+  "notes": [
+    "RELIABLE_EXTERNAL means the URL passed the recorded checks; it does not guarantee future availability.",
+    "Every external asset remains UNKNOWN_LICENSE until redistribution rights are documented.",
+    "No third-party image was downloaded or copied into this repository during Process 2A."
+  ],
+  "summary": {
+    "LOCAL": 2,
+    "RELIABLE_EXTERNAL": 8,
+    "UNRELIABLE_EXTERNAL": 47,
+    "BROKEN_EXTERNAL": 7,
+    "UNKNOWN_LICENSE": 62,
+    "UNVERIFIED": 0
+  },
+  "localAssets": [
+    {
+      "path": "./assets/placeholders/image-loading.svg",
+      "category": "LOCAL",
+      "license": "PROJECT_CREATED",
+      "use": "Unified image loading placeholder"
+    },
+    {
+      "path": "./assets/placeholders/image-error.svg",
+      "category": "LOCAL",
+      "license": "PROJECT_CREATED",
+      "use": "Unified broken-image fallback"
+    }
+  ],
+  "generatedSources": [
+    {
+      "type": "USER_UPLOAD",
+      "format": "data:image/...",
+      "persistence": "session trace image",
+      "networkUpload": false
+    },
+    {
+      "type": "CANVAS_OUTPUT",
+      "format": "data:image/png;base64,...",
+      "persistence": "localStorage completed art/drafts/undo"
+    }
+  ],
+  "externalAssets": [
+    {
+      "id": 1,
+      "source": "https://p5.ssl.qhimgs1.com/t046e3445523d7c2725.jpg",
+      "uses": [
+        "首页/海滩场景"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 403,
+      "reason": "无Referer200，模拟GitHub来源Referer403；保留no-referrer。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 2,
+      "source": "https://pic.vjshi.com/2017-10-30/9fd88430ca4cd3786053f26624ead3a5/00003.jpg?x-oss-process=style/watermark",
+      "uses": [
+        "首页/森林场景"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": 403,
+      "githubReferrerStatus": 403,
+      "reason": "两种Referer测试均403，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 3,
+      "source": "https://p1.ssl.qhimgs1.com/t03c3f6510a429e59e7.jpg",
+      "uses": [
+        "首页/星空场景"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 4,
+      "source": "https://p1.ssl.qhimgs1.com/t016001218353a338d7.jpg",
+      "uses": [
+        "首页/小镇场景"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 5,
+      "source": "https://caitous3.cj.sina.com.cn/products/201706/7f73ea8d95afc6e0eb766a522555b9d9.png",
+      "uses": [
+        "首页/水族馆场景"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 6,
+      "source": "https://www.puchedu.cn/uploads/3/253/1713268767/2767292738.jpg",
+      "uses": [
+        "海滩/背景/阳光沙滩",
+        "海滩/缩略图/阳光沙滩",
+        "海滩/默认背景"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": 404,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 7,
+      "source": "https://miaobi-how2draw.bj.bcebos.com/miaobi-how2draw/2650293d90675ea002451359fc417c63467e1b74a94318427049f486bbd106d3.png",
+      "uses": [
+        "海滩/背景/日落沙滩",
+        "海滩/缩略图/日落沙滩"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 8,
+      "source": "https://img.jianbihua.com/sites/default/files/styles/photo300x200/public/images/2019-08/20190827104556_856315.jpg",
+      "uses": [
+        "海滩/贝壳/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": null,
+      "reason": "本机HTTP探测DNS解析失败，浏览器无法显示；需其他网络复核。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 9,
+      "source": "https://www.puchedu.cn/uploads/3/253/1944674306/3189270252.jpg",
+      "uses": [
+        "海滩/海浪/参考"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 10,
+      "source": "https://www.puchedu.cn/uploads/3/253/1901616714/4152768931.jpg",
+      "uses": [
+        "海滩/小螃蟹/参考"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 11,
+      "source": "https://miaobi-how2draw.bj.bcebos.com/miaobi-how2draw/5104de94c7c82bce79aaed24651acab99989ac608e8eb22681be62d806652afc.png",
+      "uses": [
+        "海滩/玩耍的人/参考"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 12,
+      "source": "https://tqjimg.tianqistatic.com/toutiao/jianbihuadaquan/jiaoyu/images/201908/05/00fb0c959e89d53d7c15375b3d6486db.jpg",
+      "uses": [
+        "森林/背景/晴天森林",
+        "森林/缩略图/晴天森林",
+        "森林/默认背景"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": null,
+      "reason": "本机HTTP探测DNS解析失败，浏览器无法显示；需其他网络复核。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 13,
+      "source": "https://www.puchedu.cn/uploads/1/253/2841467332/2504851774.jpg",
+      "uses": [
+        "森林/背景/雪景森林",
+        "森林/缩略图/雪景森林"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 14,
+      "source": "https://www.puchedu.cn/uploads/1/253/492258994/249989557.jpg",
+      "uses": [
+        "森林/兔子/参考"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": 404,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 15,
+      "source": "https://www.ajesmm.com/wp-content/uploads/tupianbd/1/253/1473268063/2793887797.jpg",
+      "uses": [
+        "森林/老虎/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": null,
+      "reason": "本机HTTP探测DNS解析失败，浏览器无法显示；需其他网络复核。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 16,
+      "source": "https://www.ajesmm.com/wp-content/uploads/tupianbd/1/253/2931139019/244438971.jpg",
+      "uses": [
+        "森林/狮子/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": null,
+      "reason": "本机HTTP探测DNS解析失败，浏览器无法显示；需其他网络复核。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 17,
+      "source": "https://pic.rmb.bdstatic.com/bjh/news/e420152aafeff98d24380ade7a0670fa.png",
+      "uses": [
+        "森林/大象/参考"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 18,
+      "source": "https://www.puchedu.cn/uploads/0/253/462412096/975457974.jpg",
+      "uses": [
+        "森林/花朵1/参考"
+      ],
+      "availability": "BROKEN_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": 404,
+      "githubReferrerStatus": 404,
+      "reason": "HTTP探测至少一次404，浏览器无法显示。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 19,
+      "source": "https://so1.360tres.com/dr/220__/t016ad344655cbd917e.jpg",
+      "uses": [
+        "森林/花朵2/参考"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 20,
+      "source": "https://pic.rmb.bdstatic.com/bjh/other/1f7345e5190d4607ff34fec8ee8b0c7c.jpeg",
+      "uses": [
+        "森林/蘑菇/参考"
+      ],
+      "availability": "RELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "本次两种请求均200，浏览器实际解码成功；不是长期可用承诺。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 21,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7ppN8ksFhRjnotheRtqHbRp0YSbpwACbRwAApKDwFX5gzg-mTN-9zYE.jpeg",
+      "uses": [
+        "星空/背景/星空夜景",
+        "星空/缩略图/星空夜景",
+        "星空/默认背景"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 22,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7VpN8kk2dSHYDwPhwI9Hh8tk4OnywACaBwAApKDwFVnnv-1yxER7jYE.jpeg",
+      "uses": [
+        "星空/星星1/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 23,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7lpN8ksZcj9cephvjGoM1lxyaJ3FgACbBwAApKDwFXWHyBI3svNkDYE.jpeg",
+      "uses": [
+        "星空/星星2/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 24,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7dpN8kqbX6K8r135cIDRAikzn59fAACahwAApKDwFWm6CisabR_KzYE.png",
+      "uses": [
+        "星空/月亮1/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 25,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7hpN8ksr9ROh4l5HFXixIUi03ld8gACaxwAApKDwFVpLC5cayO4rTYE.jpeg",
+      "uses": [
+        "星空/星星3/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 26,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7tpN8ksxu_ujYOsIzN3GA7Tk3dRfQACbhwAApKDwFVwkvOwg3OT5DYE.jpeg",
+      "uses": [
+        "星空/月亮2/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 27,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7RpN8kjE7WJCuAUyZmIeFlxVdDDXAACZxwAApKDwFXUempoOvHH3zYE.jpeg",
+      "uses": [
+        "星空/星星4/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 28,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX7ZpN8klHjJ5t1sZhJd662EdNre2jwACaRwAApKDwFUkEc7Rm2WcLDYE.jpeg",
+      "uses": [
+        "星空/星星5/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 29,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5lpN8gIvS1i4f5ilhCuhRn_ccZxpQACTBwAApKDwFU2I67HQ99HIzYE.jpeg",
+      "uses": [
+        "小镇/背景/小镇街景",
+        "小镇/缩略图/小镇街景",
+        "小镇/默认背景"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 30,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5dpN8gISxEo3WgL7oKbBFpmF8uD7gACShwAApKDwFVknXJmLp0iHTYE.jpeg",
+      "uses": [
+        "小镇/房子1/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 31,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5BpN8f8vKP8BPcZwauDS9w8-V_mCAACQxwAApKDwFW0LRWFrWf1GTYE.jpeg",
+      "uses": [
+        "小镇/房子2/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 32,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5ZpN8gERQymgOV13c1YcLCKulgRdgACSRwAApKDwFVME9wXZ9UaqTYE.jpeg",
+      "uses": [
+        "小镇/房子3/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "error",
+      "noReferrerStatus": null,
+      "githubReferrerStatus": null,
+      "reason": "两次HTTP请求超时，浏览器加载超时；不能认定永久失效。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 33,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5NpN8gAAVSQnodmix_aG28BcFDqeFQAAkYcAAKSg8BVpc2pbO1Bo082BA.jpeg",
+      "uses": [
+        "小镇/房子4/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 34,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5hpN8gIWTlK__Hr03TWHG3zcpd7mAACSxwAApKDwFXtMkDCOlAdCzYE.jpeg",
+      "uses": [
+        "小镇/房子5/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 35,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5VpN8gDV-XtKd5sjjfLrOaAMMAPKgACSBwAApKDwFVefjzFtRqxmDYE.jpeg",
+      "uses": [
+        "小镇/房子6/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 36,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5JpN8f-z69deMCFT6rjx-Ix3eh4vAACRRwAApKDwFWZMma5BZBlPDYE.jpeg",
+      "uses": [
+        "小镇/房子7/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 37,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5FpN8f9tl1rYTrYbneXbTmuyOQ4xQACRBwAApKDwFXBdcqvcTNGpDYE.jpeg",
+      "uses": [
+        "小镇/房子8/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 38,
+      "source": "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMX5RpN8gAAT5ysRYKSiHo-Uubx8v3QMkAAkccAAKSg8BV6jKzQ3JAEnI2BA.jpeg",
+      "uses": [
+        "小镇/房子9/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "第三方/api/file托管，当前成功，同域另有超时资源；长期保留和外链策略不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 39,
+      "source": "https://gd-hbimg.huaban.com/08badad7839bab66cfe53e395d2b557ce6f2b78ae5e61-KmZu6r_fw1200webp?auth_key=1765094400-67f16b094a5048ea8c961e6b9f8d1f66-0-1c08a24cc60a5f657c8ef8e28e8e0ed5",
+      "uses": [
+        "水族馆/背景/深海探险",
+        "水族馆/缩略图/深海探险",
+        "水族馆/默认背景"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 40,
+      "source": "https://gd-hbimg.huaban.com/e0f981674908bfd42b8dbdb6c4625bca1faf5df9159c3a-H1voNb_fw1200webp?auth_key=1765094400-67f16b094a5048ea8c961e6b9f8d1f66-0-0762cf24383d731a43bd2c8791d9c2f0",
+      "uses": [
+        "水族馆/背景/珊瑚王国",
+        "水族馆/缩略图/珊瑚王国"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 41,
+      "source": "https://i.ytimg.com/vi/LqGz6f8-KPQ/hq720.jpg?rs=AOn4CLAhIOgGR5R0zMFgMinZ54DPNi50tQ&sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD",
+      "uses": [
+        "水族馆/背景/海藻森林",
+        "水族馆/缩略图/海藻森林"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "YouTube视频缩略图，依赖对应视频存续。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 42,
+      "source": "https://gd-hbimg.huaban.com/e6495e383f899b0d7b9f0547e33254ce8f57692d179b03-MWBsx2_fw1200webp?auth_key=1765094400-67f16b094a5048ea8c961e6b9f8d1f66-0-39ccd057579e8088e53dad5791dab0fb",
+      "uses": [
+        "水族馆/背景/丁达尔光海底",
+        "水族馆/缩略图/丁达尔光海底"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 43,
+      "source": "https://gd-hbimg.huaban.com/e6c658ddf6cbd09f12db24c20e018fa0d2ec0985a2c8-otVh7E_fw1200webp?auth_key=1765094400-67f16b094a5048ea8c961e6b9f8d1f66-0-92ac51a94daa851332d9fd18677c456a",
+      "uses": [
+        "水族馆/背景/深蓝之境",
+        "水族馆/缩略图/深蓝之境"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 44,
+      "source": "https://www.clipartmax.com/png/middle/56-560881_dolphine-vector.png",
+      "uses": [
+        "水族馆/海豚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "请求发生重定向；本次实际返回可解码JPEG，但第三方地址和授权不可控。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 45,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGtJdO05y7ntnum4t5xS2w1daqe_2adwvgYw&s",
+      "uses": [
+        "水族馆/海豚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 46,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS69xOW2zU2JxhXFlcjOes6H56Z90RtL15nw&s",
+      "uses": [
+        "水族馆/海豚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 47,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZWvENFRvEUaBfe8L1IM7HOUzAigh9Q7XpA&s",
+      "uses": [
+        "水族馆/海龟/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 48,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkhZ-UyELHPy24lRdiNVI_2dAhpE75aMpEQ&s",
+      "uses": [
+        "水族馆/海龟/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 49,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRpmuzxK6m7c8fyLIlq4j3dmgb4q794uqqWw&s",
+      "uses": [
+        "水族馆/海龟/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 50,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqyyeT6j1mX3bGEZ5e6s0A3KqmwzdJet6__A&s",
+      "uses": [
+        "水族馆/海马/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 51,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb0wjoZ5a5iwwD7kn7Ew7ElgBs4nX1jiP1iQ&s",
+      "uses": [
+        "水族馆/海马/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 52,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq9iwq5tJP_rxRCzDuQiQaoKRMpAKeAmDGDw&s",
+      "uses": [
+        "水族馆/水母/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 53,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYDEbWRiwbuqnyrV57SBYE5iD-z58a6XPVeg&s",
+      "uses": [
+        "水族馆/水母/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 54,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6OyiqaH-nHzSp2yGb-430I5IR-S_A7lhuvQ&s",
+      "uses": [
+        "水族馆/海藻/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 55,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNtVhIrfwWJiElJpEyWUJpuC1K8XABgTwnwg&s",
+      "uses": [
+        "水族馆/海藻/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 56,
+      "source": "https://gd-hbimg.huaban.com/f1931af75bd98f7b7c9e8fcbdb057b883f03d1af365fe-c4EUUP_fw1200webp?auth_key=1765108800-6a7810e7cd2943b8b6859588b6b2596f-0-3f75a205b0f40ff9ef7d4cbd5cb920c5",
+      "uses": [
+        "水族馆/珊瑚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 57,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFgFstSmcDqn7dmTc9dsJEFgIEROmW3RlWhg&s",
+      "uses": [
+        "水族馆/珊瑚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 58,
+      "source": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpdW_vr6Z5nEG-jCIBIyu8lkS5VV41-yeXPA&s",
+      "uses": [
+        "水族馆/宝箱/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 200,
+      "githubReferrerStatus": 200,
+      "reason": "搜索缩略图缓存，不是自有正式素材地址。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 59,
+      "source": "https://gd-hbimg.huaban.com/b5938b336dde27dfad2543c2c13a770f13586ef5e227a-kpPO4I_fw480webp?auth_key=1765108800-6a7810e7cd2943b8b6859588b6b2596f-0-c40fcf2814bdbb0530df44a6dbf611b8",
+      "uses": [
+        "水族馆/锚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 60,
+      "source": "https://gd-hbimg.huaban.com/a5d985e9360f30ac040a4686f1b254523eabcaa133b29-gaI01P_fw480webp?auth_key=1765108800-6a7810e7cd2943b8b6859588b6b2596f-0-f38adcbc1c55b3f3caac7aba1763e05f",
+      "uses": [
+        "水族馆/锚/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 61,
+      "source": "https://gd-hbimg.huaban.com/537946f418a1cd618cef539e0c903dadf722d972616e-GGrZBu_fw480webp?auth_key=1765108800-6a7810e7cd2943b8b6859588b6b2596f-0-8d345371a2fbb2d6c5df7fc2c2d87623",
+      "uses": [
+        "水族馆/潜水员/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    },
+    {
+      "id": 62,
+      "source": "https://gd-hbimg.huaban.com/845826a5845182f20a77ac13ffccfd189e46544b9db7-s8xzdF_fw480webp?auth_key=1765108800-6a7810e7cd2943b8b6859588b6b2596f-0-31fbfbb699e2a1e54179b2dd57df4c24",
+      "uses": [
+        "水族馆/潜水员/参考"
+      ],
+      "availability": "UNRELIABLE_EXTERNAL",
+      "license": "UNKNOWN_LICENSE",
+      "browserResult": "loaded",
+      "noReferrerStatus": 567,
+      "githubReferrerStatus": 567,
+      "reason": "含auth_key签名参数；HTTP探测567但本次浏览器成功，加载环境敏感，不推断确切到期日。",
+      "action": "ASSET_REPLACEMENT_REQUIRED"
+    }
+  ]
+}
