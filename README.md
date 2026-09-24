@@ -1,6 +1,6 @@
-# C
+# Creative Drawing App / 创意小画家
+
 Special thanks to the teachers at Wenzhou Special Education School (温州市特殊教育学校) for trying the prototypes and providing practical feedback that helped improve the application. This acknowledgement describes educational collaboration and does not imply official endorsement by the school.
-reative Drawing App / 创意小画家
 
 Creative Drawing App is a student-developed interactive teaching-aid prototype, not simply a browser drawing demo. It was created in a special-education context and primarily designed with the needs of children on the autism spectrum in mind. The application combines approachable drawing tasks, visual references, spoken guidance, and immediate feedback in a classroom-oriented workflow.
 
