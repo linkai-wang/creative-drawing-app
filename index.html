@@ -244,13 +244,19 @@
                 class="mt-3 w-full bg-primary/10 hover:bg-primary/20 text-primary py-2 rounded-lg transition-colors flex items-center justify-center">
                 <i class="fa fa-volume-up mr-2"></i> 听老师讲解
               </button>
-              <!-- TTS 控件：仅保留中文语音选择与示例/保存 -->
+              <!-- 语音选择：自动推荐自然音色，也可试听并保存自己的偏好。 -->
               <div id="tts-controls" class="mt-3 space-y-2 text-sm text-gray-600">
-                <label for="tts-voice-select" class="block">语音：</label>
-                <select id="tts-voice-select" class="w-full border rounded p-2 bg-white"></select>
+                <label for="tts-voice-select" class="block">老师的声音：</label>
+                <select id="tts-voice-select" class="w-full border rounded p-2 bg-white" aria-describedby="tts-voice-hint"></select>
+                <p id="tts-voice-hint" class="text-xs" role="status">正在查找中文音色…</p>
+                <div class="flex justify-between items-center">
+                  <label for="tts-rate">讲解语速：</label>
+                  <output id="tts-rate-value" for="tts-rate">0.95 ×</output>
+                </div>
+                <input id="tts-rate" type="range" min="0.75" max="1.15" step="0.05" value="0.95" class="w-full" />
                 <div class="flex gap-2">
-                  <button id="tts-sample" class="flex-1 bg-primary text-white py-1 rounded">示例播放</button>
-                  <button id="tts-save" class="flex-1 bg-gray-200 py-1 rounded">保存偏好</button>
+                  <button id="tts-sample" type="button" aria-pressed="false" class="flex-1 bg-primary text-white py-1 rounded">试听声音</button>
+                  <button id="tts-save" type="button" class="flex-1 bg-gray-200 py-1 rounded">保存偏好</button>
                 </div>
               </div>
             </div>

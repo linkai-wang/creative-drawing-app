@@ -48,7 +48,7 @@ Each cycle incorporated some combination of prototype development, instructor re
 - Selectable scene backgrounds.
 - Task completion and scene progress tracking.
 - Local draft, artwork, progress, position, and preference persistence.
-- Browser text-to-speech for drawing instructions and selectable Chinese voices.
+- Browser text-to-speech with automatic Mandarin voice selection, all available Chinese voices, voice previews, and saved speech-speed preferences.
 - Artwork preview and a story presentation flow.
 - Safe local/static story fallback; the public version does not use a live AI backend.
 - Image loading states, error placeholders, and per-image failure isolation.
@@ -122,6 +122,16 @@ python -m http.server 8000
 Then open [http://localhost:8000/](http://localhost:8000/) in a modern browser.
 
 Opening `index.html` directly by double-clicking it is not the primary supported method because browser storage and security behavior can differ from an HTTP deployment.
+
+## Voice Guidance
+
+In the drawing screen, use **老师的声音** to choose a voice, **试听声音** to hear a short drawing example, and **讲解语速** to adjust the pace. Click **保存偏好** to remember the voice and speed in this browser. **自动推荐** prefers Mandarin voices and prioritizes voices explicitly labeled Natural, Neural, Premium, or Enhanced when the browser exposes them. Existing manually saved voice choices remain selected when available.
+
+The app preserves the voice's original pitch and waits briefly for voices that load after the page opens. It lists every available Chinese voice instead of limiting the picker to the first three. Online voices are marked **需联网** and may require a working network connection.
+
+Voice availability and sound quality still depend on the browser and operating system. The browser API cannot create a neural voice that the device does not provide, and a voice without a quality label may still sound good. If the list contains only basic voices, compare another browser or install additional Chinese speech voices. This change does not add a paid speech API or a server, and it does not produce prerecorded narration.
+
+To run the speech selection and playback regression checks with Node.js, use `node --test tests/tts.test.cjs`. These checks simulate browser voice loading and events; they do not measure perceived voice quality or replace listening on the target device.
 
 ## Building the CSS
 

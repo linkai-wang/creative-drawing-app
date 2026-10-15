@@ -1,248 +1,342 @@
-// Speech synthesis state, preferences, compatibility events, and cancellation.
+// Browser speech synthesis, voice preferences, and playback cancellation.
 // Depends on: state.js. User feedback uses app.js functions at interaction time.
 
-  // ================================
-  // 🗣️ Text-to-Speech (TTS) helpers
-  // 使用浏览器自带 SpeechSynthesis API：Chrome / Edge 支持
-  // ================================
-  const tts = {
-    voices: [],
-    utterance: null,
-    isPlaying: false,
-    settings: {
-      voiceName: null
+const tts = {
+  voices: [],
+  utterance: null,
+  isPlaying: false,
+  requestId: 0,
+  pending: null,
+  voiceLoadTimer: null,
+  settings: {
+    voiceName: null,
+    rate: 0.95
+  }
+};
+
+function isSpeechSupported() {
+  return 'speechSynthesis' in window &&
+    typeof window.SpeechSynthesisUtterance !== 'undefined';
+}
+
+function normalizedVoiceLanguage(voice) {
+  return (voice.lang || '').replace(/_/g, '-').toLowerCase();
+}
+
+function isChineseVoice(voice) {
+  const lang = normalizedVoiceLanguage(voice);
+  return /^(zh|cmn|yue)(-|$)/.test(lang) ||
+    (!lang && /chinese|mandarin|中文|普通话|国语/i.test(voice.name || ''));
+}
+
+function isMandarinVoice(voice) {
+  const lang = normalizedVoiceLanguage(voice);
+  if (/^(yue|zh-(hk|mo))(-|$)/.test(lang)) return false;
+  return isChineseVoice(voice) && !/cantonese|粤语|廣東話/i.test(voice.name || '');
+}
+
+// The API has no quality field. Use explicit quality labels in voice names;
+// being a remote voice alone does not mean that it sounds more natural.
+function isNaturalVoice(voice) {
+  return /natural|neural|premium|enhanced|自然|神经|高品质|增强/i.test(voice.name || '');
+}
+
+function voicePreferenceScore(voice) {
+  const lang = normalizedVoiceLanguage(voice);
+  let score = isMandarinVoice(voice) ? 10000 : 0;
+  if (isNaturalVoice(voice)) score += 1000;
+  if (/^(zh-(cn|sg|hans)|cmn)(-|$)/.test(lang)) score += 100;
+  if (/google.*(普通话|中文|chinese|mandarin)/i.test(voice.name || '')) score += 50;
+  if (voice.default) score += 5;
+  return score;
+}
+
+function voiceKey(voice) {
+  return voice.voiceURI || voice.name;
+}
+
+function getChineseVoices() {
+  const seen = new Set();
+  return tts.voices.filter(voice => {
+    const key = voiceKey(voice);
+    if (!key || !isChineseVoice(voice) || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).sort((a, b) => voicePreferenceScore(b) - voicePreferenceScore(a) ||
+    (a.name || '').localeCompare(b.name || ''));
+}
+
+function getPreferredVoice() {
+  const voices = getChineseVoices();
+  const saved = tts.settings.voiceName;
+  return voices.find(voice => saved && (voice.name === saved || voice.voiceURI === saved)) ||
+    voices[0] || null;
+}
+
+function loadVoices() {
+  if (!isSpeechSupported()) return [];
+  tts.voices = window.speechSynthesis.getVoices() || [];
+  populateVoiceList();
+  if (tts.pending && getChineseVoices().length > 0) {
+    const pending = tts.pending;
+    beginSpeech(pending.text, pending.requestId);
+  }
+  return tts.voices;
+}
+
+function loadTtsSettings() {
+  try {
+    const raw = localStorage.getItem('ttsSettings');
+    if (raw) {
+      const settings = JSON.parse(raw);
+      if (settings && typeof settings.voiceName === 'string' && settings.voiceName.length <= 200) {
+        tts.settings.voiceName = settings.voiceName || null;
+      }
+      if (settings && typeof settings.rate === 'number' &&
+          Number.isFinite(settings.rate) && settings.rate >= 0.75 && settings.rate <= 1.15) {
+        tts.settings.rate = Math.round(settings.rate * 20) / 20;
+      }
+    }
+  } catch (error) {
+    console.warn('loadTtsSettings error', error);
+  }
+  updateRateUi();
+}
+
+function saveTtsSettings() {
+  try {
+    localStorage.setItem('ttsSettings', JSON.stringify(tts.settings));
+    return true;
+  } catch (error) {
+    console.warn('saveTtsSettings error', error);
+    return false;
+  }
+}
+
+function updateRateUi() {
+  const input = document.getElementById('tts-rate');
+  const output = document.getElementById('tts-rate-value');
+  if (input) input.value = String(tts.settings.rate);
+  if (output) output.textContent = tts.settings.rate.toFixed(2) + ' ×';
+}
+
+function updateVoiceHint() {
+  const hint = document.getElementById('tts-voice-hint');
+  if (!hint) return;
+  const voice = getPreferredVoice();
+  if (!voice) {
+    hint.textContent = '暂未检测到中文音色，播放时将尝试系统默认中文朗读。';
+  } else if (tts.settings.voiceName &&
+      voice.name !== tts.settings.voiceName && voice.voiceURI !== tts.settings.voiceName) {
+    hint.textContent = '之前保存的音色暂不可用，当前自动使用：' + voice.name + '。';
+  } else if (!isMandarinVoice(voice)) {
+    hint.textContent = '当前只检测到其他中文音色；如需普通话，可换浏览器或安装普通话语音后试听。';
+  } else if (isNaturalVoice(voice)) {
+    hint.textContent = '当前音色：' + voice.name + '。可以先试听，再保存喜欢的声音。';
+  } else if (!getChineseVoices().some(isNaturalVoice)) {
+    hint.textContent = '当前使用：' + voice.name + '。未检测到标有“自然”的音色，可换浏览器或安装更多中文语音后试听。';
+  } else {
+    hint.textContent = '当前使用：' + voice.name + '。列表中也有自然音色，可以切换试听。';
+  }
+}
+
+function populateVoiceList() {
+  const select = document.getElementById('tts-voice-select');
+  if (!select) return;
+  select.innerHTML = '';
+
+  const recommended = getPreferredVoice();
+  const automatic = document.createElement('option');
+  automatic.value = '';
+  const best = getChineseVoices()[0];
+  automatic.textContent = '自动推荐' + (best ? '（' + best.name + '）' : '（系统默认中文）');
+  select.appendChild(automatic);
+
+  getChineseVoices().forEach(voice => {
+    const option = document.createElement('option');
+    option.value = voiceKey(voice);
+    option.textContent = (voice.name || voice.lang) +
+      (isNaturalVoice(voice) ? ' · 自然音色' : '') +
+      (voice.localService === false ? ' · 需联网' : '') +
+      (voice.lang ? ' (' + voice.lang + ')' : '');
+    select.appendChild(option);
+  });
+
+  // Old preferences stored the name; new ones use the stable voice URI.
+  const saved = tts.settings.voiceName;
+  select.value = saved && recommended &&
+    (recommended.name === saved || recommended.voiceURI === saved) ? voiceKey(recommended) : '';
+  updateVoiceHint();
+}
+
+function finishSpeech(utterance, requestId) {
+  // A canceled utterance can dispatch events after a newer one has started.
+  if (requestId !== tts.requestId || tts.utterance !== utterance) return false;
+  tts.isPlaying = false;
+  tts.utterance = null;
+  togglePlayInstructionUi(false);
+  return true;
+}
+
+function beginSpeech(text, requestId) {
+  if (requestId !== tts.requestId) return;
+  clearTimeout(tts.voiceLoadTimer);
+  tts.voiceLoadTimer = null;
+  tts.pending = null;
+  loadVoices();
+
+  const voice = getPreferredVoice();
+  const utterance = new window.SpeechSynthesisUtterance(text);
+  utterance.lang = voice ? (voice.lang || 'zh-CN').replace(/_/g, '-') : 'zh-CN';
+  if (voice) utterance.voice = voice;
+  utterance.volume = 1;
+  utterance.rate = tts.settings.rate;
+  // Keep the voice's original timbre; random pitch changes distort some engines.
+  utterance.pitch = 1;
+
+  utterance.onstart = () => {
+    if (requestId !== tts.requestId || tts.utterance !== utterance) return;
+    tts.isPlaying = true;
+    togglePlayInstructionUi(true);
+  };
+  utterance.onend = () => finishSpeech(utterance, requestId);
+  utterance.onerror = event => {
+    if (!finishSpeech(utterance, requestId)) return;
+    if (event && ['canceled', 'interrupted'].includes(event.error)) return;
+    console.warn('TTS playback failed', event);
+    if (typeof showToast === 'function') {
+      showToast('这个音色暂时无法播放，请检查网络或换一个声音后重试。', 'warning');
     }
   };
 
-  function isSpeechSupported() {
-    return 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance !== 'undefined';
+  tts.utterance = utterance;
+  tts.isPlaying = true;
+  togglePlayInstructionUi(true);
+  try {
+    window.speechSynthesis.speak(utterance);
+  } catch (error) {
+    utterance.onerror(error);
+  }
+}
+
+function speakText(text) {
+  if (!isSpeechSupported()) return;
+  const content = typeof text === 'string' ? text.replace(/\s+/g, ' ').trim() : '';
+  if (!content) return;
+
+  stopSpeech();
+  const requestId = tts.requestId;
+  loadVoices();
+  if (getChineseVoices().length > 0) {
+    beginSpeech(content, requestId);
+    return;
   }
 
-  function loadVoices() {
-    tts.voices = window.speechSynthesis.getVoices() || [];
-    populateVoiceList();
-    return tts.voices;
+  // Voices often arrive asynchronously on the first visit. Give the browser a
+  // short chance to provide them before trying its language-based default.
+  tts.pending = { text: content, requestId };
+  tts.isPlaying = true;
+  togglePlayInstructionUi(true);
+  tts.voiceLoadTimer = setTimeout(() => beginSpeech(content, requestId), 1200);
+}
+
+function stopSpeech() {
+  tts.requestId += 1;
+  clearTimeout(tts.voiceLoadTimer);
+  tts.voiceLoadTimer = null;
+  tts.pending = null;
+  tts.isPlaying = false;
+  tts.utterance = null;
+  if (isSpeechSupported()) window.speechSynthesis.cancel();
+  togglePlayInstructionUi(false);
+}
+
+function toggleSpeech(textToRead) {
+  if (!isSpeechSupported()) {
+    if (elements.playInstruction) elements.playInstruction.disabled = true;
+    showToast('当前浏览器暂不支持语音播放。', 'warning');
+    return;
   }
-
-  function loadTtsSettings() {
-    try {
-      const raw = localStorage.getItem('ttsSettings');
-      if (raw) {
-        const s = JSON.parse(raw);
-        if (s && typeof s.voiceName === 'string' && s.voiceName.length <= 200) {
-          tts.settings.voiceName = s.voiceName;
-        }
-      }
-    } catch (e) {
-      console.warn('loadTtsSettings error', e);
-    }
-    // reflect into UI if present (only voice select now)
-    const vEl = document.getElementById('tts-voice-select');
-    if (vEl && tts.settings.voiceName) vEl.value = tts.settings.voiceName;
-  }
-
-  function saveTtsSettings() {
-    try {
-      localStorage.setItem('ttsSettings', JSON.stringify(tts.settings));
-    } catch (e) {
-      console.warn('saveTtsSettings error', e);
-    }
-  }
-
-  function populateVoiceList() {
-    const select = document.getElementById('tts-voice-select');
-    if (!select) return;
-    // clear
-    select.innerHTML = '';
-    // only keep Chinese-language voices (limit to a few)
-    const zh = tts.voices.filter(v => v.lang && /zh|chi|cn/i.test(v.lang));
-    let list = zh;
-    if (!list || list.length === 0) {
-      // fallback: try name-based match
-      list = tts.voices.filter(v => v.name && /zh|china|mandarin|yue/i.test(v.name));
-    }
-    // if still empty, fallback to first three voices
-    if (!list || list.length === 0) list = tts.voices.slice(0, 3);
-    // limit to max 3 options
-    list.slice(0, 3).forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.name || v.voiceURI || v.localService || v.lang;
-      opt.textContent = `${v.name || v.lang} ${v.lang ? '('+v.lang+')' : ''}`;
-      select.appendChild(opt);
-    });
-    // If user had a saved choice, try to select it
-    if (tts.settings.voiceName) {
-      const found = Array.from(select.options).find(o => o.value === tts.settings.voiceName);
-      if (found) select.value = tts.settings.voiceName;
-    }
-  }
-
-  // Speak text using the browser's TTS (improved with voice loading)
-  function speakText(text) {
-    if (!isSpeechSupported()) {
-      console.warn('TTS not supported in this browser');
-      return;
-    }
-
+  if (tts.isPlaying) {
     stopSpeech();
-
-    // Ensure voices are loaded before speaking
-    if (!tts.voices || tts.voices.length === 0) {
-      loadVoices();
-    }
-
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = document.documentElement.lang || 'zh-CN';
-    utter.volume = 1; // 0 to 1
-
-    // base settings (fixed) with subtle jitter for naturalness
-    const baseRate = 0.95;
-    const basePitch = 1.05;
-    const rateJitter = (Math.random() - 0.5) * 0.06; // ±3%
-    const pitchJitter = (Math.random() - 0.5) * 0.04; // ±2%
-    utter.rate = Math.max(0.5, Math.min(2.0, baseRate * (1 + rateJitter)));
-    utter.pitch = Math.max(0.5, Math.min(2.0, basePitch * (1 + pitchJitter)));
-
-    // choose voice by saved name or match language
-    if (tts.voices && tts.voices.length > 0) {
-      let chosen = null;
-      if (tts.settings.voiceName) {
-        chosen = tts.voices.find(v => v.name === tts.settings.voiceName || v.voiceURI === tts.settings.voiceName);
-      }
-      if (!chosen) {
-        // prefer Chinese voices matching lang
-        chosen = tts.voices.find(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
-      }
-      if (!chosen) chosen = tts.voices[0];
-      if (chosen) utter.voice = chosen;
-    }
-
-    utter.onstart = () => {
-      tts.isPlaying = true;
-      togglePlayInstructionUi(true);
-    };
-    utter.onend = () => {
-      tts.isPlaying = false;
-      togglePlayInstructionUi(false);
-    };
-    utter.onerror = (err) => {
-      if (!err || !['canceled', 'interrupted'].includes(err.error)) {
-        console.warn('TTS playback failed', err);
-      }
-      tts.isPlaying = false;
-      togglePlayInstructionUi(false);
-    };
-
-    tts.utterance = utter;
-    window.speechSynthesis.speak(utter);
+    return;
   }
+  const text = textToRead || (elements.teacherInstructions ? elements.teacherInstructions.textContent : '');
+  speakText(text);
+}
 
-  function stopSpeech() {
-    if (!isSpeechSupported()) return;
-    window.speechSynthesis.cancel();
-    tts.isPlaying = false;
-    tts.utterance = null;
-    togglePlayInstructionUi(false);
-  }
-
-    function toggleSpeech(textToRead) {
-      if (!isSpeechSupported()) {
-        if (elements.playInstruction) {
-          elements.playInstruction.setAttribute('disabled', 'true');
-        }
-        showToast('当前浏览器暂不支持语音播放。', 'warning');
-        return;
-    }
-
-    if (tts.isPlaying) {
-      stopSpeech();
-      return;
-    }
-
-    const text = textToRead || (elements.teacherInstructions ? elements.teacherInstructions.textContent : '');
-    if (!text || text.trim().length === 0) return;
-    speakText(text);
-  }
-
-  // 初始化：加载偏好、绑定控件事件、启动 voice 列表加载
-  (function initTtsUi() {
-    if (!isSpeechSupported()) {
-      const btn = document.getElementById('play-instruction');
-      if (btn) {
-        btn.setAttribute('disabled', 'true');
-        btn.title = '此浏览器不支持语音播放';
-      }
-      [elements.ttsVoiceSelect, elements.ttsSample, elements.ttsSave].forEach(control => {
-        if (control) control.disabled = true;
-      });
-      const controls = document.getElementById('tts-controls');
-      if (controls) {
-        const message = document.createElement('p');
-        message.className = 'text-orange-600 text-xs';
-        message.textContent = '当前浏览器暂不支持语音播放。';
-        controls.appendChild(message);
-      }
-      return;
-    }
-
-    loadTtsSettings();
-
-    // when voices list changes
-    if (typeof window.speechSynthesis.addEventListener === 'function') {
-      window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
-    }
-    // try to load voices now
-    loadVoices();
-
-    // bind UI (voice select, sample, save)
-    const select = document.getElementById('tts-voice-select');
-    const sampleBtn = document.getElementById('tts-sample');
-    const saveBtn = document.getElementById('tts-save');
-    if (select) select.addEventListener('change', (e) => { tts.settings.voiceName = e.target.value; });
-    if (sampleBtn) sampleBtn.addEventListener('click', () => { toggleSpeech('这是语音示例，声音是否更自然一些？'); });
-    if (saveBtn) saveBtn.addEventListener('click', () => {
-      saveTtsSettings();
-      saveBtn.textContent = '已保存';
-      showToast('语音偏好已保存', 'success');
-      setTimeout(()=>saveBtn.textContent='保存偏好',1200);
+(function initTtsUi() {
+  const select = document.getElementById('tts-voice-select');
+  const rate = document.getElementById('tts-rate');
+  const sample = document.getElementById('tts-sample');
+  const save = document.getElementById('tts-save');
+  if (!isSpeechSupported()) {
+    [elements.playInstruction, select, rate, sample, save].forEach(control => {
+      if (control) control.disabled = true;
     });
-  })();
-
-  function togglePlayInstructionUi(isPlaying) {
-    const btn = elements.playInstruction;
-    if (btn) {
-      if (isPlaying) {
-        btn.classList.add('bg-primary','text-white');
-        btn.innerHTML = `<i class="fa fa-stop mr-2"></i> 停止讲解`;
-        btn.setAttribute('aria-pressed', 'true');
-      } else {
-        btn.classList.remove('bg-primary','text-white');
-        btn.innerHTML = `<i class="fa fa-volume-up mr-2"></i> 听老师讲解`;
-        btn.setAttribute('aria-pressed', 'false');
-      }
-    }
-    if (elements.ttsSample) {
-      elements.ttsSample.textContent = isPlaying ? '停止播放' : '示例播放';
-      elements.ttsSample.setAttribute('aria-pressed', String(isPlaying));
-    }
+    const hint = document.getElementById('tts-voice-hint');
+    if (hint) hint.textContent = '当前浏览器暂不支持语音播放。';
+    return;
   }
+
+  loadTtsSettings();
+  if (typeof window.speechSynthesis.addEventListener === 'function') {
+    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+  }
+  loadVoices();
+  window.addEventListener('pagehide', stopSpeech);
+
+  if (select) select.addEventListener('change', event => {
+    stopSpeech();
+    tts.settings.voiceName = event.target.value || null;
+    updateVoiceHint();
+  });
+  if (rate) {
+    rate.addEventListener('input', event => {
+      const value = Number(event.target.value);
+      if (Number.isFinite(value) && value >= 0.75 && value <= 1.15) {
+        tts.settings.rate = value;
+        updateRateUi();
+      }
+    });
+    rate.addEventListener('change', stopSpeech);
+  }
+  if (sample) sample.addEventListener('click', () => {
+    toggleSpeech('小画家，你好呀！我们慢慢来。先画一个圆，再给它涂上你喜欢的颜色。');
+  });
+  if (save) save.addEventListener('click', () => {
+    if (!saveTtsSettings()) {
+      showToast('暂时无法保存语音偏好，本次选择仍然有效。', 'warning');
+      return;
+    }
+    save.textContent = '已保存';
+    showToast('声音和语速已保存', 'success');
+    setTimeout(() => { save.textContent = '保存偏好'; }, 1200);
+  });
+})();
+
+function togglePlayInstructionUi(isPlaying) {
+  const button = elements.playInstruction;
+  if (button) {
+    button.classList.toggle('bg-primary', isPlaying);
+    button.classList.toggle('text-white', isPlaying);
+    button.innerHTML = isPlaying ?
+      '<i class="fa fa-stop mr-2"></i> 停止讲解' :
+      '<i class="fa fa-volume-up mr-2"></i> 听老师讲解';
+    button.setAttribute('aria-pressed', String(isPlaying));
+  }
+  if (elements.ttsSample) {
+    elements.ttsSample.textContent = isPlaying ? '停止播放' : '试听声音';
+    elements.ttsSample.setAttribute('aria-pressed', String(isPlaying));
+  }
+}
 
 function setupTtsInstructionListener() {
-      // 听老师讲解（TTS）
-      if (elements.playInstruction) {
-        // 初始可访问性状态
-        elements.playInstruction.setAttribute('aria-pressed', 'false');
-        if (!isSpeechSupported()) {
-          elements.playInstruction.setAttribute('disabled', 'true');
-          elements.playInstruction.title = '此浏览器不支持语音播放';
-        }
-        elements.playInstruction.addEventListener('click', () => {
-          if (isSpeechSupported()) {
-            loadVoices();
-            toggleSpeech();
-          } else {
-            showToast('当前浏览器暂不支持语音播放。', 'warning');
-          }
-        });
-      }
+  if (!elements.playInstruction) return;
+  elements.playInstruction.setAttribute('aria-pressed', 'false');
+  if (!isSpeechSupported()) {
+    elements.playInstruction.disabled = true;
+    elements.playInstruction.title = '此浏览器不支持语音播放';
+  }
+  elements.playInstruction.addEventListener('click', () => toggleSpeech());
 }
