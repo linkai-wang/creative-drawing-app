@@ -205,12 +205,12 @@ The classroom workflow uses a separate local record for the last activity plan, 
 
 ## External Dependencies
 
-- [Font Awesome 4.7](https://fontawesome.com/v4/) for interface icons.
+- Interface icons use project-authored SVG masks in `css/icons.css`, served with the application without an icon-font dependency.
 - [canvas-confetti 1.6.0](https://www.npmjs.com/package/canvas-confetti) for optional completion feedback.
 - [Google Fonts — Nunito](https://fonts.google.com/specimen/Nunito) for the preferred interface typeface; system fonts provide a fallback.
 - [Tailwind CSS 3.4.17](https://v3.tailwindcss.com/) as development-time CSS build tooling.
 
-The first three browser resources are loaded from HTTPS CDNs. A CDN failure may affect icons, typography, or the optional completion effect, but the core drawing canvas does not depend on those enhancements. Some non-core content images also remain remote; see [assets-to-replace.md](assets-to-replace.md).
+The optional celebration script and preferred web font are loaded from HTTPS CDNs. A CDN failure may affect typography or the optional completion effect. Interface icons and the core drawing canvas do not depend on those external enhancements. Some non-core content images also remain remote; see [assets-to-replace.md](assets-to-replace.md).
 
 ## Known Limitations
 

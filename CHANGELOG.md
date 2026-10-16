@@ -2,6 +2,12 @@
 
 Short notes on project updates.
 
+## 2026-10-16 — Local interface icons
+
+- Replaced the external icon font with local SVG interface icons.
+- Added distinct icons for the drawing tools.
+- Added a browser regression check for painted brush icons when external resources are blocked.
+
 ## 2026-10-16 — Classroom workflow
 
 - Added a teacher workbench for activity goals, task selection, ordering, and custom steps.
