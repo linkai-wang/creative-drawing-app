@@ -133,6 +133,20 @@ Voice availability and sound quality still depend on the browser and operating s
 
 To run the speech selection and playback regression checks with Node.js, use `node --test tests/tts.test.cjs`. These checks simulate browser voice loading and events; they do not measure perceived voice quality or replace listening on the target device.
 
+## Automated Regression Checks
+
+Run all checks with Node.js 24 or later:
+
+```bash
+npm test
+```
+
+No dependency installation is needed for these tests. Alternatively, run `node --test tests/*.test.cjs` directly.
+
+The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. GitHub Actions runs the suite on pushes and pull requests.
+
+These are isolated Node.js tests with simulated browser APIs. They do not validate rendered layout, actual canvas interactions, real device speech quality, or classroom outcomes. Browser interaction checks remain a separate task.
+
 ## Building the CSS
 
 Only developers changing Tailwind-based styles need to install the build dependency and regenerate the compiled stylesheet:
