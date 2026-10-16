@@ -111,11 +111,13 @@
         Object.entries(parsed).forEach(([key, draft]) => {
           if (!draft || typeof draft !== 'object') return;
           const [sceneId, taskId] = key.split(':');
+          if (key !== `${sceneId}:${taskId}`) return;
           if (!Object.prototype.hasOwnProperty.call(scenes, sceneId) || !scenes[sceneId].tasks.some(task => task.id === taskId)) return;
           if (typeof draft.imageData !== 'string') return;
           if (!/^data:image\/(?:png|jpe?g|webp);base64,/i.test(draft.imageData || '')) return;
           if (draft.imageData.length > 1_500_000) return;
-          valid[key] = { imageData: draft.imageData, savedAt: Number(draft.savedAt) || Date.now() };
+          const savedAt = Number(draft.savedAt);
+          valid[key] = { imageData: draft.imageData, savedAt: Number.isFinite(savedAt) && savedAt > 0 ? savedAt : Date.now() };
         });
         return valid;
       } catch (error) {
@@ -157,7 +159,7 @@
     function persistCurrentDraft({ silent = false } = {}) {
       clearTimeout(draftSaveTimer);
       if (!canvasHasContent || !appState.currentScene || !appState.currentTask) return false;
-      if (!silent) setDrawingStatus('正在自动保存…');
+      if (!silent) setDrawingStatus('�����Զ����桭');
       const imageData = pendingCanvasRestore?.dataUrl || createPersistedDrawingSnapshot(720, 0.8);
       if (!imageData) return false;
       const drafts = loadDrafts();
@@ -165,10 +167,10 @@
       const saved = writeDrafts(drafts);
       if (saved) {
         currentDrawingDirty = false;
-        setDrawingStatus('已自动保存', 'saved');
+        setDrawingStatus('���Զ�����', 'saved');
       } else if (!silent) {
-        setDrawingStatus('暂时无法自动保存');
-        showToast('浏览器存储空间不足，请尽快完成绘画。', 'warning');
+        setDrawingStatus('��ʱ�޷��Զ�����');
+        showToast('������洢�ռ䲻�㣬�뾡����ɻ滭��', 'warning');
       }
       return saved;
     }
@@ -178,15 +180,16 @@
       if (!canvasHasContent) {
         currentDrawingDirty = false;
         deleteCurrentDraft();
-        setDrawingStatus('准备绘画');
+        setDrawingStatus('׼���滭');
         updateCanvasActionButtons();
         return;
       }
       currentDrawingDirty = true;
-      setDrawingStatus('正在绘画');
+      setDrawingStatus('���ڻ滭');
       const session = drawingSession;
       draftSaveTimer = setTimeout(() => {
         if (session === drawingSession) persistCurrentDraft();
       }, 700);
     }
     
+
