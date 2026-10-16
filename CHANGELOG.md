@@ -1,10 +1,8 @@
 # Changelog
 
-Short notes on project updates. Changes under Unreleased are proposed in a pull request and are not yet part of the published version.
+Short notes on project updates.
 
-## Unreleased
-
-### 2026-10-16
+## 2026-10-16
 
 - Added regression checks for saved drafts and drawing progress.
 - Added PNG downloads from the completed artwork preview.
@@ -15,4 +13,4 @@ Short notes on project updates. Changes under Unreleased are proposed in a pull 
 - Added draft saving on the pagehide event.
 - Preserved the original Chinese saving messages.
 - Added automatic regression checks on GitHub and testing instructions.
-- Validation: 40 automated tests passed locally. Browser and device checks are still pending.
+- Validation: 40 automated tests passed locally and in GitHub Actions. Browser and device checks are still pending.
