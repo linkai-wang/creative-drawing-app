@@ -442,6 +442,7 @@
       isDrawing = false;
       activePointerId = null;
       if (appState.drawingHistory.length > 1) {
+        if (typeof classroomCount === 'function') classroomCount('undos');
         appState.drawingHistory.pop();
         restoreCanvasSnapshot(appState.drawingHistory[appState.drawingHistory.length - 1], () => {
           updateCanvasActionButtons();
@@ -478,6 +479,7 @@
       ensureCanvasCtx();
       if (!ctx || pendingCanvasRestore || elements.drawingMode.classList.contains('hidden')) return;
       isDrawing = true;
+      if (typeof classroomStrokeStart === 'function') classroomStrokeStart();
       
       // 获取鼠标在画布上的位置
       const pos = getMousePos(e);
@@ -736,6 +738,7 @@
     // 绘制结束
     function stopDrawing() {
       if (!ctx || !isDrawing) return;
+      if (typeof classroomStrokeEnd === 'function') classroomStrokeEnd();
       isDrawing = false;
       canvasHasContent = true;
       saveState();
@@ -809,6 +812,7 @@
       // 更新绘画界面
       elements.drawingTitle.textContent = `画一个${task.name}`;
       elements.teacherInstructions.textContent = task.instruction;
+      if (typeof classroomOnTaskStart === 'function') classroomOnTaskStart(task);
 
       // 渲染参考素材（去重并动态调整网格）
       elements.referenceMaterials.innerHTML = '';
@@ -902,6 +906,7 @@
 
     // 离开绘画：同时终止旧任务的恢复、上传和自动保存回调。
     function hideDrawingModeFullscreen() {
+      flushDrawingDraft();
       elements.drawingMode.classList.remove('fixed','inset-0','z-50','bg-white','overflow-auto');
       drawingSession++;
       clearTimeout(draftSaveTimer);
@@ -964,6 +969,7 @@
 
       // Persist completed tasks
       const persisted = saveAppState();
+      if (typeof classroomTaskCompleted === 'function') classroomTaskCompleted();
       if (persisted) deleteCurrentDraft();
       else persistCurrentDraft({ silent: true });
 
@@ -981,7 +987,7 @@
       elements.successModal.classList.remove('hidden');
       setDrawingStatus('已完成', 'completed');
 
-      if (typeof window.confetti === 'function') {
+      if (typeof window.confetti === 'function' && !(typeof classroomQuiet === 'function' && classroomQuiet())) {
         try {
           window.confetti({
             particleCount: 150,

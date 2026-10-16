@@ -29,26 +29,23 @@
         <i class="fa fa-paint-brush text-primary text-3xl"></i>
         <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-primary text-shadow">创意小画家</h1>
       </div>
-      <div class="hidden md:flex items-center space-x-6">
-        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
-          <i class="fa fa-user-circle-o text-2xl"></i>
-        </button>
-        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
-          <i class="fa fa-cog text-2xl"></i>
-        </button>
-        <button type="button" disabled class="text-gray-600 opacity-60 cursor-not-allowed" aria-disabled="true" title="未实现 - 暂不可用">
-          <i class="fa fa-question-circle-o text-2xl"></i>
-        </button>
-      </div>
+      <button id="classroom-open" type="button" class="classroom-button classroom-primary">教师工作台</button>
     </header>
 
     <!-- 主内容区 -->
     <main>
+      <aside id="classroom-banner" class="classroom-banner" hidden aria-label="本次活动">
+        <div><strong id="classroom-banner-title"></strong><p id="classroom-banner-goal"></p></div>
+        <span id="classroom-banner-progress" aria-live="polite"></span>
+        <button id="classroom-return" type="button" class="classroom-button">返回活动</button>
+        <button id="classroom-review" type="button" class="classroom-button">查看回顾</button>
+      </aside>
+
       <!-- 1. 场景选择界面 (默认显示) -->
       <section id="scene-selection" class="py-8">
         <div class="text-center mb-10">
           <h2 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold mb-3">你想去哪里探险？选一个喜欢的世界吧！</h2>
-          <p class="text-gray-600 max-w-2xl mx-auto">完成绘画小挑战,AI 老师会把你的画变成神奇故事哦！✨</p>
+          <p class="text-gray-600 max-w-2xl mx-auto">选择一个世界，跟着小步骤画画，完成后一起讲故事。</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -237,9 +234,18 @@
                 </div>
                 <h3 class="font-bold text-lg">绘画小老师</h3>
               </div>
+
+              <div class="guide-heading"><span id="guide-position" aria-live="polite">步骤 1 / 3</span><button id="classroom-drawing-open" type="button" class="classroom-button">教师设置</button></div>
+              <p class="classroom-muted">每次做一步，准备好后再继续。</p>
               <div id="teacher-instructions" class="bg-light rounded-lg p-3 text-gray-700 min-h-[100px]">
                 让我们来画一个漂亮的贝壳吧！先画一个半圆作为贝壳的身体...
               </div>
+
+              <div class="guide-controls">
+                <button id="guide-previous" type="button" class="classroom-button">上一步</button>
+                <button id="guide-next" type="button" class="classroom-button classroom-primary">下一步</button>
+              </div>
+              <button id="guide-help" type="button" class="classroom-button guide-help">请老师帮忙</button>
               <button id="play-instruction"
                 class="mt-3 w-full bg-primary/10 hover:bg-primary/20 text-primary py-2 rounded-lg transition-colors flex items-center justify-center">
                 <i class="fa fa-volume-up mr-2"></i> 听老师讲解
@@ -532,10 +538,57 @@
   <!-- 轻量状态提示 -->
   <div id="app-toast" class="toast-hidden fixed left-1/2 bottom-6 z-[70] max-w-[calc(100%-2rem)] rounded-full bg-gray-900 text-white px-5 py-3 text-sm font-bold shadow-xl" role="status" aria-live="polite"></div>
 
+
+  <dialog id="classroom-dialog" class="classroom-dialog" aria-labelledby="classroom-title">
+    <div class="classroom-dialog-header">
+      <div><p class="classroom-eyebrow">TEACHER STUDIO</p><h2 id="classroom-title">教师工作台</h2></div>
+      <button id="classroom-close" type="button" class="classroom-button" autofocus>关闭工作台</button>
+    </div>
+    <p class="classroom-muted">活动记录保存在当前浏览器，不填写学生姓名。最多保留最近 15 次已结束的活动。</p>
+    <div class="classroom-studio-grid">
+      <section aria-labelledby="classroom-plan-title">
+        <h3 id="classroom-plan-title">安排一场绘画活动</h3>
+        <label class="classroom-field" for="classroom-name">活动名称<input id="classroom-name" maxlength="80" /></label>
+        <label class="classroom-field" for="classroom-goal">本次目标<input id="classroom-goal" maxlength="160" /></label>
+        <label class="classroom-field" for="classroom-scene">活动场景<select id="classroom-scene"></select></label>
+        <p class="classroom-muted">选择任务并调整顺序（最多 8 项）。每个任务的提示可以修改，每行一步。</p>
+        <div id="classroom-task-picker" class="classroom-task-picker"></div>
+        <label class="classroom-check"><input id="classroom-quiet" type="checkbox" checked />安静模式：关闭庆祝动画，减少动态效果</label>
+        <label class="classroom-check"><input id="classroom-simple" type="checkbox" checked />精简工具：只显示勾线、铅笔和橡皮</label>
+        <p class="classroom-muted">开始后只展示选中的任务。已有作品可以查看或重新绘制；本次完成数从零计起。</p>
+        <button id="classroom-start" type="button" class="classroom-button classroom-primary">开始本次活动</button>
+        <p id="classroom-plan-status" role="alert" style="color:#b91c1c;margin-top:.75rem"></p>
+      </section>
+      <section aria-labelledby="classroom-report-title">
+        <h3 id="classroom-report-title">匿名活动回顾</h3>
+        <p class="classroom-muted">记录本次操作，供老师回顾活动。不代表能力、专注度或教学效果。</p>
+        <button id="classroom-finish" type="button" class="classroom-button classroom-primary">结束活动并保存回顾</button>
+        <label class="classroom-field" for="classroom-report-select">选择活动<select id="classroom-report-select"></select></label>
+        <p id="classroom-report-empty" class="classroom-muted">还没有活动记录。先安排一个小活动，再回来看看。</p>
+        <div id="classroom-report-content" hidden>
+          <p id="classroom-report-goal"></p>
+          <p id="classroom-report-summary" class="classroom-report-summary" aria-live="polite"></p>
+          <div class="classroom-table-scroll">
+            <table class="classroom-table"><caption>本次活动操作记录</caption>
+              <thead><tr><th scope="col">任务</th><th scope="col">本次完成</th><th scope="col">按笔时间（秒）</th><th scope="col">落笔次数</th><th scope="col">撤销</th><th scope="col">求助</th><th scope="col">朗读请求</th></tr></thead>
+              <tbody id="classroom-report-rows"></tbody>
+            </table>
+          </div>
+        </div>
+        <button id="classroom-report-download" type="button" class="classroom-button" disabled>下载回顾 CSV</button>
+        <p class="classroom-muted">按笔时间是鼠标或触控笔按下到松开的累计时长；不会评价画得好不好。重复完成同一任务只计一项完成。</p>
+        <p id="classroom-storage-status" class="classroom-storage-status" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </dialog>
+
   <script src="./js/scenes.js"></script>
   <script src="./js/state.js"></script>
   <script src="./js/images.js"></script>
   <script src="./js/storage.js"></script>
+  <script src="./js/classroom-model.js"></script>
+  <script src="./js/classroom-data.js"></script>
+  <script src="./js/classroom.js"></script>
   <script src="./js/scene.js"></script>
   <script src="./js/drawing.js"></script>
   <script src="./js/export.js"></script>

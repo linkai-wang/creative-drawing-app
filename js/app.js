@@ -164,6 +164,7 @@
       initializeImages();
       // Load persisted app state (selected scene, completed tasks)
       loadAppState();
+      setupClassroom();
       // Ensure initial UI state: only show scene selection
       if (elements.sceneSelection) elements.sceneSelection.classList.remove('hidden');
       if (elements.sceneTasks) elements.sceneTasks.classList.add('hidden');
