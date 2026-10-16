@@ -1,5 +1,7 @@
 # Creative Drawing App / 创意小画家
 
+Project updates: [Changelog](CHANGELOG.md).
+
 Special thanks to the teachers at Wenzhou Special Education School (温州市特殊教育学校) for trying the prototypes and providing practical feedback that helped improve the application. This acknowledgement describes educational collaboration and does not imply official endorsement by the school.
 
 Creative Drawing App is a student-developed interactive teaching-aid prototype, not simply a browser drawing demo. It was created in a special-education context and primarily designed with the needs of children on the autism spectrum in mind. The application combines approachable drawing tasks, visual references, spoken guidance, and immediate feedback in a classroom-oriented workflow.
@@ -132,6 +134,20 @@ The app preserves the voice's original pitch and waits briefly for voices that l
 Voice availability and sound quality still depend on the browser and operating system. The browser API cannot create a neural voice that the device does not provide, and a voice without a quality label may still sound good. If the list contains only basic voices, compare another browser or install additional Chinese speech voices. This change does not add a paid speech API or a server, and it does not produce prerecorded narration.
 
 To run the speech selection and playback regression checks with Node.js, use `node --test tests/tts.test.cjs`. These checks simulate browser voice loading and events; they do not measure perceived voice quality or replace listening on the target device.
+
+## Automated Regression Checks
+
+Run all checks with Node.js 24 or later:
+
+```bash
+npm test
+```
+
+No dependency installation is needed for these tests. Alternatively, run `node --test tests/*.test.cjs` directly.
+
+The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. Drawing workflow tests also simulate interrupted strokes, page exit events, autosave, and restoration in a new session. GitHub Actions runs the suite on pushes and pull requests.
+
+These are isolated Node.js tests with simulated browser APIs. They do not validate rendered layout, actual canvas interactions, real device speech quality, or classroom outcomes. Browser interaction checks remain a separate task.
 
 ## Building the CSS
 

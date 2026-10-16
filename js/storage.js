@@ -111,11 +111,13 @@
         Object.entries(parsed).forEach(([key, draft]) => {
           if (!draft || typeof draft !== 'object') return;
           const [sceneId, taskId] = key.split(':');
+          if (key !== `${sceneId}:${taskId}`) return;
           if (!Object.prototype.hasOwnProperty.call(scenes, sceneId) || !scenes[sceneId].tasks.some(task => task.id === taskId)) return;
           if (typeof draft.imageData !== 'string') return;
           if (!/^data:image\/(?:png|jpe?g|webp);base64,/i.test(draft.imageData || '')) return;
           if (draft.imageData.length > 1_500_000) return;
-          valid[key] = { imageData: draft.imageData, savedAt: Number(draft.savedAt) || Date.now() };
+          const savedAt = Number(draft.savedAt);
+          valid[key] = { imageData: draft.imageData, savedAt: Number.isFinite(savedAt) && savedAt > 0 ? savedAt : Date.now() };
         });
         return valid;
       } catch (error) {
