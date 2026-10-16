@@ -255,7 +255,8 @@ function changeSceneBackground(sceneId, newBgUrl) {
       }
 
       const sceneDrafts = loadDrafts();
-      scene.tasks.forEach(task => {
+      const visibleTasks = typeof classroomTasksForScene === 'function' ? classroomTasksForScene(scene) : scene.tasks;
+      visibleTasks.forEach(task => {
         const isCompleted = appState.completedTasks[appState.currentScene] && appState.completedTasks[appState.currentScene][task.id];
         const hasDraft = Boolean(sceneDrafts[`${appState.currentScene}:${task.id}`]);
         const isActive = appState.currentTask?.id === task.id;
@@ -298,7 +299,7 @@ function changeSceneBackground(sceneId, newBgUrl) {
 
     // 更新进度
     function updateProgress(scene) {
-      const total = scene.tasks ? scene.tasks.length : 0;
+      let total = scene.tasks ? scene.tasks.length : 0;
       let completed = 0;
 
       if (scene.tasks) {
@@ -309,6 +310,8 @@ function changeSceneBackground(sceneId, newBgUrl) {
         });
       }
 
+      const activity = typeof classroomProgress === 'function' ? classroomProgress(scene) : null;
+      if (activity) { total = activity.total; completed = activity.completed; }
       const progress = total > 0 ? (completed / total) * 100 : 0;
       elements.progressBar.style.width = `${progress}%`;
       elements.progressText.textContent = `${completed}/${total} 元素`;
