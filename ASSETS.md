@@ -18,3 +18,7 @@ Some non-core references and optional backgrounds still load from external sourc
 
 - `assets/replacement-slots.json` records the current localization status of the original priority replacement slots.
 - `assets/image-inventory.json` is a historical image audit snapshot from before the current localization work. It must not be treated as a live inventory of the application.
+
+## Interface Icons
+
+The SVG paths embedded in `css/icons.css` were authored for this project. They replace the external Font Awesome stylesheet and font files. The vectors are served with the app as CSS masks and inherit each control's text color.
