@@ -1298,13 +1298,17 @@ function setupDrawingEventListeners() {
       });
 }
 
+function flushDrawingDraft() {
+      // A page can become hidden before pointerup marks the current stroke dirty.
+      stopDrawing();
+      activePointerId = null;
+      if (canvasHasContent && currentDrawingDirty) persistCurrentDraft({ silent: true });
+}
+
 function setupDrawingPersistenceListeners() {
-      window.addEventListener('beforeunload', () => {
-        if (canvasHasContent && currentDrawingDirty) persistCurrentDraft({ silent: true });
-      });
+      window.addEventListener('beforeunload', flushDrawingDraft);
+      window.addEventListener('pagehide', flushDrawingDraft);
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && canvasHasContent && currentDrawingDirty) {
-          persistCurrentDraft({ silent: true });
-        }
+        if (document.visibilityState === 'hidden') flushDrawingDraft();
       });
 }

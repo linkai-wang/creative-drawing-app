@@ -1,5 +1,7 @@
 # Creative Drawing App / 创意小画家
 
+Project updates: [Changelog](CHANGELOG.md).
+
 Special thanks to the teachers at Wenzhou Special Education School (温州市特殊教育学校) for trying the prototypes and providing practical feedback that helped improve the application. This acknowledgement describes educational collaboration and does not imply official endorsement by the school.
 
 Creative Drawing App is a student-developed interactive teaching-aid prototype, not simply a browser drawing demo. It was created in a special-education context and primarily designed with the needs of children on the autism spectrum in mind. The application combines approachable drawing tasks, visual references, spoken guidance, and immediate feedback in a classroom-oriented workflow.
@@ -143,7 +145,7 @@ npm test
 
 No dependency installation is needed for these tests. Alternatively, run `node --test tests/*.test.cjs` directly.
 
-The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. GitHub Actions runs the suite on pushes and pull requests.
+The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. Drawing workflow tests also simulate interrupted strokes, page exit events, autosave, and restoration in a new session. GitHub Actions runs the suite on pushes and pull requests.
 
 These are isolated Node.js tests with simulated browser APIs. They do not validate rendered layout, actual canvas interactions, real device speech quality, or classroom outcomes. Browser interaction checks remain a separate task.
 
