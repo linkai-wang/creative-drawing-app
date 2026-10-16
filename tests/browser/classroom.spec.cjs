@@ -103,6 +103,7 @@ test('empty plans are rejected and teacher text stays plain text', async ({ page
   await page.locator('input[data-task="wave"]').uncheck();
   await page.locator('#classroom-start').click();
   await expect(page.locator('#classroom-dialog')).toBeVisible();
+  await expect(page.locator('#classroom-plan-status')).not.toBeEmpty();
   await page.locator('input[data-task="shell"]').check();
   await page.locator('#classroom-name').fill('<img src=x onerror=alert(1)>');
   await page.locator('#classroom-start').click();
@@ -116,4 +117,37 @@ test('empty plans are rejected and teacher text stays plain text', async ({ page
   await page.keyboard.press('Escape');
   await expect(page.locator('#classroom-dialog')).not.toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('guided-drawing.png') });
+});
+
+test('oversized step instructions receive a visible validation message', async ({ page }) => {
+  await page.locator('#classroom-open').click();
+  await page.locator('textarea[data-task="shell"]').fill('x'.repeat(141));
+  await page.locator('#classroom-start').click();
+  await expect(page.locator('#classroom-plan-status')).toBeVisible();
+  await expect(page.locator('#classroom-plan-status')).toContainText('140');
+  await expect(page.locator('#classroom-dialog')).toBeVisible();
+  await page.locator('textarea[data-task="shell"]').fill('A\nB\nC\nD\nE\nF\nG');
+  await page.locator('#classroom-start').click();
+  await expect(page.locator('#classroom-plan-status')).not.toBeEmpty();
+  await page.locator('textarea[data-task="shell"]').fill('A\nB');
+  await page.locator('#classroom-start').click();
+  await expect(page.locator('#classroom-dialog')).not.toBeVisible();
+});
+
+test('earlier saved artwork does not count as completion in a new activity', async ({ page }) => {
+  await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 20; canvas.height = 20;
+    canvas.getContext('2d').fillRect(0, 0, 10, 10);
+    localStorage.setItem('creative-draw-app:v1', JSON.stringify({
+      currentScene: 'beach', completedTasks: { beach: { shell: canvas.toDataURL('image/png') } }
+    }));
+  });
+  await page.reload();
+  await startActivity(page);
+  await expect(page.locator('#classroom-banner-progress')).toContainText('0/2');
+  await expect(page.locator('#progress-text')).toContainText('0/2');
+  await expect(page.locator('.view-artwork[data-task="shell"]')).toBeVisible();
+  await page.locator('#classroom-open').click();
+  await expect(page.locator('#classroom-report-rows tr').first().locator('td').nth(1)).toHaveText('\u5f85\u5b8c\u6210');
 });

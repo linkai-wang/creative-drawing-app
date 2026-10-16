@@ -221,11 +221,17 @@ function classroomOpen() {
 function classroomStart() {
   if (classroomState.current) { showToast(ClassroomLabels.activeExists, 'warning'); return; }
   classroomReadDraftSteps();
+  const invalidSteps = classroomDraft.taskIds.some(id => {
+    const lines = (classroomDraft.steps[id] || []).map(line => line.trim()).filter(Boolean);
+    return lines.length > 6 || lines.some(line => line.length > 140);
+  });
+  if (invalidSteps) { classroomNode('classroom-plan-status').textContent = ClassroomLabels.invalidSteps; return; }
   const plan = ClassroomModel.plan({ ...classroomDraft,
     name: classroomNode('classroom-name').value, goal: classroomNode('classroom-goal').value,
     quiet: classroomNode('classroom-quiet').checked, simpleTools: classroomNode('classroom-simple').checked
   }, scenes);
-  if (!plan) { showToast(ClassroomLabels.noTasks, 'warning'); return; }
+  if (!plan) { classroomNode('classroom-plan-status').textContent = ClassroomLabels.noTasks; return; }
+  classroomNode('classroom-plan-status').textContent = '';
   classroomState.lastPlan = plan;
   classroomState.current = ClassroomModel.session(plan, crypto.randomUUID(), Date.now());
   classroomReportId = classroomState.current.id;

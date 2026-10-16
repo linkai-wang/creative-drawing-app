@@ -23,3 +23,8 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+
+# Browser verification artifacts
+tests/browser/node_modules/
+tests/browser/test-results/
+tests/browser/playwright-report/

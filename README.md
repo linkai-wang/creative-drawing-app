@@ -42,6 +42,9 @@ Each cycle incorporated some combination of prototype development, instructor re
 ## What the App Supports Today
 
 - Five themed drawing scenes: beach, forest, starry sky, town, and aquarium.
+- Teacher-planned activities with selected task order, editable step instructions, and an activity goal.
+- Step-by-step guidance for all 36 tasks, optional quiet presentation, and a simpler tool palette.
+- Anonymous local activity review with explicit action counts and CSV export.
 - Guided drawing tasks with instructions and reference materials.
 - Fineliner, crayon, watercolor, pencil, brush, spray, oil-paint-style, and eraser tools.
 - Brush size and color controls, undo, and protected canvas clearing.
@@ -55,6 +58,16 @@ Each cycle incorporated some combination of prototype development, instructor re
 - Safe local/static story fallback; the public version does not use a live AI backend.
 - Image loading states, error placeholders, and per-image failure isolation.
 - Responsive desktop and mobile layout with a mobile-friendly drawing toolbar.
+
+## Classroom Workflow
+
+Open **教师工作台** to arrange a short activity. Select the scene and tasks, reorder them, edit the instruction steps, and choose quiet presentation or a simpler tool palette. Start the activity to show the selected tasks in that order.
+
+In the drawing screen, **上一步 / 下一步** changes the visible instruction. **听老师讲解** reads the current step. **请老师帮忙** provides a prompt to ask a nearby teacher and records that button request.
+
+Reopen the workbench to review the current activity or finish it. Reports show activity completions, cumulative pen-contact time, pen gestures, undo actions, help requests, and narration requests. Download a CSV to keep the record. These values describe operations, not learning, attention, clinical progress, or drawing quality.
+
+This classroom workflow is a new prototype extension awaiting teacher evaluation. See [the design and verification notes](docs/classroom-design.md) for architecture, metric definitions, tests, and the proposed evaluation.
 
 ## Design Principles
 
@@ -147,7 +160,7 @@ No dependency installation is needed for these tests. Alternatively, run `node -
 
 The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. Drawing workflow tests also simulate interrupted strokes, page exit events, autosave, and restoration in a new session. Export tests cover PNG conversion requests, invalid images, duplicate clicks, cleanup, and cancellation when the selected artwork changes. GitHub Actions runs the suite on pushes and pull requests.
 
-These are isolated Node.js tests with simulated browser APIs. They do not validate rendered layout, actual canvas interactions, real device speech quality, or classroom outcomes. Browser interaction checks remain a separate task.
+The Node checks use simulated browser APIs. A separate Classroom browser checks workflow runs Chromium at desktop and phone widths, with external CDN requests blocked. It exercises actual canvas input, PNG/CSV downloads, reload and teacher/student workflow controls. Browser reports and screenshots are retained as CI artifacts. Real device speech quality, assistive technology and classroom outcomes still require separate evaluation.
 
 ## Building the CSS
 
@@ -187,6 +200,8 @@ The PNG contains the saved task drawing with its transparency. Export preserves 
 The application runs primarily in the browser. Drawing progress, saved drafts and artwork, and related preferences are stored in the browser's `localStorage`. The public version does not provide a cloud database or user-account system. Data is specific to the current browser origin, and clearing site data will remove locally stored progress.
 
 Uploaded reference images are processed locally for the current drawing workflow. Users should not upload sensitive personal images when using a shared or public device.
+
+The classroom workflow uses a separate local record for the last activity plan, the current activity, and up to 15 completed activity reports. Records have generated local IDs and no student-name field. Clearing this site's data also removes these records.
 
 ## External Dependencies
 
