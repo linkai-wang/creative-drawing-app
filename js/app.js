@@ -52,6 +52,7 @@
     function setupEventListeners() {
       setupSceneSelectionListeners();
       setupDrawingEventListeners();
+      setupArtworkExportListener();
 
       // 关闭弹窗
       elements.closeModal.addEventListener('click', () => {

@@ -54,3 +54,6 @@ select:focus-visible { outline: 3px solid rgba(79, 70, 229, .35); outline-offset
   .task-status { width: 26px; height: 26px; }
   .task-button { padding: .65rem .8rem; }
 }
+
+/* Keep the artwork actions reachable when the preview is taller than the screen. */
+#artwork-modal > div { max-height: calc(100vh - 2rem); overflow-y: auto; }

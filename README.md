@@ -51,7 +51,7 @@ Each cycle incorporated some combination of prototype development, instructor re
 - Task completion and scene progress tracking.
 - Local draft, artwork, progress, position, and preference persistence.
 - Browser text-to-speech with automatic Mandarin voice selection, all available Chinese voices, voice previews, and saved speech-speed preferences.
-- Artwork preview and a story presentation flow.
+- Artwork preview, local PNG downloads of saved task artwork, and a story presentation flow.
 - Safe local/static story fallback; the public version does not use a live AI backend.
 - Image loading states, error placeholders, and per-image failure isolation.
 - Responsive desktop and mobile layout with a mobile-friendly drawing toolbar.
@@ -145,7 +145,7 @@ npm test
 
 No dependency installation is needed for these tests. Alternatively, run `node --test tests/*.test.cjs` directly.
 
-The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. Drawing workflow tests also simulate interrupted strokes, page exit events, autosave, and restoration in a new session. GitHub Actions runs the suite on pushes and pull requests.
+The suite covers speech voice selection and playback events, draft restoration and retention, malformed or oversized saved data, unavailable browser storage, and validation of restored artwork, positions, and backgrounds. Drawing workflow tests also simulate interrupted strokes, page exit events, autosave, and restoration in a new session. Export tests cover PNG conversion requests, invalid images, duplicate clicks, cleanup, and cancellation when the selected artwork changes. GitHub Actions runs the suite on pushes and pull requests.
 
 These are isolated Node.js tests with simulated browser APIs. They do not validate rendered layout, actual canvas interactions, real device speech quality, or classroom outcomes. Browser interaction checks remain a separate task.
 
@@ -175,6 +175,12 @@ https://username.github.io/repository-name/
 ```
 
 A typical deployment can publish the repository root from the default branch. No server-side runtime or secret configuration is required for the current public version.
+
+## Downloading Artwork
+
+Complete a drawing task, choose **查看作品**, and click **下载作品（PNG）**. The browser starts a download named after the scene and task. The conversion runs locally and does not upload the artwork.
+
+The PNG contains the saved task drawing with its transparency. Export preserves the saved image's dimensions; completed-task snapshots currently have a maximum longest edge of 320 pixels. This is not a full-resolution export of the original canvas or a composite of the entire scene.
 
 ## Local Data
 
