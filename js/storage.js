@@ -159,7 +159,7 @@
     function persistCurrentDraft({ silent = false } = {}) {
       clearTimeout(draftSaveTimer);
       if (!canvasHasContent || !appState.currentScene || !appState.currentTask) return false;
-      if (!silent) setDrawingStatus('�����Զ����桭');
+      if (!silent) setDrawingStatus('正在自动保存…');
       const imageData = pendingCanvasRestore?.dataUrl || createPersistedDrawingSnapshot(720, 0.8);
       if (!imageData) return false;
       const drafts = loadDrafts();
@@ -167,10 +167,10 @@
       const saved = writeDrafts(drafts);
       if (saved) {
         currentDrawingDirty = false;
-        setDrawingStatus('���Զ�����', 'saved');
+        setDrawingStatus('已自动保存', 'saved');
       } else if (!silent) {
-        setDrawingStatus('��ʱ�޷��Զ�����');
-        showToast('������洢�ռ䲻�㣬�뾡����ɻ滭��', 'warning');
+        setDrawingStatus('暂时无法自动保存');
+        showToast('浏览器存储空间不足，请尽快完成绘画。', 'warning');
       }
       return saved;
     }
@@ -180,16 +180,15 @@
       if (!canvasHasContent) {
         currentDrawingDirty = false;
         deleteCurrentDraft();
-        setDrawingStatus('׼���滭');
+        setDrawingStatus('准备绘画');
         updateCanvasActionButtons();
         return;
       }
       currentDrawingDirty = true;
-      setDrawingStatus('���ڻ滭');
+      setDrawingStatus('正在绘画');
       const session = drawingSession;
       draftSaveTimer = setTimeout(() => {
         if (session === drawingSession) persistCurrentDraft();
       }, 700);
     }
     
-
