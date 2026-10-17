@@ -55,7 +55,7 @@ Each cycle incorporated some combination of prototype development, instructor re
 - Local draft, artwork, progress, position, and preference persistence.
 - Browser text-to-speech with automatic Mandarin voice selection, all available Chinese voices, voice previews, and saved speech-speed preferences.
 - Artwork preview, local PNG downloads of saved task artwork, and a story presentation flow.
-- Safe local/static story fallback; the public version does not use a live AI backend.
+- Optional server-backed story generation with task validation, teacher access codes, retries, and cancellation. The public site stays disconnected until the owner supplies a deployed backend URL.
 - Image loading states, error placeholders, and per-image failure isolation.
 - Responsive desktop and mobile layout with a mobile-friendly drawing toolbar.
 
@@ -97,7 +97,7 @@ Dr. Winoto proposed the initial exploration of digital drawing as a teaching act
 
 ## Technical Overview
 
-The application uses vanilla HTML, CSS, and JavaScript with an HTML Canvas drawing surface. Its feature code is organized into classic JavaScript modules, Tailwind CSS is precompiled for production, and drafts and progress are stored through browser `localStorage`. Spoken instructions use the browser Speech Synthesis API, and relative resource paths support GitHub Pages project-site deployment.
+The application uses vanilla HTML, CSS, and JavaScript with an HTML Canvas drawing surface. Its feature code is organized into classic JavaScript modules, Tailwind CSS is precompiled for production, and drafts and progress are stored through browser `localStorage`. Spoken instructions use the browser Speech Synthesis API, and relative resource paths support GitHub Pages project-site deployment. An optional Node.js 24 backend handles model credentials and story requests separately.
 
 ## Project Structure
 
@@ -137,6 +137,14 @@ python -m http.server 8000
 Then open [http://localhost:8000/](http://localhost:8000/) in a modern browser.
 
 Opening `index.html` directly by double-clicking it is not the primary supported method because browser storage and security behavior can differ from an HTTP deployment.
+
+## Story Backend
+
+The story interface can connect to the separate Node.js service in `backend/story-server.mjs`. The backend keeps the model key on the server, validates task IDs against the app's catalogue, and generates stories from scene and task names. Drawing images are not uploaded. Teachers enter a separate story access code, held only in page memory.
+
+[Deploy the backend on Render](https://render.com/deploy?repo=https://github.com/wanglinkai705-hash/creative-drawing-app). See [setup and verification](docs/story-backend.md) for private environment settings, local running, and the public endpoint configuration in `js/config.js`.
+
+Backend source and a deployment template are included. No live model connection or production backend address is configured in this repository. Real model and classroom checks remain pending. This feature is story generation; a tool-using teaching agent is a future extension.
 
 ## Voice Guidance
 
@@ -216,7 +224,7 @@ The optional celebration script and preferred web font are loaded from HTTPS CDN
 
 - Some non-core scene options and drawing references still use external URLs. Those images may become unavailable, but the application provides a per-image fallback.
 - The source and redistribution terms of the remaining remote images require review before they are localized.
-- Story mode currently uses a safe local/static fallback rather than a live AI service.
+- Story generation needs a separately deployed backend, a private model key, and a public endpoint setting. These production settings are not supplied in the repository.
 - Available text-to-speech voices and voice quality depend on the browser and operating system.
 - Progress is stored only in the local browser and is not synchronized across devices.
 - Opening `index.html` directly by double-clicking it is not the primary supported execution method.
