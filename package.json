@@ -5,10 +5,10 @@
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "build:css": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --minify",
-    "watch:css": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --watch"
+    "watch:css": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --watch",
+    "start:backend": "node --env-file-if-exists=backend/.env backend/story-server.mjs"
   },
   "devDependencies": {
     "tailwindcss": "3.4.17"
   }
 }
-

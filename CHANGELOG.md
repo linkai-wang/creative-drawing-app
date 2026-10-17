@@ -2,6 +2,15 @@
 
 Short notes on project updates.
 
+## 2026-10-17 — Story backend
+
+- Added a separate Node.js service for AI stories with server-side model credentials.
+- Added task validation, classroom access codes, request limits, timeouts, and safe errors.
+- Connected the story interface with retry and navigation cancellation.
+- Added a Render deployment template and a short setup guide.
+- Added backend, client, and desktop/mobile browser checks with a fake model provider.
+- Production hosting, model credentials, and a real-provider check are still required.
+
 ## 2026-10-16 — Local interface icons
 
 - Replaced the external icon font with local SVG interface icons.

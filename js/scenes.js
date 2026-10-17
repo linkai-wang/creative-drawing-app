@@ -102,3 +102,6 @@
         }
       }
     };
+
+// Share the authored task catalogue with the Node story backend.
+if (typeof module !== 'undefined' && module.exports) module.exports = scenes;

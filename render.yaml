@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: creative-drawing-story
+    runtime: node
+    plan: free
+    autoDeployTrigger: off
+    buildCommand: node --check backend/story-server.mjs
+    startCommand: node backend/story-server.mjs
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: ALLOWED_ORIGINS
+        value: https://wanglinkai705-hash.github.io
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: STORY_ACCESS_TOKEN
+        generateValue: true
