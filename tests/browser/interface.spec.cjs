@@ -9,6 +9,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 async function capture(page, info, name) {
+  // A load event can precede async image decoding and the corresponding paint.
+  await page.locator('img').evaluateAll(images => Promise.all(images
+    .filter(img => img.currentSrc && img.complete)
+    .map(img => img.decode().catch(() => {}))));
   await page.screenshot({ path: info.outputPath(name + '.png'), fullPage: true });
   await info.attach(name, { path: info.outputPath(name + '.png'), contentType: 'image/png' });
 }
