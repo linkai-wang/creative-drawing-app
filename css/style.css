@@ -103,3 +103,15 @@ select:focus-visible { outline: 3px solid rgba(79, 70, 229, .35); outline-offset
 .classroom-quiet *, .classroom-quiet *::before, .classroom-quiet *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 @media (max-width: 800px) { .classroom-studio-grid { grid-template-columns: 1fr; } .classroom-dialog { padding: 1rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* The lesson agent stays inside the existing teacher studio. */
+.lesson-agent { margin:1rem 0; padding:1rem; border:1px solid #ddd6fe; border-radius:14px; background:#faf8ff; }
+.lesson-agent summary { cursor:pointer; font-weight:700; color:#5b21b6; }
+.lesson-agent textarea { width:100%; max-width:100%; padding:.65rem; border:1px solid #d1d5db; border-radius:8px; resize:vertical; }
+.lesson-agent-actions { display:flex; flex-wrap:wrap; gap:.5rem; }
+.lesson-agent-preview { margin:1rem 0; padding:.8rem; border:1px solid #ddd6fe; border-radius:10px; background:white; overflow-wrap:anywhere; }
+.lesson-agent-preview h4, .lesson-agent-preview h5 { margin:.5rem 0; font-weight:700; }
+.lesson-agent-preview ol, .lesson-agent-log { list-style:decimal; padding-left:1.4rem; }
+.lesson-agent-preview li { margin:.3rem 0; }
+.lesson-agent-log { margin:.75rem 0; color:#4b5563; font-size:.875rem; }
+.lesson-agent [hidden] { display:none; }

@@ -10,6 +10,21 @@ const server = createStoryServer({
   requestsPerMinute: 100,
   fetchImpl: async (_url, options) => {
     const payload = JSON.parse(options.body);
+    if (payload.tools) {
+      const requirement = JSON.parse(payload.messages[1].content).requirements;
+      const results = payload.messages.filter(message => message.role === 'tool').map(message => JSON.parse(message.content));
+      const inspected = results.some(result => result.tasks);
+      const needsRepair = requirement.includes('repair-example') && !results.some(result => result.ok === false);
+      const plan = { name: requirement.includes('<img') ? '<img src=x onerror=alert(1)>' : 'Agent beach activity',
+        goal: 'Practice simple shapes', sceneId: 'beach', taskIds: ['shell', 'wave'],
+        steps: { shell: ['Draw a curve', 'Add lines', 'Add color'], wave: ['Draw a wave', 'Add a curve', 'Add color'] },
+        quiet: true, simpleTools: true };
+      const name = inspected ? 'create_plan_draft' : 'get_tasks';
+      const args = inspected ? needsRepair ? { ...plan, taskIds: ['invented'] } : plan : { sceneId: 'beach' };
+      return new Response(JSON.stringify({ choices: [{ finish_reason: 'tool_calls', message: {
+        tool_calls: [{ id: `call_${results.length}`, type: 'function', function: { name, arguments: JSON.stringify(args) } }]
+      } }] }));
+    }
     const tasks = JSON.parse(payload.messages[1].content).completedTasks;
     return new Response(JSON.stringify({ choices: [{ finish_reason: 'stop', message: {
       content: `A classroom adventure with ${tasks.length} completed tasks. <img src=x onerror=alert(1)>`

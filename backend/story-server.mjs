@@ -2,6 +2,7 @@ import http from 'node:http';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import scenes from '../js/scenes.js';
+import { runLessonAgent, validateLessonRequest, LessonAgentError } from './lesson-agent.mjs';
 
 const PROVIDER_URL = 'https://api.deepseek.com/chat/completions';
 const MAX_BODY_BYTES = 4096;
@@ -98,7 +99,7 @@ async function readProviderJson(response) {
 // One process is sufficient for a small classroom pilot. Limits reset on restart.
 export function createStoryServer({ env = process.env, fetchImpl = globalThis.fetch,
   now = Date.now, bodyTimeoutMs = 10000, upstreamTimeoutMs = 35000,
-  requestsPerMinute = 10, maxConcurrent = 2 } = {}) {
+  requestsPerMinute = 10, maxConcurrent = 2, lessonTimeoutMs = 60000 } = {}) {
   const key = typeof env.DEEPSEEK_API_KEY === 'string' ? env.DEEPSEEK_API_KEY.trim() : '';
   const accessToken = typeof env.STORY_ACCESS_TOKEN === 'string' ? env.STORY_ACCESS_TOKEN.trim() : '';
   const model = env.DEEPSEEK_MODEL || 'deepseek-flash';
@@ -128,7 +129,7 @@ export function createStoryServer({ env = process.env, fetchImpl = globalThis.fe
     try {
       const path = new URL(req.url, 'http://localhost').pathname;
       if (path === '/healthz' && req.method === 'GET') return json(res, 200, { status: 'ok' });
-      if (path !== '/api/story') throw new RequestError(404, 'not_found');
+      if (!['/api/story', '/api/lesson-plan'].includes(path)) throw new RequestError(404, 'not_found');
       if (!validOrigins || !originValues.includes(req.headers.origin)) throw new RequestError(403, 'origin_not_allowed');
       res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
       if (req.method === 'OPTIONS') {
@@ -156,7 +157,8 @@ export function createStoryServer({ env = process.env, fetchImpl = globalThis.fe
       }
       if (Number(req.headers['content-length']) > MAX_BODY_BYTES) throw new RequestError(413, 'request_too_large');
       const input = await readBody(req, bodyTimeoutMs);
-      const messages = buildStoryMessages(input);
+      const messages = path === '/api/story' ? buildStoryMessages(input) : null;
+      if (path === '/api/lesson-plan') validateLessonRequest(input);
       if (res.destroyed) return;
       if (now() - windowStart >= 60000) { windowStart = now(); calls = 0; }
       if (calls >= requestsPerMinute || active >= maxConcurrent) {
@@ -169,21 +171,29 @@ export function createStoryServer({ env = process.env, fetchImpl = globalThis.fe
       let timedOut = false;
       const onClose = () => { if (!res.writableEnded) controller.abort(); };
       res.once('close', onClose);
-      const timer = setTimeout(() => { timedOut = true; controller.abort(); }, upstreamTimeoutMs);
+      const timer = setTimeout(() => { timedOut = true; controller.abort(); }, path === '/api/lesson-plan' ? lessonTimeoutMs : upstreamTimeoutMs);
       timer.unref();
       try {
-        const upstream = await fetchImpl(PROVIDER_URL, {
-          method: 'POST', redirect: 'error', signal: controller.signal,
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-          body: JSON.stringify({ model, messages, thinking: { type: 'disabled' },
-            temperature: 0.7, max_tokens: 500, stream: false })
-        });
-        if (!upstream.ok) {
-          await upstream.body?.cancel().catch(() => {});
-          throw new RequestError(upstream.status === 429 ? 503 : 502,
-            upstream.status === 429 ? 'provider_busy' : 'provider_unavailable');
+        const complete = async payload => {
+          const upstream = await fetchImpl(PROVIDER_URL, {
+            method: 'POST', redirect: 'error', signal: controller.signal,
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+            body: JSON.stringify({ model, thinking: { type: 'disabled' },
+              temperature: 0.7, stream: false, ...payload })
+          });
+          if (!upstream.ok) {
+            await upstream.body?.cancel().catch(() => {});
+            throw new RequestError(upstream.status === 429 ? 503 : 502,
+              upstream.status === 429 ? 'provider_busy' : 'provider_unavailable');
+          }
+          return readProviderJson(upstream);
+        };
+        if (path === '/api/lesson-plan') {
+          const result = await runLessonAgent({ input, signal: controller.signal,
+            complete: payload => complete({ ...payload, max_tokens: 2000, tool_choice: 'auto' }) });
+          return json(res, 200, result);
         }
-        const data = await readProviderJson(upstream);
+        const data = await complete({ messages, max_tokens: 500 });
         const choice = data?.choices?.[0];
         const story = choice?.message?.content;
         if (choice?.finish_reason !== 'stop' || typeof story !== 'string' || !story.trim() || story.length > 2000) {
@@ -192,7 +202,7 @@ export function createStoryServer({ env = process.env, fetchImpl = globalThis.fe
         json(res, 200, { story: story.trim() });
       } catch (error) {
         if (timedOut) throw new RequestError(504, 'provider_timeout');
-        if (error instanceof RequestError) throw error;
+        if (error instanceof RequestError || error instanceof LessonAgentError) throw error;
         throw new RequestError(502, 'provider_unavailable');
       } finally {
         clearTimeout(timer);
@@ -200,7 +210,7 @@ export function createStoryServer({ env = process.env, fetchImpl = globalThis.fe
         active--;
       }
     } catch (error) {
-      const known = error instanceof RequestError;
+      const known = error instanceof RequestError || error instanceof LessonAgentError;
       // Never send provider error bodies, credentials, prompts or stack traces.
       json(res, known ? error.status : 500, { error: known ? error.code : 'internal_error' },
         { Connection: 'close' });

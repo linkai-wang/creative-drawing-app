@@ -43,6 +43,7 @@ Each cycle incorporated some combination of prototype development, instructor re
 
 - Five themed drawing scenes: beach, forest, starry sky, town, and aquarium.
 - Teacher-planned activities with selected task order, editable step instructions, and an activity goal.
+- Optional AI lesson-planning agent with task lookup, validation feedback, and teacher-reviewed drafts.
 - Step-by-step guidance for all 36 tasks, optional quiet presentation, and a simpler tool palette.
 - Anonymous local activity review with explicit action counts and CSV export.
 - Guided drawing tasks with instructions and reference materials.
@@ -68,6 +69,12 @@ In the drawing screen, **上一步 / 下一步** changes the visible instruction
 Reopen the workbench to review the current activity or finish it. Reports show activity completions, cumulative pen-contact time, pen gestures, undo actions, help requests, and narration requests. Download a CSV to keep the record. These values describe operations, not learning, attention, clinical progress, or drawing quality.
 
 This classroom workflow is a new prototype extension awaiting teacher evaluation. See [the design and verification notes](docs/classroom-design.md) for architecture, metric definitions, tests, and the proposed evaluation.
+
+## AI Lesson Drafts
+
+Open **AI备课 · Agent** inside the teacher studio, describe a short activity, and enter the classroom access code. The agent queries existing tasks and checks a draft; invalid proposals can be corrected through tool feedback. Review the suggestion and choose **填入课堂草稿** before editing or starting the activity.
+
+This small single-agent feature reuses the story backend and needs the same private model configuration. It makes at most four model requests and never starts an activity or replaces a running one. The public site remains disconnected until a backend URL and private credentials are configured. See [the agent design and checks](docs/lesson-agent.md).
 
 ## Design Principles
 
@@ -144,7 +151,7 @@ The story interface can connect to the separate Node.js service in `backend/stor
 
 [Deploy the backend on Render](https://render.com/deploy?repo=https://github.com/wanglinkai705-hash/creative-drawing-app). See [setup and verification](docs/story-backend.md) for private environment settings, local running, and the public endpoint configuration in `js/config.js`.
 
-Backend source and a deployment template are included. No live model connection or production backend address is configured in this repository. Real model and classroom checks remain pending. This feature is story generation; a tool-using teaching agent is a future extension.
+Backend source and a deployment template are included. No live model connection or production backend address is configured in this repository. Real model and classroom checks remain pending. The same service also supports the small tool-using lesson-planning agent in the teacher studio.
 
 ## Voice Guidance
 

@@ -2,6 +2,14 @@
 
 Short notes on project updates.
 
+## 2026-10-23 — Small lesson-planning agent
+
+- Added one-sentence lesson planning inside the teacher studio.
+- Added task lookup and validated draft tools, with feedback-based correction.
+- Added a preview and explicit Apply action; teachers keep control of classroom activities.
+- Added bounded model calls, cancellation, and backend/browser regression checks.
+- Real model and teacher evaluation require production configuration and remain pending.
+
 ## 2026-10-17 — Story backend
 
 - Added a separate Node.js service for AI stories with server-side model credentials.

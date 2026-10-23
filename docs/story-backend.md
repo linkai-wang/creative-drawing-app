@@ -1,10 +1,10 @@
 # Story backend
 
-The drawing interface stays on GitHub Pages. A separate Node.js 24 service receives structured story requests and calls DeepSeek. It has no runtime dependencies or database. This is story generation, not an agent implementation yet.
+The drawing interface stays on GitHub Pages. A separate Node.js 24 service receives structured story requests and calls DeepSeek. It has no runtime dependencies or database. The same service now includes a small lesson-planning agent; see [its design](lesson-agent.md).
 
 ## What is ready
 
-- `backend/story-server.mjs`: an independent HTTP service with `POST /api/story` and `GET /healthz`.
+- `backend/story-server.mjs`: an independent HTTP service with `POST /api/story`, `POST /api/lesson-plan` and `GET /healthz`.
 - `js/story-client.js` and `js/story.js`: the browser connection, teacher access-code form, text rendering, retry and cancellation.
 - `render.yaml`: a deployment template for a separate service.
 - `backend/.env.example`: local environment configuration without credentials.
@@ -39,7 +39,7 @@ Local environment files are ignored by Git. The backend serves API routes only a
 | Name | Purpose |
 | --- | --- |
 | `DEEPSEEK_API_KEY` | Required private provider credential. |
-| `STORY_ACCESS_TOKEN` | Required independent classroom code, 16–256 characters. Rotate it if it is shared unintentionally. |
+| `STORY_ACCESS_TOKEN` | Required independent classroom code for stories and lesson drafts, 16–256 characters. Rotate it if it is shared unintentionally. |
 | `DEEPSEEK_MODEL` | Server-controlled model ID; defaults to `deepseek-flash`. |
 | `ALLOWED_ORIGINS` | Comma-separated exact frontend origins, without paths or trailing slashes. Defaults to `https://wanglinkai705-hash.github.io`. Local HTTP origins must be loopback hosts. Wildcards are rejected. |
 | `HOST` | `127.0.0.1` locally; `0.0.0.0` on the hosting provider. |
@@ -61,7 +61,7 @@ The server validates both fields against the same authored catalogue used by the
 {"story":"The generated story text."}
 ```
 
-The server supplies the prompt, a fixed DeepSeek endpoint, a 500-token output limit, non-thinking mode, and a 35-second provider timeout. It rejects empty, malformed, oversized and incomplete provider responses. No automatic retries are made against a paid API. The browser has a 90-second deadline to allow for a hosting cold start; it prevents late responses from replacing another scene's content or speaking after navigation.
+For stories, the server supplies the prompt, a fixed DeepSeek endpoint, a 500-token output limit, non-thinking mode, and a 35-second provider timeout. Lesson planning shares the authentication and rate controls, and uses up to four model turns with a 60-second total deadline and 2,000 output tokens per turn. It rejects empty, malformed, oversized and incomplete provider responses. No automatic retries are made against a paid API. The browser has a 90-second deadline to allow for a hosting cold start; it prevents late responses from replacing another scene's content or speaking after navigation.
 
 The model receives the scene name and names of completed tasks. It receives no drawing image, child identity, reference upload or activity report. A composed drawing remains a browser preview. Stories are fictional and cannot establish drawing quality or classroom outcomes. The prompt explicitly avoids pretending to inspect colors, lines or composition.
 
