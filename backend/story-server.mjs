@@ -7,7 +7,7 @@ import { runLessonAgent, validateLessonRequest, LessonAgentError } from './lesso
 const PROVIDER_URL = 'https://api.deepseek.com/chat/completions';
 const MAX_BODY_BYTES = 4096;
 const MAX_PROVIDER_BYTES = 65536;
-const DEFAULT_ORIGINS = 'https://wanglinkai705-hash.github.io';
+const DEFAULT_ORIGINS = 'https://linkai-wang.github.io';
 
 class RequestError extends Error {
   constructor(status, code) { super(code); this.status = status; this.code = code; }

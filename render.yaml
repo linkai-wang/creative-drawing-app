@@ -13,7 +13,7 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: ALLOWED_ORIGINS
-        value: https://wanglinkai705-hash.github.io
+        value: https://linkai-wang.github.io
       - key: DEEPSEEK_MODEL
         value: deepseek-flash
       - key: DEEPSEEK_API_KEY

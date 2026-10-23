@@ -1,6 +1,6 @@
 # Creative Drawing App / 创意小画家
 
-Project updates: [Changelog](CHANGELOG.md).
+[Live demo](https://linkai-wang.github.io/creative-drawing-app/) · [Changelog](CHANGELOG.md).
 
 Special thanks to the teachers at Wenzhou Special Education School (温州市特殊教育学校) for trying the prototypes and providing practical feedback that helped improve the application. This acknowledgement describes educational collaboration and does not imply official endorsement by the school.
 
@@ -149,7 +149,7 @@ Opening `index.html` directly by double-clicking it is not the primary supported
 
 The story interface can connect to the separate Node.js service in `backend/story-server.mjs`. The backend keeps the model key on the server, validates task IDs against the app's catalogue, and generates stories from scene and task names. Drawing images are not uploaded. Teachers enter a separate story access code, held only in page memory.
 
-[Deploy the backend on Render](https://render.com/deploy?repo=https://github.com/wanglinkai705-hash/creative-drawing-app). See [setup and verification](docs/story-backend.md) for private environment settings, local running, and the public endpoint configuration in `js/config.js`.
+[Deploy the backend on Render](https://render.com/deploy?repo=https://github.com/linkai-wang/creative-drawing-app). See [setup and verification](docs/story-backend.md) for private environment settings, local running, and the public endpoint configuration in `js/config.js`.
 
 Backend source and a deployment template are included. No live model connection or production backend address is configured in this repository. Real model and classroom checks remain pending. The same service also supports the small tool-using lesson-planning agent in the teacher studio.
 
@@ -199,8 +199,10 @@ Tailwind's runtime CDN is not used in production. The generated `css/tailwind.cs
 This project can be deployed as a static GitHub Pages project site. All first-party application resources use relative paths, so deployments under a repository subpath are supported, for example:
 
 ```text
-https://username.github.io/repository-name/
+https://linkai-wang.github.io/creative-drawing-app/
 ```
+
+After the GitHub username changed, the site moved to the URL above. Browser-saved artwork and progress belong to the previous origin and are not automatically transferred to the new domain.
 
 A typical deployment can publish the repository root from the default branch. No server-side runtime or secret configuration is required for the current public version.
 

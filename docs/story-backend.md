@@ -13,7 +13,7 @@ No production backend URL or real model credentials are included. `js/config.js`
 
 ## Deploy on Render
 
-1. Open [Deploy to Render](https://render.com/deploy?repo=https://github.com/wanglinkai705-hash/creative-drawing-app). Sign in and review the single web service defined in `render.yaml`.
+1. Open [Deploy to Render](https://render.com/deploy?repo=https://github.com/linkai-wang/creative-drawing-app). Sign in and review the single web service defined in `render.yaml`.
 2. Supply your own `DEEPSEEK_API_KEY` in Render's private environment settings. Never paste it into GitHub, `js/config.js`, a frontend form, or a chat message.
 3. Deploy the service. Render generates a separate `STORY_ACCESS_TOKEN`. Copy that value from the service's environment settings when a teacher needs the story access code. This is a classroom pilot access code, not the model API key.
 4. Open the service's `/healthz` address and check for `{"status":"ok"}`.
@@ -41,7 +41,7 @@ Local environment files are ignored by Git. The backend serves API routes only a
 | `DEEPSEEK_API_KEY` | Required private provider credential. |
 | `STORY_ACCESS_TOKEN` | Required independent classroom code for stories and lesson drafts, 16–256 characters. Rotate it if it is shared unintentionally. |
 | `DEEPSEEK_MODEL` | Server-controlled model ID; defaults to `deepseek-flash`. |
-| `ALLOWED_ORIGINS` | Comma-separated exact frontend origins, without paths or trailing slashes. Defaults to `https://wanglinkai705-hash.github.io`. Local HTTP origins must be loopback hosts. Wildcards are rejected. |
+| `ALLOWED_ORIGINS` | Comma-separated exact frontend origins, without paths or trailing slashes. Defaults to `https://linkai-wang.github.io`. Local HTTP origins must be loopback hosts. Wildcards are rejected. |
 | `HOST` | `127.0.0.1` locally; `0.0.0.0` on the hosting provider. |
 | `PORT` | `8787` locally; supplied by the hosting provider in production. |
 

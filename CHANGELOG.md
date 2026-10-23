@@ -2,6 +2,12 @@
 
 Short notes on project updates.
 
+## 2026-10-23 — GitHub username update
+
+- Updated repository and Render deployment links to `linkai-wang`.
+- Changed the backend default and deployment origin to `https://linkai-wang.github.io`.
+- Added the current demo URL and explained browser storage after the domain change.
+
 ## 2026-10-23 — Calmer interface
 
 - Simplified the home screen to five working scene cards with keyboard support.
