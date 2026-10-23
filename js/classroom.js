@@ -10,6 +10,7 @@ let classroomPenStart = null;
 const classroomNode = id => document.getElementById(id);
 
 function classroomPersist() {
+  if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
   try {
     localStorage.setItem(CLASSROOM_STORAGE_KEY, JSON.stringify({ version: 1, ...classroomState }));
     classroomNode('classroom-storage-status').textContent = ClassroomLabels.saved;

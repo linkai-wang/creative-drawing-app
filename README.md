@@ -218,6 +218,16 @@ Uploaded reference images are processed locally for the current drawing workflow
 
 The classroom workflow uses a separate local record for the last activity plan, the current activity, and up to 15 completed activity reports. Records have generated local IDs and no student-name field. Clearing this site's data also removes these records.
 
+## Interface
+
+The home screen shows five working, keyboard-accessible scene buttons. Scene pages group the world preview and tasks in two desktop columns and one phone column. Background and view controls are inside **背景与画面设置**. Drawing guidance and existing canvas tools remain available. The story screen presents the artwork and fictional story with simpler labels.
+
+## Clearing Local Records
+
+Use **清除本地记录** in the header on the home or scene screen. Review the confirmation and choose **清除全部记录** to remove this app's saved artwork, drafts, task progress, background/position settings, classroom plans/reports and speech preferences from the current browser. An active activity ends, page-memory access codes are discarded, and the app reloads at the scene chooser.
+
+This action cannot be undone. Download any artwork or CSV reports you want to keep first. Downloaded files and records on other devices are outside this browser reset. Only the app's four storage keys are removed; unrelated data on the same origin is preserved. Open app tabs stop pending saves and reload when they receive the reset through browser messaging or storage events. Blocked storage shows a failure instead of claiming success.
+
 ## External Dependencies
 
 - Interface icons use project-authored SVG masks in `css/icons.css`, served with the application without an icon-font dependency.

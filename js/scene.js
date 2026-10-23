@@ -423,15 +423,7 @@ function setupSceneSelectionListeners() {
         const sceneId = card.dataset.scene;
         if (sceneId) {
           card.addEventListener('click', () => switchToScene(sceneId));
-          card.setAttribute('role', 'button');
-          card.setAttribute('tabindex', '0');
-          card.setAttribute('aria-label', `进入${scenes[sceneId].name}场景`);
-          card.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              switchToScene(sceneId);
-            }
-          });
+
         }
       });
 

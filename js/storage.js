@@ -78,6 +78,7 @@
     }
 
     function saveAppState() {
+      if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
       try {
         const toSave = {
           currentScene: appState.currentScene,
@@ -127,6 +128,7 @@
     }
 
     function writeDrafts(drafts) {
+      if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
       try {
         const newest = Object.fromEntries(
           Object.entries(drafts)
@@ -157,6 +159,7 @@
     }
 
     function persistCurrentDraft({ silent = false } = {}) {
+      if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
       clearTimeout(draftSaveTimer);
       if (!canvasHasContent || !appState.currentScene || !appState.currentTask) return false;
       if (!silent) setDrawingStatus('正在自动保存…');
@@ -176,6 +179,7 @@
     }
 
     function scheduleDraftSave() {
+      if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
       clearTimeout(draftSaveTimer);
       if (!canvasHasContent) {
         currentDrawingDirty = false;

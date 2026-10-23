@@ -161,6 +161,7 @@
     // 初始化应用
     function initApp() {
       setupEventListeners();
+      setupLocalDataReset();
       initializeImages();
       // Load persisted app state (selected scene, completed tasks)
       loadAppState();
