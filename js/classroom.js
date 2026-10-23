@@ -215,7 +215,26 @@ function classroomOpen() {
   classroomRenderPlanner();
   classroomRenderBanner();
   classroomRenderReport();
+  lessonAgentReset();
   classroomNode('classroom-dialog').showModal();
+}
+
+function classroomApplyAgentDraft(input) {
+  if (classroomState.current) return false;
+  const checked = LessonPlan.validate(input, scenes);
+  if (!checked.ok) return false;
+  const plan = checked.plan;
+  classroomDraft = JSON.parse(JSON.stringify(plan));
+  classroomNode('classroom-name').value = plan.name;
+  classroomNode('classroom-goal').value = plan.goal;
+  classroomNode('classroom-scene').value = plan.sceneId;
+  classroomNode('classroom-quiet').checked = plan.quiet;
+  classroomNode('classroom-simple').checked = plan.simpleTools;
+  classroomNode('classroom-plan-status').textContent = '';
+  classroomRenderPlanner();
+  classroomState.lastPlan = JSON.parse(JSON.stringify(plan));
+  classroomPersist();
+  return true;
 }
 
 function classroomStart() {
@@ -317,6 +336,7 @@ function classroomDownloadReport() {
 }
 
 function setupClassroom() {
+  setupLessonAgent();
   classroomLoad();
   const select = classroomNode('classroom-scene');
   for (const [id, scene] of Object.entries(scenes)) {

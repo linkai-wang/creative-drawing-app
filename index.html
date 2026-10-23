@@ -548,6 +548,26 @@
     <div class="classroom-studio-grid">
       <section aria-labelledby="classroom-plan-title">
         <h3 id="classroom-plan-title">安排一场绘画活动</h3>
+        <details id="lesson-agent-panel" class="lesson-agent">
+          <summary>AI备课 · Agent</summary>
+          <p class="classroom-muted">描述想安排的活动，AI会查询任务库、编写步骤并检查草稿。请由老师确认后使用。</p>
+          <label class="classroom-field" for="lesson-agent-request">一句话备课
+            <textarea id="lesson-agent-request" rows="3" maxlength="500" placeholder="海滩主题，选两个任务，每个任务三步，句子短一点，打开安静模式"></textarea>
+          </label>
+          <label class="classroom-field" for="lesson-agent-code">课堂访问码（与故事功能相同）
+            <input id="lesson-agent-code" type="password" maxlength="256" autocomplete="off" autocapitalize="none" spellcheck="false" />
+          </label>
+          <p class="classroom-muted">只描述活动要求；无需填写学生姓名或上传画作。</p>
+          <div class="lesson-agent-actions">
+            <button id="lesson-agent-generate" type="button" class="classroom-button classroom-primary">生成备课建议</button>
+            <button id="lesson-agent-cancel" type="button" class="classroom-button" hidden>取消生成</button>
+          </div>
+          <p id="lesson-agent-status" role="status" aria-live="polite" class="classroom-muted"></p>
+          <div id="lesson-agent-preview" class="lesson-agent-preview" hidden></div>
+          <ol id="lesson-agent-log" class="lesson-agent-log" aria-label="工具执行记录"></ol>
+          <button id="lesson-agent-apply" type="button" class="classroom-button" hidden>填入课堂草稿</button>
+        </details>
+
         <label class="classroom-field" for="classroom-name">活动名称<input id="classroom-name" maxlength="80" /></label>
         <label class="classroom-field" for="classroom-goal">本次目标<input id="classroom-goal" maxlength="160" /></label>
         <label class="classroom-field" for="classroom-scene">活动场景<select id="classroom-scene"></select></label>
@@ -589,6 +609,7 @@
   <script src="./js/storage.js"></script>
   <script src="./js/classroom-model.js"></script>
   <script src="./js/classroom-data.js"></script>
+  <script src="./js/lesson-plan.js"></script>
   <script src="./js/classroom.js"></script>
   <script src="./js/scene.js"></script>
   <script src="./js/drawing.js"></script>
@@ -596,6 +617,8 @@
   <script src="./js/tts.js"></script>
   <script src="./js/story-client.js"></script>
   <script src="./js/story.js"></script>
+  <script src="./js/lesson-client.js"></script>
+  <script src="./js/lesson-agent.js"></script>
   <script src="./js/app.js"></script>
 
     <!-- 🎉 奖励反馈组件 -->
