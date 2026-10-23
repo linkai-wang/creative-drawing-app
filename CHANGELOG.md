@@ -4,11 +4,13 @@ Short notes on project updates.
 
 ## 2026-10-23 — Small lesson-planning agent
 
-- Added one-sentence lesson planning inside the teacher studio.
-- Added task lookup and validated draft tools, with feedback-based correction.
-- Added a preview and explicit Apply action; teachers keep control of classroom activities.
-- Added bounded model calls, cancellation, and backend/browser regression checks.
-- Real model and teacher evaluation require production configuration and remain pending.
+- Added one-sentence activity requests inside the teacher studio.
+- Added `get_tasks` and `create_plan_draft` tools, with validation feedback for correcting invalid drafts.
+- Added a preview and explicit Apply action before filling the editable classroom plan.
+- Kept manual drafts and running activities protected; added cancellation for pending generation.
+- Reused the story backend, with a limit of four model requests and six tool calls per plan.
+- Validation: all 86 Node checks and 32 desktop/phone-sized Chromium checks passed using a fake model provider.
+- Production backend deployment, model configuration, and real-provider/teacher evaluation remain pending.
 
 ## 2026-10-17 — Story backend
 
