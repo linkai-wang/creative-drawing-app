@@ -2,6 +2,21 @@
 
 Short notes on project updates.
 
+## 2026-10-23 — Calmer interface
+
+- Simplified the home screen to five working scene cards with keyboard support.
+- Added clearer task/preview columns and collapsed background/view settings.
+- Reduced decorative shadows, repetitive text and inactive placeholder links.
+- Wrapped brush controls, collapsed speech preferences, and placed the phone canvas before reference panels.
+- Refined drawing and story surfaces with a calmer palette and phone-friendly spacing.
+
+## 2026-10-23 — Clear local records
+
+- Added a small clear-local-records button beside the teacher studio.
+- Added confirmation before removing artwork, drafts, progress, classroom records and voice preferences.
+- Prevented pending autosave and older tabs from restoring cleared records.
+- Kept unrelated browser storage and downloaded files untouched.
+
 ## 2026-10-23 — Small lesson-planning agent
 
 - Added one-sentence activity requests inside the teacher studio.

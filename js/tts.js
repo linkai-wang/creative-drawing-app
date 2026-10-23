@@ -104,6 +104,7 @@ function loadTtsSettings() {
 }
 
 function saveTtsSettings() {
+  if (typeof LocalData !== 'undefined' && LocalData.resetting) return false;
   try {
     localStorage.setItem('ttsSettings', JSON.stringify(tts.settings));
     return true;
