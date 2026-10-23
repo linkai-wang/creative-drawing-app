@@ -25,7 +25,7 @@ test('scene choices work with the keyboard and view settings stay available with
   page.on('pageerror', error => errors.push(error.message));
   await expect(page.locator('button.scene-card')).toHaveCount(5);
   await expect.poll(() => page.locator('.scene-art img').evaluateAll(images =>
-    images.every(img => img.complete && img.naturalWidth > 100 && img.dataset.imageState !== 'error'))).toBeTruthy();
+    images.every(img => img.complete && img.naturalWidth > 100 && img.dataset.imageState === 'loaded'))).toBeTruthy();
   expect(await page.locator('.scene-grid').evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBeTruthy();
   await capture(page, info, 'home');
   await page.locator('[data-scene="beach"]').focus();
@@ -41,6 +41,7 @@ test('scene choices work with the keyboard and view settings stay available with
   await items.last().scrollIntoViewIfNeeded();
   await expect(items.last()).toBeInViewport();
   await page.locator('#scene-title').scrollIntoViewIfNeeded();
+  await expect(page.locator('#scene-bg')).toHaveAttribute('data-image-state', 'loaded');
   await capture(page, info, 'scene');
   await page.locator('#scene-view-options summary').click();
   await expect(page.locator('#background-selector button')).toHaveCount(2);
@@ -56,6 +57,20 @@ test('scene choices work with the keyboard and view settings stay available with
   await page.locator('[data-scene="forest"]').focus();
   await page.keyboard.press('Space');
   await expect(page.locator('#scene-title')).toHaveText('\u68ee\u6797');
+  await page.locator('.start-task').first().click();
+  await expect(page.locator('#drawing-mode')).toBeVisible();
+  await expect(page.locator('#tts-controls')).not.toBeVisible();
+  const toolbarFits = await page.locator('#toolbar').evaluate(el => el.scrollWidth <= el.clientWidth + 1);
+  expect(toolbarFits).toBeTruthy();
+  if (info.project.name === 'mobile-chromium') {
+    const canvas = await page.locator('#drawing-canvas').boundingBox();
+    const references = await page.locator('#reference-materials').boundingBox();
+    expect(canvas.y).toBeLessThan(references.y);
+  }
+  await page.locator('#drawing-canvas').scrollIntoViewIfNeeded();
+  await capture(page, info, 'drawing');
+  await page.locator('.drawing-options summary').click();
+  await expect(page.locator('#tts-controls')).toBeVisible();
   expect(errors).toEqual([]);
 });
 

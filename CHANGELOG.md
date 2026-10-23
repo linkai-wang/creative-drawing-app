@@ -7,6 +7,7 @@ Short notes on project updates.
 - Simplified the home screen to five working scene cards with keyboard support.
 - Added clearer task/preview columns and collapsed background/view settings.
 - Reduced decorative shadows, repetitive text and inactive placeholder links.
+- Wrapped brush controls, collapsed speech preferences, and placed the phone canvas before reference panels.
 - Refined drawing and story surfaces with a calmer palette and phone-friendly spacing.
 
 ## 2026-10-23 — Clear local records

@@ -214,3 +214,29 @@ body { background:#f6f7fb; color:#253248; }
   .story-grid { grid-template-columns:1fr; } .story-preview,.story-text { min-height:220px; }
   #toggle-element-drag span { display:inline; }
 }
+
+/* Keep tool labels readable; let the palette and brush choices wrap. */
+#drawing-mode { padding:1.25rem; background:#f6f7fb; }
+#toolbar { flex-wrap:wrap; justify-content:flex-start; padding:.75rem; gap:.65rem; border:1px solid #e2e5ef; border-radius:14px; background:#fafbfe; box-shadow:none; backdrop-filter:none; position:static; overflow:visible; }
+#toolbar > div { flex-shrink:0; max-width:100%; }
+#toolbar > div:nth-child(2) { flex-wrap:wrap; gap:.5rem; }
+#toolbar label, #toolbar > div > span, .brush-btn span { white-space:nowrap; }
+#brush-select { flex-wrap:wrap; }
+.brush-btn { min-height:44px; border-radius:9px; gap:.4rem; box-shadow:none; flex-shrink:0; }
+.brush-btn.active { transform:none; box-shadow:none; }
+.brush-btn:hover { transform:none; }
+#color-palette { flex-wrap:wrap; }
+#color-palette .color-btn { flex-shrink:0; }
+.task-button { min-height:44px; }
+.task-status.pending { background:transparent; border:1px solid #dce0ec; }
+.drawing-options { margin-top:.75rem; }
+.drawing-options summary { cursor:pointer; font-size:.8rem; font-weight:700; color:#64748b; padding:.45rem 0; }
+@media(max-width:768px) {
+  #drawing-mode { padding:1rem; }
+  #drawing-mode .drawing-layout { display:flex; flex-direction:column; }
+  #drawing-mode .sidebar-fixed { display:contents; }
+  #drawing-mode .sidebar-fixed > div:first-child { order:0; }
+  #drawing-mode .drawing-layout > .flex-1 { order:1; }
+  #drawing-mode .sidebar-fixed > div:not(:first-child) { order:2; margin-top:0; }
+  #toolbar { padding:.6rem; }
+}

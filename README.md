@@ -220,7 +220,7 @@ The classroom workflow uses a separate local record for the last activity plan, 
 
 ## Interface
 
-The home screen shows five working, keyboard-accessible scene buttons. Scene pages group the world preview and tasks in two desktop columns and one phone column. Background and view controls are inside **背景与画面设置**. Drawing guidance and existing canvas tools remain available. The story screen presents the artwork and fictional story with simpler labels.
+The home screen shows five working, keyboard-accessible scene buttons. Scene pages group the world preview and tasks in two desktop columns and one phone column. Background and view controls are inside **背景与画面设置**. Drawing guidance and existing canvas tools remain available. Tool controls wrap without squeezing labels; speech preferences sit inside **声音与语速**. On phones, the canvas appears after the guide and before reference/upload panels. The story screen presents the artwork and fictional story with simpler labels.
 
 ## Clearing Local Records
 
