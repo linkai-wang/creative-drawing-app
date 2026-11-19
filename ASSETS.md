@@ -21,4 +21,6 @@ Some non-core references and optional backgrounds still load from external sourc
 
 ## Interface Icons
 
-The SVG paths embedded in `css/icons.css` were authored for this project. They replace the external Font Awesome stylesheet and font files. The vectors are served with the app as CSS masks and inherit each control's text color.
+Interface pictograms come from the official [Lucide static SVG package, version 0.468.0](https://github.com/lucide-icons/lucide/tree/0.468.0). The application embeds the selected vectors as local CSS masks in `css/icons.css` and uses Lucide artwork in the image placeholders. The masks inherit each control’s text color and work offline.
+
+The [bundled license notices](assets/licenses/lucide.txt) cover Lucide contributors’ ISC-licensed work and the MIT-licensed Feather portions by Cole Bemis.

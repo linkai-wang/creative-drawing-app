@@ -8,6 +8,7 @@ Short notes on project updates.
 - Grouped drawing modes, eight brushes, ten colors and pen size around the canvas. On phones the current instruction and drawing paper appear before the palette and reference material.
 - Set the artwork and story on facing pages, and organized the teacher workspace around lesson editing and anonymous activity review.
 - Shared buttons, focus indicators, feedback colors and quiet surfaces across the workspace, previews and confirmations.
+- Bundled Lucide SVG icons for brushes, studio navigation and feedback so they render locally with consistent outlines.
 
 ## 2026-10-23 — GitHub username update
 

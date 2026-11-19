@@ -52,23 +52,15 @@ img[data-image-state="loading"], img[data-image-state="error"] {
 .app-brand { gap: 12px; }
 .app-brand h1 { font-size: 1.27rem; line-height: 1.25; font-weight: 700; }
 .studio-mark {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 3px;
-  width: 36px;
+  display: grid;
+  place-items: center;
+  width: 38px;
   height: 38px;
-  padding-bottom: 4px;
+  border-radius: 10px;
+  background: #f4e5cc;
+  color: #644923;
+  font-size: 1.38rem;
 }
-.studio-mark i {
-  width: 8px;
-  height: 27px;
-  background: #32685f;
-  clip-path: polygon(50% 0, 100% 6px, 100% 100%, 0 100%, 0 6px);
-  border-radius: 2px;
-}
-.studio-mark i:nth-child(2) { height: 34px; background: #d68c3d; }
-.studio-mark i:nth-child(3) { height: 23px; background: #ae6051; }
 .app-footer {
   flex-wrap: wrap;
   justify-content: space-between;

@@ -101,10 +101,6 @@
   color: var(--accent);
 }
 
-.scene-arrow i {
-  transform: rotate(180deg);
-}
-
 .scene-card:is(:hover, :focus-visible) {
   border-color: var(--accent);
 }

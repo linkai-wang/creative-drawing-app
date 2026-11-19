@@ -232,7 +232,7 @@ This action cannot be undone. Download any artwork or CSV reports you want to ke
 
 ## External Dependencies
 
-- Interface icons use project-authored SVG masks in `css/icons.css`, served with the application without an icon-font dependency.
+- Interface controls use Lucide SVG icons bundled in `css/icons.css`. The brushes, navigation and feedback icons work offline once the app files are loaded. Source and license details are in [ASSETS.md](ASSETS.md#interface-icons).
 - [canvas-confetti 1.6.0](https://www.npmjs.com/package/canvas-confetti) for optional completion feedback.
 - [Google Fonts — Nunito](https://fonts.google.com/specimen/Nunito) for the preferred interface typeface; system fonts provide a fallback.
 - [Tailwind CSS 3.4.17](https://v3.tailwindcss.com/) as development-time CSS build tooling.
