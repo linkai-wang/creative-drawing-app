@@ -1,0 +1,508 @@
+/* The opening spread pairs a short invitation with the five illustrated worlds. */
+.scene-home {
+  padding-block: clamp(24px, 4vw, 52px);
+}
+
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.home-intro {
+  align-self: center;
+  padding: 12px clamp(0px, 2vw, 24px) 24px 0;
+}
+
+.home-intro h2 {
+  color: var(--ink);
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: clamp(32px, 3.3vw, 46px);
+  font-weight: 600;
+  line-height: 1.28;
+}
+
+.home-intro h2 span {
+  display: block;
+}
+
+.home-intro p {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+.scene-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+
+.scene-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--paper);
+}
+
+.scene-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scene-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  gap: 12px;
+  padding: 13px 12px 10px;
+}
+
+.scene-name,
+.scene-description {
+  display: block;
+}
+
+.scene-name {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.scene-description {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.scene-arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--accent);
+}
+
+.scene-arrow i {
+  transform: rotate(180deg);
+}
+
+.scene-card:is(:hover, :focus-visible) {
+  border-color: var(--accent);
+}
+
+.scene-card:is(:hover, :focus-visible) .scene-arrow {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+}
+
+/* Keep the illustrated world and its task index on the same spread. */
+.scene-page {
+  padding-block: 16px 36px;
+}
+
+.scene-page .scene-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.scene-page .scene-heading h2 {
+  margin-top: 4px;
+  color: var(--ink);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.scene-progress {
+  width: min(210px, 44%);
+  padding-bottom: 3px;
+}
+
+.scene-progress > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#progress-text {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.scene-progress-track {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+#progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width .15s ease;
+}
+
+.scene-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.27fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.scene-preview-column,
+.scene-task-column {
+  min-width: 0;
+}
+
+.scene-page .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  min-height: 54px;
+  margin-bottom: 12px;
+}
+
+.scene-page .panel-heading h3 {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.scene-page .panel-heading p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#scene-preview {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+#scene-bg-container {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 480px;
+  background: var(--paper);
+}
+
+#scene-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#completed-elements {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+}
+
+#completed-elements > img {
+  pointer-events: auto;
+}
+
+.completed-world-badge {
+  position: absolute;
+  z-index: 20;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.scene-options {
+  margin-top: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.scene-options summary {
+  width: fit-content;
+  min-height: 44px;
+  padding-block: 12px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.scene-options summary::marker {
+  color: var(--accent);
+}
+
+.scene-options-content {
+  padding-block: 4px 16px;
+}
+
+#background-selector,
+.scene-view-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.background-choice {
+  position: relative;
+  width: 96px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.background-choice img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.background-choice span {
+  display: block;
+  margin: 4px 0 1px;
+  font-size: 13px;
+}
+
+.background-choice i {
+  display: none;
+}
+
+.background-choice[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.background-choice[aria-pressed="true"] i {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+}
+
+.scene-view-tools {
+  margin-top: 12px;
+}
+
+.scene-view-tools button {
+  min-width: 44px;
+}
+
+#toggle-element-drag[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* A flat list lets children scan titles, pictures, and progress together. */
+.tasks-container {
+  border-block-start: 1px solid var(--line);
+}
+
+.task-item {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 4px;
+  border-block-end: 1px solid var(--line);
+}
+
+.task-item.active {
+  border-inline-start: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding-inline: 8px;
+}
+
+.task-thumbnail {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.task-title {
+  color: var(--ink);
+  font-weight: 650;
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.task-description {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.task-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.task-actions {
+  display: grid;
+  gap: 4px;
+}
+
+.task-button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.task-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.task-button-secondary {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .scene-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scene-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .scene-page .task-list-heading {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .scene-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .home-intro {
+    padding: 0 0 6px;
+  }
+
+  .home-intro h2 span {
+    display: inline;
+  }
+
+  .home-intro p {
+    margin-top: 8px;
+  }
+
+  .scene-card {
+    display: grid;
+    grid-template-columns: 40% minmax(0, 1fr);
+    align-items: center;
+    padding: 5px;
+  }
+
+  .scene-copy {
+    gap: 4px;
+    padding: 5px 6px 5px 12px;
+  }
+
+  .scene-name {
+    font-size: 18px;
+  }
+
+  .scene-description {
+    font-size: 13px;
+  }
+
+  .scene-arrow {
+    width: 24px;
+    height: 24px;
+    border: none;
+  }
+
+  .scene-page {
+    padding-top: 8px;
+  }
+
+  .scene-page .scene-heading {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+  }
+
+  .task-item {
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding-block: 12px;
+  }
+
+  .task-thumbnail {
+    width: 52px;
+    height: 52px;
+  }
+}

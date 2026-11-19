@@ -52,24 +52,22 @@ function renderBackgroundSelector(sceneId) {
   
   // 使用场景的 backgrounds 数组来创建按钮
   scene.backgrounds.forEach((bgData) => {
-    // 🔧 改进的选中检测：比较完整 URL 或 ID
-    const isSelected = scene.bg === bgData.url || 
-                       (elements.sceneBg && elements.sceneBg.src && elements.sceneBg.src.includes(bgData.url));
-    
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.bgUrl = bgData.url;
-    // 根据是否选中设置不同的样式
-    button.className = `p-1 rounded-xl border-2 transition-all duration-200 focus:outline-none ${isSelected ? 'border-secondary shadow-lg scale-105' : 'border-gray-200 hover:border-primary/50'}`;
-    
+    button.className = 'background-choice';
+    button.setAttribute('aria-pressed', String(scene.bg === bgData.url));
     button.innerHTML = `
-      <img data-image-src="${bgData.thumb || bgData.url}" alt="${bgData.name}" loading="lazy" decoding="async"  class="w-24 h-14 object-contain rounded-lg bg-white" style="object-fit:contain;">
-      <p class="text-xs mt-1 text-center ${isSelected ? 'text-secondary font-semibold' : 'text-gray-600'}">${bgData.name}</p>
+      <img data-image-src="${bgData.thumb || bgData.url}" alt="" loading="lazy" decoding="async">
+      <span>${bgData.name}</span>
+      <i class="fa fa-check" aria-hidden="true"></i>
     `;
     
     // 绑定点击事件，调用切换函数（传入 sceneId）
     button.addEventListener('click', () => {
+      const hadFocus = document.activeElement === button;
       changeSceneBackground(sceneId, bgData.url);
+      if (hadFocus) container.querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true });
     });
     container.appendChild(button);
     initializeImages(button);
@@ -260,28 +258,29 @@ function changeSceneBackground(sceneId, newBgUrl) {
         const isCompleted = appState.completedTasks[appState.currentScene] && appState.completedTasks[appState.currentScene][task.id];
         const hasDraft = Boolean(sceneDrafts[`${appState.currentScene}:${task.id}`]);
         const isActive = appState.currentTask?.id === task.id;
+        const startLabel = hasDraft ? '继续绘画' : '开始绘制';
 
         const taskCard = document.createElement('div');
         taskCard.className = `task-item ${isActive ? 'active' : ''}`;
+        taskCard.setAttribute('role', 'listitem');
+        if (isActive) taskCard.setAttribute('aria-current', 'true');
         
         // Get first reference image as thumbnail, or use placeholder
         const thumbnail = task.references && task.references.length > 0 ? task.references[0] : '';
         
         taskCard.innerHTML = `
-          ${thumbnail ? `<img data-image-src="${thumbnail}" alt="${task.name}" class="task-thumbnail" loading="lazy" decoding="async">` : '<div class="task-thumbnail" style="background: #F3F4F6;"></div>'}
+          ${thumbnail ? `<img data-image-src="${thumbnail}" alt="${task.name}" class="task-thumbnail" loading="lazy" decoding="async">` : '<div class="task-thumbnail" aria-hidden="true"></div>'}
           <div class="task-content">
-            <div class="task-title">${task.name}</div>
-            <div class="task-description">${task.description}</div>
-            ${!isCompleted && hasDraft ? '<div class="text-xs font-bold text-primary mb-2"><i class="fa fa-save mr-1"></i>有未完成草稿</div>' : ''}
-            <div class="task-actions">
-              ${isCompleted ? `
-                <button class="task-button view-artwork" type="button" data-task="${task.id}">查看作品</button>
-                <button class="task-button task-button-secondary redraw-artwork" type="button" data-task="${task.id}">重新绘制</button>
-              ` : `<button class="task-button start-task" type="button" data-task="${task.id}">${hasDraft ? '继续绘画' : '开始绘制'}</button>`}
-            </div>
+            <h4 class="task-title">${task.name}</h4>
+            <p class="task-description">${task.description}</p>
+            ${isCompleted ? '<span class="task-status completed"><i class="fa fa-check" aria-hidden="true"></i>已完成</span>' : ''}
+            ${hasDraft && !isCompleted ? '<span class="task-status pending"><i class="fa fa-save" aria-hidden="true"></i>有未完成草稿</span>' : ''}
           </div>
-          <div class="task-status ${isCompleted ? 'completed' : 'pending'}">
-            ${isCompleted ? '<i class="fa fa-check" style="font-size: 12px;"></i>' : ''}
+          <div class="task-actions">
+            ${isCompleted ? `
+              <button class="task-button view-artwork" type="button" data-task="${task.id}" aria-label="查看作品，${task.name}">查看作品</button>
+              <button class="task-button task-button-secondary redraw-artwork" type="button" data-task="${task.id}" aria-label="重新绘制，${task.name}">重新绘制</button>
+            ` : `<button class="task-button start-task" type="button" data-task="${task.id}" aria-label="${startLabel}，${task.name}">${startLabel}</button>`}
           </div>
         `;
 
@@ -321,9 +320,7 @@ function changeSceneBackground(sceneId, newBgUrl) {
         elements.toggleElementDrag.title = completed === 0 ? '完成绘画后可调整作品位置' : '拖动场景中的已完成作品';
         if (completed === 0 && isElementDragMode) {
           isElementDragMode = false;
-          elements.toggleElementDrag.classList.remove('bg-accent');
-          elements.toggleElementDrag.classList.add('bg-secondary');
-          elements.toggleElementDrag.innerHTML = '<i class="fa fa-arrows mr-2"></i><span>调整物体位置</span>';
+          updatePlacementButton();
         }
       }
 
@@ -439,21 +436,20 @@ function setupSceneSelectionListeners() {
       });
 }
 
+function updatePlacementButton() {
+  const button = elements.toggleElementDrag;
+  button.setAttribute('aria-pressed', String(isElementDragMode));
+  button.querySelector('i').className = isElementDragMode ? 'fa fa-check' : 'fa fa-arrows';
+  button.querySelector('span').textContent = isElementDragMode ? '结束调整' : '调整作品位置';
+}
+
 function setupScenePreviewListeners() {
       // 切换场景预览中元素的拖动模式
       if (elements.toggleElementDrag) {
         elements.toggleElementDrag.addEventListener('click', () => {
           isElementDragMode = !isElementDragMode;
-          if (isElementDragMode) {
-            elements.toggleElementDrag.classList.add('bg-accent');
-            elements.toggleElementDrag.classList.remove('bg-secondary');
-            elements.toggleElementDrag.innerHTML = '<i class="fa fa-check mr-2"></i><span>调整中...</span>';
-          } else {
-            elements.toggleElementDrag.classList.remove('bg-accent');
-            elements.toggleElementDrag.classList.add('bg-secondary');
-            elements.toggleElementDrag.innerHTML = '<i class="fa fa-arrows mr-2"></i><span>调整物体位置</span>';
-            draggedSceneElement = null;
-          }
+          updatePlacementButton();
+          if (!isElementDragMode) draggedSceneElement = null;
           elements.completedElements.querySelectorAll('img').forEach(image => {
             image.style.touchAction = isElementDragMode ? 'none' : 'auto';
           });

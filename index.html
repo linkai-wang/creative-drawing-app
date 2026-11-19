@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="./css/tailwind.css">
   <!-- 项目自定义样式保持独立，并在 Tailwind 之后加载。 -->
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/activity-library.css">
+  <link rel="stylesheet" href="./css/drawing-workspace.css">
+  <link rel="stylesheet" href="./css/story-classroom.css">
 
   <!-- 其余第三方资源保持现状。 -->
   <link href="./css/icons.css" rel="stylesheet">
@@ -19,19 +22,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body class="font-nunito min-h-screen text-dark">
+<body>
   <!-- 页面容器 -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="app-shell">
 
     <!-- 顶部导航 -->
-    <header class="py-4 flex justify-between items-center app-header">
-      <div class="flex items-center space-x-2 app-brand">
-        <i class="fa fa-paint-brush text-primary text-3xl"></i>
-        <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-primary text-shadow">创意小画家</h1>
+    <header class="app-header">
+      <div class="app-brand">
+        <span class="studio-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h1>创意小画家</h1>
       </div>
       <div class="app-header-actions">
-        <button id="classroom-open" type="button" class="classroom-button app-studio-button">教师工作台</button>
-        <button id="reset-local-data" type="button" class="local-data-reset" aria-haspopup="dialog">清除本地记录</button>
+        <button id="classroom-open" type="button" class="studio-button classroom-button app-studio-button" aria-haspopup="dialog"><i class="fa fa-graduation-cap" aria-hidden="true"></i>教师工作台</button>
       </div>
     </header>
 
@@ -45,49 +47,51 @@
       </aside>
 
       <!-- 1. 场景选择界面 (默认显示) -->
-      <section id="scene-selection" class="scene-home">
-        <div class="home-intro">
-          <p class="home-eyebrow">画画时间</p>
-          <h2>今天想画什么？</h2>
-          <p>选一个喜欢的世界，一步一步画出来。</p>
-        </div>
+      <section id="scene-selection" class="scene-home" aria-labelledby="library-title">
         <div class="scene-grid">
+          <div class="home-intro">
+            <h2 id="library-title">今天<span>想画什么？</span></h2>
+            <p>选一个喜欢的场景，跟着提示画。<br>你画好的作品会出现在这个世界里。</p>
+          </div>
           <button type="button" class="scene-card" data-scene="beach" aria-label="进入海滩场景">
             <span class="scene-art"><img data-image-src="./assets/scenes/beach/sunny-beach.webp" alt="海滩场景" loading="lazy" decoding="sync"></span>
-            <span class="scene-copy"><span><span class="scene-name">海滩</span><span class="scene-description">贝壳、海浪与小螃蟹</span></span><span class="scene-arrow" aria-hidden="true">›</span></span>
+            <span class="scene-copy"><span><span class="scene-name">海滩</span><span class="scene-description">贝壳、海浪与小螃蟹</span></span><span class="scene-arrow" aria-hidden="true"><i class="fa fa-arrow-left"></i></span></span>
           </button>
           <button type="button" class="scene-card" data-scene="forest" aria-label="进入森林场景">
             <span class="scene-art"><img data-image-src="./assets/scenes/forest/sunny-forest.webp" alt="森林场景" loading="lazy" decoding="sync"></span>
-            <span class="scene-copy"><span><span class="scene-name">森林</span><span class="scene-description">树木、花朵与小动物</span></span><span class="scene-arrow" aria-hidden="true">›</span></span>
+            <span class="scene-copy"><span><span class="scene-name">森林</span><span class="scene-description">树木、花朵与小动物</span></span><span class="scene-arrow" aria-hidden="true"><i class="fa fa-arrow-left"></i></span></span>
           </button>
           <button type="button" class="scene-card" data-scene="starry" aria-label="进入星空场景">
             <span class="scene-art"><img data-image-src="./assets/scenes/starry/starry-night.webp" alt="星空场景" loading="lazy" decoding="sync"></span>
-            <span class="scene-copy"><span><span class="scene-name">星空</span><span class="scene-description">星星、月亮与流星</span></span><span class="scene-arrow" aria-hidden="true">›</span></span>
+            <span class="scene-copy"><span><span class="scene-name">星空</span><span class="scene-description">星星、月亮与流星</span></span><span class="scene-arrow" aria-hidden="true"><i class="fa fa-arrow-left"></i></span></span>
           </button>
           <button type="button" class="scene-card" data-scene="town" aria-label="进入小镇场景">
             <span class="scene-art"><img data-image-src="./assets/scenes/town/town-street.webp" alt="小镇场景" loading="lazy" decoding="sync"></span>
-            <span class="scene-copy"><span><span class="scene-name">小镇</span><span class="scene-description">房子、街道与小汽车</span></span><span class="scene-arrow" aria-hidden="true">›</span></span>
+            <span class="scene-copy"><span><span class="scene-name">小镇</span><span class="scene-description">房子、街道与小汽车</span></span><span class="scene-arrow" aria-hidden="true"><i class="fa fa-arrow-left"></i></span></span>
           </button>
           <button type="button" class="scene-card" data-scene="aquarium" aria-label="进入水族馆场景">
             <span class="scene-art"><img data-image-src="./assets/scenes/aquarium/aquarium-deep.webp" alt="水族馆场景" loading="lazy" decoding="sync"></span>
-            <span class="scene-copy"><span><span class="scene-name">水族馆</span><span class="scene-description">小鱼、水草与珊瑚</span></span><span class="scene-arrow" aria-hidden="true">›</span></span>
+            <span class="scene-copy"><span><span class="scene-name">水族馆</span><span class="scene-description">小鱼、水草与珊瑚</span></span><span class="scene-arrow" aria-hidden="true"><i class="fa fa-arrow-left"></i></span></span>
           </button>
         </div>
       </section>
 
       <!-- 2. 场景素材任务列表 (默认隐藏) -->
-      <section id="scene-tasks" class="scene-page hidden">
+      <section id="scene-tasks" class="scene-page hidden" aria-labelledby="scene-title">
         <div class="scene-heading">
           <div><button id="back-to-scenes" type="button" class="back-link"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回场景</button><h2 id="scene-title">海滩</h2></div>
           <div class="scene-progress">
-            <div><span>完成进度</span><span id="progress-text">0/0 元素</span></div>
-            <div class="scene-progress-track"><div id="progress-bar" style="width:0%"></div></div>
+            <div><span>完成进度</span><span id="progress-text" aria-live="polite">0/0 元素</span></div>
+            <div class="scene-progress-track" aria-hidden="true"><div id="progress-bar" style="width:0%"></div></div>
           </div>
         </div>
         <div class="scene-workspace">
           <div class="scene-preview-column">
             <div class="scene-preview-panel">
-              <div class="panel-heading"><h3>你的世界</h3><span>画好的作品会出现在这里</span></div>
+              <div class="panel-heading">
+                <div><h3>你的世界</h3><p>画好的作品会出现在这里</p></div>
+                <button id="enter-story-mode" type="button" class="btn-secondary"><i class="fa fa-book" aria-hidden="true"></i>AI 讲故事</button>
+              </div>
               <div id="scene-preview">
                 <div id="scene-bg-container"><img id="scene-bg" alt="场景背景" class="object-contain"></div>
                 <div id="completed-elements"></div>
@@ -97,312 +101,272 @@
             <details id="scene-view-options" class="scene-options">
               <summary>背景与画面设置</summary>
               <div class="scene-options-content">
-                <div id="background-selector"></div>
+                <div id="background-selector" role="group" aria-label="选择场景背景"></div>
                 <div id="preview-zoom-controls" class="scene-view-tools">
                   <button id="zoom-in" type="button" class="classroom-button" title="放大背景" aria-label="放大背景"><i class="fa fa-plus" aria-hidden="true"></i></button>
                   <button id="zoom-out" type="button" class="classroom-button" title="缩小背景" aria-label="缩小背景"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                  <button id="toggle-element-drag" type="button" class="classroom-button"><i class="fa fa-arrows" aria-hidden="true"></i><span>调整作品位置</span></button>
+                  <button id="toggle-element-drag" type="button" class="classroom-button" aria-pressed="false"><i class="fa fa-arrows" aria-hidden="true"></i><span>调整作品位置</span></button>
                 </div>
               </div>
             </details>
           </div>
           <div class="scene-task-column">
-            <div class="panel-heading task-list-heading"><h3>选一个任务开始画</h3></div>
-            <div id="tasks-container" class="tasks-container"></div>
-            <div class="scene-story-action"><button id="enter-story-mode" type="button" class="btn-secondary"><i class="fa fa-book mr-2" aria-hidden="true"></i>AI讲故事</button></div>
+            <div class="panel-heading task-list-heading"><h3 id="task-list-title">选一个任务开始画</h3></div>
+            <div id="tasks-container" class="tasks-container" role="list" aria-labelledby="task-list-title"></div>
           </div>
         </div>
       </section>
 
       <!-- 3. 绘画教学界面 (默认隐藏) -->
-      <section id="drawing-mode" class="py-8 hidden">
-        <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
-          <div>
-            <button id="back-to-tasks"
-              class="flex items-center text-primary hover:text-primary/80 transition-colors mr-4">
-              <i class="fa fa-arrow-left mr-2"></i>
-              <span>返回任务列表</span>
+      <section id="drawing-mode" class="drawing-page hidden" aria-labelledby="drawing-title">
+        <div class="drawing-header">
+          <div class="drawing-heading">
+            <button id="back-to-tasks" type="button" class="drawing-back">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回任务列表
             </button>
-            <h2 id="drawing-title" class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold mt-2">画一个贝壳</h2>
-            <span id="drawing-status" class="drawing-status" role="status" aria-live="polite">
-              <i class="fa fa-pencil"></i><span>准备绘画</span>
-            </span>
+            <h2 id="drawing-title">画一个贝壳</h2>
           </div>
-
-          <div class="flex items-center gap-3">
-            <button id="undo-btn" type="button" disabled aria-label="撤销上一笔" title="暂无可撤销内容" class="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all">
-              <i class="fa fa-undo text-gray-600"></i>
-            </button>
-            <button id="clear-btn" type="button" disabled aria-label="清空画布" title="画布当前为空" class="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all">
-              <i class="fa fa-trash text-gray-600"></i>
+          <div class="drawing-header-actions">
+            <span id="drawing-status" class="drawing-status" role="status" aria-live="polite">
+              <i class="fa fa-pencil" aria-hidden="true"></i><span>准备绘画</span>
+            </span>
+            <button id="save-drawing" type="button" class="studio-button primary" disabled title="先画几笔再完成作品">
+              <i class="fa fa-check" aria-hidden="true"></i>完成绘画
             </button>
           </div>
         </div>
 
         <div class="drawing-layout">
-          <!-- 左侧：素材库和教程（含上传） - 固定宽度280px -->
-          <div class="sidebar-fixed space-y-6">
-            <!-- 虚拟老师 -->
-            <div class="bg-white rounded-xl shadow-md p-4">
-              <div class="flex items-center mb-3">
-                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
-                  <i class="fa fa-graduation-cap text-primary"></i>
-                </div>
-                <h3 class="font-bold text-lg">绘画小老师</h3>
-              </div>
-
-              <div class="guide-heading"><span id="guide-position" aria-live="polite">步骤 1 / 3</span><button id="classroom-drawing-open" type="button" class="classroom-button">教师设置</button></div>
-              <p class="classroom-muted">每次做一步，准备好后再继续。</p>
-              <div id="teacher-instructions" class="bg-light rounded-lg p-3 text-gray-700 min-h-[100px]">
-                让我们来画一个漂亮的贝壳吧！先画一个半圆作为贝壳的身体...
-              </div>
-
-              <div class="guide-controls">
-                <button id="guide-previous" type="button" class="classroom-button">上一步</button>
-                <button id="guide-next" type="button" class="classroom-button classroom-primary">下一步</button>
-              </div>
-              <button id="guide-help" type="button" class="classroom-button guide-help">请老师帮忙</button>
-              <button id="play-instruction"
-                class="mt-3 w-full bg-primary/10 hover:bg-primary/20 text-primary py-2 rounded-lg transition-colors flex items-center justify-center">
-                <i class="fa fa-volume-up mr-2"></i> 听老师讲解
+          <section class="drawing-guide" aria-labelledby="drawing-guide-title">
+            <div class="drawing-group-heading">
+              <h3 id="drawing-guide-title"><i class="fa fa-graduation-cap" aria-hidden="true"></i> 绘画小老师</h3>
+              <span id="guide-position" aria-live="polite">步骤 1 / 3</span>
+            </div>
+            <p id="teacher-instructions" aria-live="polite">先画一个半圆作为贝壳的身体。</p>
+            <div class="guide-controls">
+              <button id="guide-previous" type="button" class="studio-button">上一步</button>
+              <button id="guide-next" type="button" class="studio-button guide-advance">下一步</button>
+            </div>
+            <div class="guide-assistance">
+              <button id="play-instruction" type="button" class="drawing-text-button">
+                <i class="fa fa-volume-up" aria-hidden="true"></i> 听老师讲解
               </button>
-              <!-- 语音选择：自动推荐自然音色，也可试听并保存自己的偏好。 -->
-              <details class="drawing-options"><summary>声音与语速</summary>
-              <div id="tts-controls" class="mt-3 space-y-2 text-sm text-gray-600">
-                <label for="tts-voice-select" class="block">老师的声音：</label>
-                <select id="tts-voice-select" class="w-full border rounded p-2 bg-white" aria-describedby="tts-voice-hint"></select>
-                <p id="tts-voice-hint" class="text-xs" role="status">正在查找中文音色…</p>
-                <div class="flex justify-between items-center">
-                  <label for="tts-rate">讲解语速：</label>
-                  <output id="tts-rate-value" for="tts-rate">0.95 ×</output>
-                </div>
-                <input id="tts-rate" type="range" min="0.75" max="1.15" step="0.05" value="0.95" class="w-full" />
-                <div class="flex gap-2">
-                  <button id="tts-sample" type="button" aria-pressed="false" class="flex-1 bg-primary text-white py-1 rounded">试听声音</button>
-                  <button id="tts-save" type="button" class="flex-1 bg-gray-200 py-1 rounded">保存偏好</button>
-                </div>
-              </div>
-              </details>
+              <button id="guide-help" type="button" class="drawing-text-button">请老师帮忙</button>
             </div>
-
-            <!-- 素材库 -->
-            <div class="bg-white rounded-xl shadow-md p-4">
-              <h3 class="font-bold text-lg mb-3">参考素材</h3>
-              <div id="reference-materials" class="gap-2">
-                <!-- 参考图片会通过JS动态生成，网格列数将动态设置 -->
-              </div>
-              <div class="mt-3 flex gap-2">
-                <button id="trace-mode" type="button" aria-pressed="false" class="mode-button flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg text-sm">
-                  描摹模式
-                </button>
-                <button id="free-mode" type="button" aria-pressed="true"
-                  class="mode-button is-active flex-1 py-2 rounded-lg text-sm">
-                  自由画
-                </button>
-              </div>
-            </div>
-
-            <!-- 用户上传自定义参考素材 (已并入左侧) -->
-            <div class="bg-white rounded-xl shadow-md p-4 mt-2">
-              <h3 class="font-bold text-lg mb-3">上传你的参考图片</h3>
-              <input type="file" id="upload-trace" accept="image/*" aria-label="上传描摹参考图片"
-                class="w-full text-sm border rounded-lg p-2 cursor-pointer mb-2" />
-              <p class="text-gray-500 text-sm">选择一张图片作为描摹参考，上传后会自动显示在画布上。</p>
-            </div>
-          </div>
-
-          <!-- (上传区已并入左侧工具栏) -->
-
-
-          <!-- 右侧：绘画区域 -->
-          <div class="flex-1">
-            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
-              <!-- 工具栏 -->
-              <div id="toolbar">
-                <div class="flex items-center bg-light rounded-lg px-3 py-2">
-                  <label for="brush-size" class="mr-2 text-gray-600">画笔粗细:</label>
-                  <input type="range" min="1" max="20" value="3" class="w-24" id="brush-size">
-                  <span id="size-value" class="ml-2 text-gray-600">3px</span>
-                </div>
-
-                <div class="flex items-center bg-light rounded-lg px-3 py-2">
-                  <span class="mr-2 text-gray-600">画笔类型:</span>
-                  <div id="brush-select" class="flex gap-2">
-                    <button class="brush-btn active" data-brush="fineliner" title="勾线笔">
-                      <i class="fa fa-fineliner"></i><span>勾线</span>
-                    </button>
-                    <button class="brush-btn" data-brush="crayon" title="蜡笔">
-                      <i class="fa fa-crayon"></i><span>蜡笔</span>
-                    </button>
-                    <button class="brush-btn" data-brush="watercolor" title="水彩">
-                      <i class="fa fa-tint"></i><span>水彩</span>
-                    </button>
-                    <button class="brush-btn" data-brush="pencil" title="铅笔">
-                      <i class="fa fa-pencil"></i><span>铅笔</span>
-                    </button>
-                    <button class="brush-btn" data-brush="brushstroke" title="毛笔">
-                      <i class="fa fa-brush"></i><span>毛笔</span>
-                    </button>
-                    <button class="brush-btn" data-brush="spray" title="喷枪">
-                      <i class="fa fa-spray"></i><span>喷枪</span>
-                    </button>
-                    <button class="brush-btn" data-brush="oilpaint" title="油画">
-                      <i class="fa fa-palette-knife"></i><span>油画</span>
-                    </button>
-                    <button class="brush-btn" data-brush="eraser" title="橡皮">
-                      <i class="fa fa-eraser"></i><span>橡皮</span>
-                    </button>
+            <div class="guide-options-row">
+              <details class="drawing-options">
+                <summary>声音与语速</summary>
+                <div id="tts-controls">
+                  <label for="tts-voice-select">老师的声音</label>
+                  <select id="tts-voice-select" aria-describedby="tts-voice-hint"></select>
+                  <p id="tts-voice-hint" role="status">正在查找中文音色…</p>
+                  <div class="tts-rate-label">
+                    <label for="tts-rate">讲解语速</label>
+                    <output id="tts-rate-value" for="tts-rate">0.95 ×</output>
                   </div>
-                  <canvas id="brush-preview" width="64" height="24" class="ml-3 rounded border bg-white"></canvas>
+                  <input id="tts-rate" type="range" min="0.75" max="1.15" step="0.05" value="0.95" />
+                  <div class="guide-controls">
+                    <button id="tts-sample" type="button" aria-pressed="false" class="studio-button">试听声音</button>
+                    <button id="tts-save" type="button" class="studio-button">保存偏好</button>
+                  </div>
                 </div>
+              </details>
+              <button id="classroom-drawing-open" type="button" class="drawing-text-button">教师设置</button>
+            </div>
+          </section>
 
-                <div class="flex gap-2" id="color-palette">
-                  <button class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow-sm color-btn active" aria-label="红色"
-                    data-color="#EF4444"></button>
-                  <button class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-sm color-btn" aria-label="蓝色"
-                    data-color="#3B82F6"></button>
-                  <button class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-white shadow-sm color-btn" aria-label="黄色"
-                    data-color="#FBBF24"></button>
-                  <button class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow-sm color-btn" aria-label="绿色"
-                    data-color="#10B981"></button>
-                  <button class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow-sm color-btn" aria-label="紫色"
-                    data-color="#8B5CF6"></button>
-                  <button class="w-8 h-8 rounded-full bg-orange-500 border-2 border-white shadow-sm color-btn" aria-label="橙色"
-                    data-color="#F97316"></button>
-                  <button class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow-sm color-btn" aria-label="粉色"
-                    data-color="#EC4899"></button>
-                  <button class="w-8 h-8 rounded-full bg-gray-900 border-2 border-white shadow-sm color-btn" aria-label="黑色"
-                    data-color="#111827" title="黑色"></button>
-                  <button class="w-8 h-8 rounded-full bg-blue-900 border-2 border-white shadow-sm color-btn" aria-label="深蓝色"
-                    data-color="#1E3A8A" title="深蓝"></button>
-                  <button class="w-8 h-8 rounded-full bg-emerald-900 border-2 border-white shadow-sm color-btn" aria-label="深绿色"
-                    data-color="#064E3B" title="深绿"></button>
-                </div>
+          <div class="drawing-desk">
+            <div class="canvas-actions">
+              <div class="drawing-modes" role="group" aria-label="绘画模式">
+                <button id="free-mode" type="button" aria-pressed="true" class="mode-button is-active">自由画</button>
+                <button id="trace-mode" type="button" aria-pressed="false" class="mode-button">描摹模式</button>
               </div>
-
-              <!-- 画布 -->
-              <div class="relative border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 h-[480px] md:h-[600px]">
-                <canvas id="drawing-canvas" class="w-full h-full"></canvas>
-                <!-- 描摹层 (默认隐藏) -->
-                <div id="trace-layer" class="absolute top-0 left-0 w-full h-full pointer-events-none hidden">
-                  <img id="trace-image" alt="描摹参考" decoding="async" class="w-full h-full object-contain opacity-30">
-                </div>
-              </div>
-
-              <!-- 橡皮光标预览 (独立 DOM 元素，非画布绘制) -->
-              <div id="eraser-cursor-preview" class="eraser-cursor-preview"></div>
-
-              <!-- 笔刷光标预览 (独立 DOM 元素，非画布绘制) -->
-              <div id="brush-cursor-preview" class="brush-cursor-preview"></div>
-
-              <!-- 底部按钮 -->
-              <div class="mt-6 flex justify-end">
-                <button id="save-drawing" class="btn-primary" disabled title="先画几笔再完成作品">
-                  <i class="fa fa-check mr-2"></i>完成绘画
+              <div class="canvas-history">
+                <button id="undo-btn" type="button" disabled aria-label="撤销上一笔" title="暂无可撤销内容">
+                  <i class="fa fa-undo" aria-hidden="true"></i><span>撤销</span>
+                </button>
+                <button id="clear-btn" type="button" disabled aria-label="清空画布" title="画布当前为空">
+                  <i class="fa fa-trash" aria-hidden="true"></i><span>清空</span>
                 </button>
               </div>
             </div>
+            <div class="canvas-mat">
+              <div class="canvas-sheet">
+                <canvas id="drawing-canvas" class="w-full h-full" aria-label="绘画画布"></canvas>
+                <div id="trace-layer" class="hidden">
+                  <img id="trace-image" alt="描摹参考" decoding="async">
+                </div>
+                <div id="eraser-cursor-preview" class="eraser-cursor-preview" aria-hidden="true"></div>
+                <div id="brush-cursor-preview" class="brush-cursor-preview" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <div id="toolbar" role="group" aria-label="绘画工具">
+              <div class="drawing-brushes">
+                <span class="drawing-tool-label" id="brush-group-label">画笔</span>
+                <div id="brush-select" role="group" aria-labelledby="brush-group-label">
+                  <button type="button" class="brush-btn active" data-brush="fineliner" aria-pressed="true" title="勾线笔">
+                    <i class="fa fa-fineliner" aria-hidden="true"></i><span>勾线</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="crayon" aria-pressed="false" title="蜡笔">
+                    <i class="fa fa-crayon" aria-hidden="true"></i><span>蜡笔</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="watercolor" aria-pressed="false" title="水彩">
+                    <i class="fa fa-tint" aria-hidden="true"></i><span>水彩</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="pencil" aria-pressed="false" title="铅笔">
+                    <i class="fa fa-pencil" aria-hidden="true"></i><span>铅笔</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="brushstroke" aria-pressed="false" title="毛笔">
+                    <i class="fa fa-brush" aria-hidden="true"></i><span>毛笔</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="spray" aria-pressed="false" title="喷枪">
+                    <i class="fa fa-spray" aria-hidden="true"></i><span>喷枪</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="oilpaint" aria-pressed="false" title="油画">
+                    <i class="fa fa-palette-knife" aria-hidden="true"></i><span>油画</span>
+                  </button>
+                  <button type="button" class="brush-btn" data-brush="eraser" aria-pressed="false" title="橡皮">
+                    <i class="fa fa-eraser" aria-hidden="true"></i><span>橡皮</span>
+                  </button>
+                </div>
+              </div>
+              <div class="drawing-properties">
+                <div class="drawing-colors">
+                  <span class="drawing-tool-label" id="color-group-label">颜色</span>
+                  <div id="color-palette" role="group" aria-labelledby="color-group-label">
+                    <button type="button" class="color-btn active" aria-label="红色" aria-pressed="true" title="红色" data-color="#EF4444"></button>
+                    <button type="button" class="color-btn" aria-label="蓝色" aria-pressed="false" title="蓝色" data-color="#3B82F6"></button>
+                    <button type="button" class="color-btn" aria-label="黄色" aria-pressed="false" title="黄色" data-color="#FBBF24"></button>
+                    <button type="button" class="color-btn" aria-label="绿色" aria-pressed="false" title="绿色" data-color="#10B981"></button>
+                    <button type="button" class="color-btn" aria-label="紫色" aria-pressed="false" title="紫色" data-color="#8B5CF6"></button>
+                    <button type="button" class="color-btn" aria-label="橙色" aria-pressed="false" title="橙色" data-color="#F97316"></button>
+                    <button type="button" class="color-btn" aria-label="粉色" aria-pressed="false" title="粉色" data-color="#EC4899"></button>
+                    <button type="button" class="color-btn" aria-label="黑色" aria-pressed="false" title="黑色" data-color="#111827"></button>
+                    <button type="button" class="color-btn" aria-label="深蓝色" aria-pressed="false" title="深蓝色" data-color="#1E3A8A"></button>
+                    <button type="button" class="color-btn" aria-label="深绿色" aria-pressed="false" title="深绿色" data-color="#064E3B"></button>
+                  </div>
+                </div>
+                <div class="drawing-size">
+                  <label for="brush-size" class="drawing-tool-label">粗细</label>
+                  <input type="range" min="1" max="20" value="3" id="brush-size">
+                  <output id="size-value" for="brush-size">3px</output>
+                  <canvas id="brush-preview" width="64" height="24" aria-label="笔画预览"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <section class="drawing-references" aria-labelledby="drawing-references-title">
+            <div class="drawing-group-heading">
+              <h3 id="drawing-references-title"><i class="fa fa-picture-o" aria-hidden="true"></i> 参考素材</h3>
+            </div>
+            <p class="drawing-hint">点选一张参考图，可以跟着轮廓画。</p>
+            <div id="reference-materials" class="grid gap-2"></div>
+            <label for="upload-trace" class="drawing-upload-label">上传你的参考图片</label>
+            <input type="file" id="upload-trace" accept="image/*" aria-label="上传描摹参考图片" aria-describedby="drawing-upload-hint" />
+            <p id="drawing-upload-hint" class="drawing-hint">上传后，参考图会显示在画布上。</p>
+          </section>
         </div>
       </section>
 
       <!-- 5. AI讲故事模式 (默认隐藏) -->
       <section id="story-mode" class="story-page hidden">
-        <div class="scene-heading">
-          <div><button id="back-from-story" type="button" class="back-link"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回绘画</button><h2 id="story-title">画里的小故事</h2></div>
-        </div>
+        <button id="back-from-story" type="button" class="back-link"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回绘画</button>
+        <h2 id="story-title">画里的小故事</h2>
         <div class="story-grid">
-          <section class="story-panel" aria-labelledby="story-preview-title">
-            <h3 id="story-preview-title">你的作品</h3>
+          <section class="story-panel story-plate" aria-labelledby="story-preview-title">
             <div id="story-canvas-preview" class="story-preview"><p>正在加载作品……</p></div>
+            <h3 id="story-preview-title">你的作品</h3>
           </section>
-          <section class="story-panel" aria-labelledby="story-text-title">
+          <section class="story-panel story-reading" aria-labelledby="story-text-title">
             <h3 id="story-text-title">一起听故事</h3>
             <div id="story-content" class="story-text"><p>正在准备故事……</p></div>
           </section>
         </div>
         <div class="story-page-actions">
-          <button id="replay-drawing-story" type="button" class="btn-primary"><i class="fa fa-paint-brush mr-2" aria-hidden="true"></i>继续绘画</button>
-          <button id="choose-new-scene-story" type="button" class="btn-secondary">换一个场景</button>
+          <button id="replay-drawing-story" type="button" class="studio-button primary"><i class="fa fa-paint-brush" aria-hidden="true"></i>继续绘画</button>
+          <button id="choose-new-scene-story" type="button" class="studio-button">换一个场景</button>
         </div>
       </section>
     </main>
 
     <!-- 页脚 -->
     <footer class="app-footer">
-      <p>创意小画家 · 画出自己的世界</p>
-      <p>作品和进度自动保存在当前浏览器。</p>
+      <p><i class="fa fa-save" aria-hidden="true"></i>作品和进度自动保存在当前浏览器。</p>
+      <button id="reset-local-data" type="button" class="local-data-reset" aria-haspopup="dialog"><i class="fa fa-trash" aria-hidden="true"></i>清除本地记录</button>
     </footer>
   </div>
 
   <!-- 成功提示弹窗 (默认隐藏) -->
-  <div id="success-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="success-title">
-    <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center transform transition-all">
-      <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa fa-check text-2xl text-accent"></i>
+  <div id="success-modal" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="success-title" aria-describedby="success-message">
+    <div class="feedback-dialog">
+      <div class="feedback-symbol" aria-hidden="true">
+        <i class="fa fa-check"></i>
       </div>
-      <h3 id="success-title" class="text-2xl font-bold mb-2">太棒了！画得真好！</h3>
-      <p id="success-message" class="text-gray-600 mb-6">你成功完成了贝壳的绘制，快去看看它出现在海滩上吧！</p>
-      <button id="close-modal" class="btn-primary w-full">
+      <h3 id="success-title">作品完成了！</h3>
+      <p id="success-message">你成功完成了贝壳的绘制，快去看看它出现在海滩上吧！</p>
+      <button id="close-modal" class="btn-primary dialog-full-action">
         查看场景并继续
       </button>
     </div>
   </div>
 
   <!-- 故事任务确认弹窗 (默认隐藏) -->
-  <div id="story-confirmation-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="story-confirmation-title">
-    <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center transform transition-all">
-      <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa fa-book text-2xl text-secondary"></i>
+  <div id="story-confirmation-modal" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="story-confirmation-title">
+    <div class="feedback-dialog">
+      <div class="feedback-symbol warm-symbol" aria-hidden="true">
+        <i class="fa fa-book"></i>
       </div>
-      <h3 id="story-confirmation-title" class="text-2xl font-bold mb-3 text-dark">还没完成所有绘画哦！</h3>
-      <p class="text-gray-600 mb-6">你想先听一个故事，还是继续画画呢？</p>
-      <div class="flex gap-3">
-        <button id="confirm-listen-story" class="flex-1 btn-secondary rounded-lg">
-          <i class="fa fa-headphones mr-2"></i>听故事
+      <h3 id="story-confirmation-title">还有一些绘画任务</h3>
+      <p>你想先听一个故事，还是继续画画呢？</p>
+      <div class="feedback-actions">
+        <button id="confirm-listen-story" class="btn-secondary">
+          <i class="fa fa-headphones" aria-hidden="true"></i>听故事
         </button>
-        <button id="confirm-keep-drawing" class="flex-1 btn-primary rounded-lg">
-          <i class="fa fa-pencil mr-2"></i>继续画
+        <button id="confirm-keep-drawing" class="btn-primary">
+          <i class="fa fa-pencil" aria-hidden="true"></i>继续画
         </button>
       </div>
     </div>
   </div>
 
   <!-- 通用确认弹窗：用于清空画布和恢复草稿 -->
-  <div id="choice-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="choice-title">
-    <div class="bg-white rounded-2xl p-7 max-w-md w-full text-center shadow-2xl">
-      <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i id="choice-icon" class="fa fa-question text-2xl text-primary"></i>
+  <div id="choice-modal" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="choice-title" aria-describedby="choice-message">
+    <div class="feedback-dialog">
+      <div class="feedback-symbol" aria-hidden="true">
+        <i id="choice-icon" class="fa fa-question"></i>
       </div>
-      <h3 id="choice-title" class="text-xl font-bold mb-2">请确认</h3>
-      <p id="choice-message" class="text-gray-600 mb-6"></p>
-      <div class="flex gap-3">
-        <button id="choice-secondary" type="button" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-full transition-colors">取消</button>
-        <button id="choice-primary" type="button" class="flex-1 btn-primary">确定</button>
+      <h3 id="choice-title">请确认</h3>
+      <p id="choice-message"></p>
+      <div class="feedback-actions">
+        <button id="choice-secondary" type="button" class="btn-secondary">取消</button>
+        <button id="choice-primary" type="button" class="btn-primary">确定</button>
       </div>
     </div>
   </div>
 
   <!-- 已完成作品查看弹窗 -->
-  <div id="artwork-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="artwork-title">
-    <div class="bg-white rounded-2xl p-6 max-w-lg w-full text-center shadow-2xl">
-      <h3 id="artwork-title" class="text-2xl font-bold mb-4">我的作品</h3>
-      <div class="bg-gradient-to-br from-purple-50 to-orange-50 rounded-xl p-3 mb-5 border border-purple-100">
-        <img id="artwork-image" alt="已完成的绘画作品" class="mx-auto max-h-[55vh] w-full object-contain rounded-lg bg-white" />
+  <div id="artwork-modal" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="artwork-title">
+    <div class="feedback-dialog artwork-dialog">
+      <h3 id="artwork-title">我的作品</h3>
+      <div class="artwork-mat">
+        <img id="artwork-image" alt="已完成的绘画作品" />
       </div>
-      <button id="artwork-download" type="button" class="btn-primary w-full mb-3"><i class="fa fa-download mr-2" aria-hidden="true"></i>下载作品（PNG）</button>
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button id="artwork-close" type="button" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-full transition-colors">返回任务</button>
-        <button id="artwork-redraw" type="button" class="flex-1 btn-secondary"><i class="fa fa-refresh mr-2"></i>重新绘制</button>
+      <button id="artwork-download" type="button" class="btn-primary dialog-full-action"><i class="fa fa-download" aria-hidden="true"></i>下载作品（PNG）</button>
+      <div class="feedback-actions">
+        <button id="artwork-close" type="button" class="btn-secondary">返回任务</button>
+        <button id="artwork-redraw" type="button" class="btn-secondary"><i class="fa fa-refresh" aria-hidden="true"></i>重新绘制</button>
       </div>
     </div>
   </div>
 
   <!-- 轻量状态提示 -->
-  <div id="app-toast" class="toast-hidden fixed left-1/2 bottom-6 z-[70] max-w-[calc(100%-2rem)] rounded-full bg-gray-900 text-white px-5 py-3 text-sm font-bold shadow-xl" role="status" aria-live="polite"></div>
+  <div id="app-toast" class="toast-hidden" role="status" aria-live="polite"></div>
 
 
-  <dialog id="reset-data-dialog" class="reset-data-dialog" aria-labelledby="reset-data-title" aria-describedby="reset-data-description">
+  <dialog id="reset-data-dialog" class="feedback-dialog reset-data-dialog" aria-labelledby="reset-data-title" aria-describedby="reset-data-description">
+    <div class="feedback-symbol danger-symbol" aria-hidden="true"><i class="fa fa-trash"></i></div>
     <h2 id="reset-data-title">清除全部本地记录？</h2>
     <p id="reset-data-description">将清除当前浏览器中本项目的全部作品、绘画草稿、任务进度、背景和位置设置、课堂计划与回顾，以及语音偏好。正在进行的活动也会结束。</p>
     <p>清除后无法撤销。请先下载需要保留的作品和课堂回顾。</p>
@@ -415,15 +379,15 @@
 
   <dialog id="classroom-dialog" class="classroom-dialog" aria-labelledby="classroom-title">
     <div class="classroom-dialog-header">
-      <div><p class="classroom-eyebrow">TEACHER STUDIO</p><h2 id="classroom-title">教师工作台</h2></div>
-      <button id="classroom-close" type="button" class="classroom-button" autofocus>关闭工作台</button>
+      <h2 id="classroom-title">教师工作台</h2>
+      <button id="classroom-close" type="button" class="studio-button classroom-button" autofocus>关闭工作台</button>
     </div>
-    <p class="classroom-muted">活动记录保存在当前浏览器，不填写学生姓名。最多保留最近 15 次已结束的活动。</p>
+    <p class="classroom-muted classroom-privacy">活动记录保存在当前浏览器，不填写学生姓名。最多保留最近 15 次已结束的活动。</p>
     <div class="classroom-studio-grid">
-      <section aria-labelledby="classroom-plan-title">
-        <h3 id="classroom-plan-title">安排一场绘画活动</h3>
+      <section class="classroom-planner" aria-labelledby="classroom-plan-title">
+        <h3 id="classroom-plan-title">安排绘画活动</h3>
         <details id="lesson-agent-panel" class="lesson-agent">
-          <summary>AI备课 · Agent</summary>
+          <summary>AI 辅助备课</summary>
           <p class="classroom-muted">描述想安排的活动，AI会查询任务库、编写步骤并检查草稿。请由老师确认后使用。</p>
           <label class="classroom-field" for="lesson-agent-request">一句话备课
             <textarea id="lesson-agent-request" rows="3" maxlength="500" placeholder="海滩主题，选两个任务，每个任务三步，句子短一点，打开安静模式"></textarea>
@@ -433,43 +397,51 @@
           </label>
           <p class="classroom-muted">只描述活动要求；无需填写学生姓名或上传画作。</p>
           <div class="lesson-agent-actions">
-            <button id="lesson-agent-generate" type="button" class="classroom-button classroom-primary">生成备课建议</button>
-            <button id="lesson-agent-cancel" type="button" class="classroom-button" hidden>取消生成</button>
+            <button id="lesson-agent-generate" type="button" class="studio-button primary classroom-button classroom-primary">生成备课建议</button>
+            <button id="lesson-agent-cancel" type="button" class="studio-button classroom-button" hidden>取消生成</button>
           </div>
           <p id="lesson-agent-status" role="status" aria-live="polite" class="classroom-muted"></p>
           <div id="lesson-agent-preview" class="lesson-agent-preview" hidden></div>
           <ol id="lesson-agent-log" class="lesson-agent-log" aria-label="工具执行记录"></ol>
-          <button id="lesson-agent-apply" type="button" class="classroom-button" hidden>填入课堂草稿</button>
+          <button id="lesson-agent-apply" type="button" class="studio-button classroom-button" hidden>填入课堂草稿</button>
         </details>
 
-        <label class="classroom-field" for="classroom-name">活动名称<input id="classroom-name" maxlength="80" /></label>
-        <label class="classroom-field" for="classroom-goal">本次目标<input id="classroom-goal" maxlength="160" /></label>
-        <label class="classroom-field" for="classroom-scene">活动场景<select id="classroom-scene"></select></label>
+        <div class="classroom-fields">
+          <label class="classroom-field" for="classroom-name">活动名称<input id="classroom-name" maxlength="80" /></label>
+          <label class="classroom-field" for="classroom-scene">活动场景<select id="classroom-scene"></select></label>
+          <label class="classroom-field classroom-field-wide" for="classroom-goal">本次目标<input id="classroom-goal" maxlength="160" /></label>
+        </div>
+        <h4 class="classroom-subheading">任务与步骤</h4>
         <p class="classroom-muted">选择任务并调整顺序（最多 8 项）。每个任务的提示可以修改，每行一步。</p>
         <div id="classroom-task-picker" class="classroom-task-picker"></div>
-        <label class="classroom-check"><input id="classroom-quiet" type="checkbox" checked />安静模式：关闭庆祝动画，减少动态效果</label>
-        <label class="classroom-check"><input id="classroom-simple" type="checkbox" checked />精简工具：只显示勾线、铅笔和橡皮</label>
+        <fieldset class="classroom-preferences">
+          <legend class="classroom-subheading">绘画设置</legend>
+          <label class="classroom-check"><input id="classroom-quiet" type="checkbox" checked /><span>安静模式<small>关闭庆祝动画，减少动态效果</small></span></label>
+          <label class="classroom-check"><input id="classroom-simple" type="checkbox" checked /><span>精简工具<small>只显示勾线、铅笔和橡皮</small></span></label>
+        </fieldset>
         <p class="classroom-muted">开始后只展示选中的任务。已有作品可以查看或重新绘制；本次完成数从零计起。</p>
-        <button id="classroom-start" type="button" class="classroom-button classroom-primary">开始本次活动</button>
-        <p id="classroom-plan-status" role="alert" style="color:#b91c1c;margin-top:.75rem"></p>
+        <button id="classroom-start" type="button" class="studio-button primary classroom-button classroom-primary">开始本次活动</button>
+        <p id="classroom-plan-status" class="classroom-validation" role="alert"></p>
       </section>
-      <section aria-labelledby="classroom-report-title">
+      <section class="classroom-report" aria-labelledby="classroom-report-title">
         <h3 id="classroom-report-title">匿名活动回顾</h3>
         <p class="classroom-muted">记录本次操作，供老师回顾活动。不代表能力、专注度或教学效果。</p>
-        <button id="classroom-finish" type="button" class="classroom-button classroom-primary">结束活动并保存回顾</button>
         <label class="classroom-field" for="classroom-report-select">选择活动<select id="classroom-report-select"></select></label>
         <p id="classroom-report-empty" class="classroom-muted">还没有活动记录。先安排一个小活动，再回来看看。</p>
         <div id="classroom-report-content" hidden>
           <p id="classroom-report-goal"></p>
           <p id="classroom-report-summary" class="classroom-report-summary" aria-live="polite"></p>
-          <div class="classroom-table-scroll">
+          <div class="classroom-table-scroll" tabindex="0" role="region" aria-label="可横向滚动查看本次活动操作记录">
             <table class="classroom-table"><caption>本次活动操作记录</caption>
               <thead><tr><th scope="col">任务</th><th scope="col">本次完成</th><th scope="col">按笔时间（秒）</th><th scope="col">落笔次数</th><th scope="col">撤销</th><th scope="col">求助</th><th scope="col">朗读请求</th></tr></thead>
               <tbody id="classroom-report-rows"></tbody>
             </table>
           </div>
         </div>
-        <button id="classroom-report-download" type="button" class="classroom-button" disabled>下载回顾 CSV</button>
+        <div class="classroom-report-actions">
+          <button id="classroom-finish" type="button" class="studio-button primary classroom-button classroom-primary">结束活动并保存回顾</button>
+          <button id="classroom-report-download" type="button" class="studio-button classroom-button" disabled><i class="fa fa-download" aria-hidden="true"></i>下载回顾 CSV</button>
+        </div>
         <p class="classroom-muted">按笔时间是鼠标或触控笔按下到松开的累计时长；不会评价画得好不好。重复完成同一任务只计一项完成。</p>
         <p id="classroom-storage-status" class="classroom-storage-status" role="status" aria-live="polite"></p>
       </section>
@@ -497,18 +469,11 @@
   <script src="./js/reset.js"></script>
   <script src="./js/app.js"></script>
 
-    <!-- 🎉 奖励反馈组件 -->
-    <div id="reward-feedback" class="fixed inset-0 flex items-center justify-center z-[999] pointer-events-none hidden">
-      <div class="text-center transform transition-all duration-500 scale-0" id="reward-content">
-        <div class="text-6xl mb-4 animate-bounce">
-          <i class="fa fa-thumbs-up text-yellow-500"></i>
-      </div>
-          <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-2xl font-bold px-8 py-4 rounded-full shadow-xl animate-pulse">
-          太棒了！画得真好！
-        </div>
-      </div>
+  <div id="reward-feedback" class="reward-feedback hidden" role="status">
+    <div id="reward-content">
+      <i class="fa fa-thumbs-up" aria-hidden="true"></i>太棒了！画得真好！
     </div>
+  </div>
 
-  </body>
-
-  </html>
+</body>
+</html>

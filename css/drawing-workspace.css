@@ -1,0 +1,314 @@
+/* The paper keeps its original responsive frame and drawing coordinates. */
+#drawing-mode {
+  padding: 0 20px 20px;
+  color: var(--ink);
+  background: var(--paper);
+}
+.drawing-header, .drawing-heading, .drawing-header-actions, .drawing-status,
+.drawing-group-heading, .drawing-group-heading h3, .canvas-actions, .canvas-history,
+.drawing-modes, .drawing-brushes, .drawing-properties, .drawing-colors, .drawing-size,
+.guide-assistance, .tts-rate-label {
+  display: flex;
+  align-items: center;
+}
+.drawing-header {
+  min-height: 76px;
+  gap: 16px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+.drawing-heading, .drawing-header-actions { gap: 16px; }
+.drawing-heading h2 {
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+  font-size: 1.35rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.drawing-back, .drawing-text-button, .canvas-history button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 550;
+}
+.drawing-back { padding-inline: 4px; }
+.drawing-back:hover, .drawing-text-button:hover, .canvas-history button:enabled:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+.drawing-status { gap: 6px; color: var(--muted); font-size: .8125rem; }
+.drawing-status.saved, .drawing-status.completed { color: var(--accent); }
+.drawing-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0,1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "guide desk" "references desk";
+  gap: 16px 24px;
+  align-items: start;
+}
+.drawing-guide, .drawing-references { min-width: 0; padding: 16px; }
+.drawing-guide {
+  grid-area: guide;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.drawing-references { grid-area: references; padding-top: 4px; }
+.drawing-group-heading { justify-content: space-between; gap: 8px; }
+.drawing-group-heading h3 { gap: 8px; font-size: 1.05rem; line-height: 1.5; font-weight: 650; }
+.drawing-group-heading i { color: var(--accent); }
+#guide-position { color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+#teacher-instructions {
+  margin: 14px 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--warm);
+  background: #faf6ed;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.guide-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.guide-controls .guide-advance { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.guide-controls .guide-advance:enabled:hover { border-color: var(--ink); }
+.guide-assistance { justify-content: space-between; gap: 4px; margin-block: 4px; }
+.guide-assistance .drawing-text-button { color: var(--accent); }
+.drawing-text-button[aria-pressed="true"], #tts-sample[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+.guide-options-row { position: relative; border-top: 1px solid var(--line); }
+.guide-options-row > button { position: absolute; top: 0; right: 0; }
+.drawing-options summary {
+  width: fit-content;
+  max-width: calc(100% - 70px);
+  min-height: 44px;
+  padding: 11px 4px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .875rem;
+  line-height: 22px;
+}
+#tts-controls { display: grid; gap: 6px; padding-block: 6px; font-size: .875rem; }
+#tts-controls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px;
+  background: var(--surface);
+}
+#tts-controls input, #brush-size { min-width: 0; min-height: 44px; accent-color: var(--accent); }
+#tts-voice-hint, .drawing-hint { color: var(--muted); font-size: .8125rem; line-height: 1.6; }
+.tts-rate-label { justify-content: space-between; }
+.drawing-hint { margin-top: 6px; }
+#reference-materials { margin-top: 10px; }
+.reference-image-button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 96px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.reference-image-button:hover { border-color: var(--accent); }
+.reference-image-button img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
+.drawing-upload-label { display: block; margin: 16px 0 6px; font-size: .875rem; font-weight: 600; }
+#upload-trace {
+  width: 100%;
+  min-height: 44px;
+  color: var(--muted);
+  font-size: .8125rem;
+  text-overflow: ellipsis;
+}
+#upload-trace::file-selector-button {
+  min-height: 44px;
+  margin-right: 8px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.drawing-desk {
+  grid-area: desk;
+  min-width: 0;
+  display: grid;
+  grid-template-areas: "actions" "tools" "paper";
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.canvas-actions {
+  grid-area: actions;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.drawing-modes { gap: 2px; padding: 2px; border-radius: 9px; background: var(--paper); }
+.mode-button {
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 550;
+}
+.mode-button:hover { color: var(--ink); }
+.mode-button.is-active {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: inset 0 -2px var(--accent);
+}
+.canvas-history { gap: 4px; }
+.canvas-history button { min-width: 44px; }
+#clear-btn:enabled { color: var(--danger); }
+.canvas-history #clear-btn:enabled:hover { background: #f9e9e5; }
+.canvas-mat {
+  grid-area: paper;
+  padding: 16px 24px 24px;
+  background: #eae9e2;
+  border-radius: 0 0 13px 13px;
+}
+.canvas-sheet {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+  border: 2px solid #d2d3ca;
+  border-radius: 4px;
+  background: white;
+}
+#drawing-canvas { display: block; touch-action: none; }
+.canvas-sheet :is(.eraser-cursor-preview, .brush-cursor-preview) { z-index: 1; }
+.canvas-sheet:not(:hover) :is(.eraser-cursor-preview, .brush-cursor-preview) { visibility: hidden; }
+#trace-layer { position: absolute; inset: 0; pointer-events: none; background: transparent; }
+#trace-image { width: 100%; height: 100%; object-fit: contain; opacity: .3; }
+#trace-image[data-image-state="loading"], #trace-image[data-image-state="error"] {
+  width: 160px; height: 100px; margin: 12px; border-radius: 8px;
+}
+#toolbar { grid-area: tools; display: grid; gap: 6px; padding: 8px 16px; }
+.drawing-tool-label { flex: none; color: var(--muted); font-size: .8125rem; font-weight: 600; }
+.drawing-brushes, .drawing-colors, .drawing-size { gap: 8px; min-width: 0; }
+#brush-select, #color-palette { display: flex; flex-wrap: wrap; min-width: 0; }
+#brush-select { gap: 4px; }
+.brush-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: .875rem;
+  color: var(--ink);
+}
+.brush-btn:hover { background: var(--paper); }
+.brush-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 -2px var(--accent);
+  font-weight: 650;
+}
+.classroom-simple .brush-btn:not([data-brush="fineliner"]):not([data-brush="pencil"]):not([data-brush="eraser"]) { display: none; }
+.drawing-properties { flex-wrap: wrap; gap: 4px 16px; }
+.drawing-colors { max-width: 100%; }
+.color-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 8px;
+}
+.color-btn::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: auto;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 50%;
+  background: var(--swatch);
+}
+.color-btn.active::before { outline: 2px solid var(--ink); outline-offset: 3px; }
+.color-btn:hover:not([aria-disabled="true"]) { background: var(--paper); }
+.color-btn[aria-disabled="true"] { opacity: .45; cursor: default; }
+.drawing-size { flex: 1 1 192px; max-width: 320px; }
+#brush-size { width: 72px; flex: 1; }
+#size-value { min-width: 3ch; font: 500 .8125rem ui-monospace, monospace; color: var(--muted); }
+#brush-preview { flex: none; width: 64px; height: 24px; background: var(--paper); border-radius: 5px; }
+.drawing-page .mr-2 { margin-right: 0; }
+
+@media (max-width: 768px) {
+  #drawing-mode { padding: 0 16px 16px; }
+  .drawing-header { min-height: 64px; margin-bottom: 12px; }
+  .drawing-layout {
+    grid-template-columns: minmax(0,1fr);
+    grid-template-rows: auto;
+    grid-template-areas: "guide" "desk" "references";
+    gap: 12px;
+  }
+  .drawing-guide { padding: 12px 16px 0; }
+  .guide-assistance { margin-block: 0; }
+  #teacher-instructions { margin: 8px 0; }
+  .drawing-references { padding: 12px 0; }
+  .drawing-desk { grid-template-areas: "actions" "paper" "tools"; }
+  .canvas-mat { padding-block: 12px; border-radius: 0; }
+  #toolbar { padding: 12px; }
+}
+@media (max-width: 767px) {
+  .canvas-sheet { height: 480px; }
+  .canvas-mat { padding-inline: 16px; }
+}
+@media (min-width: 601px) and (max-width: 768px) {
+  .drawing-guide {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,.85fr);
+    grid-template-areas: "heading steps" "instruction help" "instruction settings";
+    gap: 0 24px;
+    padding: 12px 16px;
+  }
+  .drawing-guide > .drawing-group-heading { grid-area: heading; }
+  #teacher-instructions { grid-area: instruction; align-self: start; margin-top: 4px; }
+  .drawing-guide > .guide-controls { grid-area: steps; }
+  .guide-assistance { grid-area: help; }
+  .guide-options-row { grid-area: settings; }
+}
+@media (max-width: 600px) {
+  .drawing-header { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 0 8px; padding-block: 4px 8px; }
+  .drawing-heading, .drawing-header-actions { display: contents; }
+  .drawing-back { grid-row: 1; grid-column: 1; justify-self: start; }
+  .drawing-heading h2 { grid-row: 2; grid-column: 1; padding-left: 0; border: 0; font-size: 1.2rem; }
+  .drawing-status { grid-row: 2; grid-column: 2; justify-self: end; }
+  #save-drawing { grid-row: 1; grid-column: 2; justify-self: end; }
+  .canvas-actions { padding: 6px 8px; gap: 4px; }
+  .canvas-history { gap: 0; }
+  .canvas-history button { padding: 4px 7px; }
+  .mode-button { padding-inline: 9px; }
+  .drawing-properties { display: grid; }
+  .drawing-brushes, .drawing-colors { align-items: start; }
+  .drawing-brushes .drawing-tool-label, .drawing-colors .drawing-tool-label { line-height: 44px; }
+  #brush-select { display: grid; flex: 1; grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .brush-btn { flex-direction: column; gap: 3px; padding: 5px 1px; line-height: 1.1; }
+  #color-palette { display: grid; flex: 1; grid-template-columns: repeat(5,minmax(0,1fr)); }
+  .color-btn { justify-self: center; }
+  .drawing-size { max-width: none; }
+}
+@media (max-width: 350px) {
+  .canvas-history button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #brush-select { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}

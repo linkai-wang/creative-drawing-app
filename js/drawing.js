@@ -755,10 +755,6 @@
       }
       elements.traceMode.classList.toggle('is-active', enabled);
       elements.freeMode.classList.toggle('is-active', !enabled);
-      elements.traceMode.classList.toggle('bg-gray-200', !enabled);
-      elements.traceMode.classList.toggle('hover:bg-gray-300', !enabled);
-      elements.freeMode.classList.toggle('bg-gray-200', enabled);
-      elements.freeMode.classList.toggle('hover:bg-gray-300', enabled);
       elements.traceMode.setAttribute('aria-pressed', String(enabled));
       elements.freeMode.setAttribute('aria-pressed', String(!enabled));
       elements.traceLayer.classList.toggle('hidden', !enabled);
@@ -990,8 +986,12 @@
       if (typeof window.confetti === 'function' && !(typeof classroomQuiet === 'function' && classroomQuiet())) {
         try {
           window.confetti({
-            particleCount: 150,
-            spread: 70,
+            disableForReducedMotion: true,
+            particleCount: 24,
+            spread: 42,
+            ticks: 60,
+            startVelocity: 18,
+            colors: ['#437F83', '#E5A454', '#A8C7B9'],
             origin: { y: 0.6 },
             zIndex: 9999
           });
@@ -1086,24 +1086,33 @@ function setupDrawingEventListeners() {
         updateBrushCursorPreview();
       });
 
-      // 颜色选择 - 已修复（铅笔和橡皮禁用颜色切换）
+      // Keep the visible and spoken tool states in sync, including fixed-color brushes.
+      function refreshToolSelection() {
+        const hasPaintColor = currentBrush !== 'pencil' && currentBrush !== 'eraser';
+        elements.brushBtns.forEach(button => {
+          const selected = button.dataset.brush === currentBrush;
+          button.classList.toggle('active', selected);
+          button.setAttribute('aria-pressed', String(selected));
+        });
+        elements.colorBtns.forEach(button => {
+          const selected = hasPaintColor && button.dataset.color === currentColor;
+          button.classList.toggle('active', selected);
+          button.setAttribute('aria-pressed', String(selected));
+          button.setAttribute('aria-disabled', String(!hasPaintColor));
+        });
+      }
+
       elements.colorBtns.forEach(btn => {
+        btn.style.setProperty('--swatch', btn.dataset.color);
         btn.addEventListener('click', () => {
           // 如果当前是铅笔或橡皮，不允许切换颜色
           if (currentBrush === 'pencil' || currentBrush === 'eraser') {
             return;
           }
-          // 移除其他按钮的 active 类和样式
-          elements.colorBtns.forEach(b => {
-            b.classList.remove('active', 'ring-2', 'ring-primary', 'scale-110');
-            b.style.opacity = '1';
-          });
-          
-          // 添加当前按钮的 active 类
-          btn.classList.add('active');
           // 设置颜色
           currentColor = btn.dataset.color;
           lastPaintColor = currentColor;
+          refreshToolSelection();
           if (ctx) {
             ctx.strokeStyle = currentColor;
             // 重置合成操作为正常绘制模式
@@ -1118,36 +1127,23 @@ function setupDrawingEventListeners() {
       // 笔刷选择
       elements.brushBtns.forEach(b => {
         b.addEventListener('click', () => {
-          elements.brushBtns.forEach(x => x.classList.remove('active'));
-          b.classList.add('active');
           currentBrush = b.dataset.brush || 'fineliner';
           
           // 如果切换到橡皮，禁用颜色按钮（与铅笔相同处理）
           if (currentBrush === 'eraser') {
             isEraser = true;
-            // 移除所有颜色按钮的 active 类，使其显示为灰色禁用状态
-            elements.colorBtns.forEach(cb => cb.classList.remove('active', 'ring-2', 'ring-primary', 'scale-110'));
-            elements.colorBtns.forEach(cb => cb.style.opacity = '0.5');
           } 
           // 如果切换到铅笔，强制设置为铅笔色并禁用颜色按钮
           else if (currentBrush === 'pencil') {
             isEraser = false;
             currentColor = '#4A4A4A'; // 铅笔色
-            // 移除所有颜色按钮的 active 类，使其显示为灰色禁用状态
-            elements.colorBtns.forEach(cb => cb.classList.remove('active', 'ring-2', 'ring-primary', 'scale-110'));
-            elements.colorBtns.forEach(cb => cb.style.opacity = '0.5');
           } 
           else {
             // 其他笔刷恢复颜色按钮功能，并保留用户刚刚选择的颜色
             isEraser = false;
-            elements.colorBtns.forEach(cb => {
-              cb.classList.remove('active', 'ring-2', 'ring-primary', 'scale-110');
-              cb.style.opacity = '1';
-            });
             currentColor = lastPaintColor;
-            const matchingColor = Array.from(elements.colorBtns).find(cb => cb.dataset.color === lastPaintColor);
-            if (matchingColor) matchingColor.classList.add('active');
           }
+          refreshToolSelection();
           
           // 在切换笔刷时更新预览与 ctx 设置
           if (ctx) applyBrushSettings();
