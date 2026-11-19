@@ -9,13 +9,9 @@
     function showToast(message, tone = 'info') {
       if (!elements.appToast || !message) return;
       clearTimeout(toastTimer);
-      const tones = {
-        info: 'bg-gray-900',
-        success: 'bg-emerald-600',
-        warning: 'bg-orange-500'
-      };
-      elements.appToast.classList.remove('bg-gray-900', 'bg-emerald-600', 'bg-orange-500', 'toast-hidden');
-      elements.appToast.classList.add(tones[tone] || tones.info, 'toast-visible');
+      elements.appToast.dataset.tone = tone;
+      elements.appToast.classList.remove('toast-hidden');
+      elements.appToast.classList.add('toast-visible');
       elements.appToast.textContent = message;
       toastTimer = setTimeout(() => {
         elements.appToast.classList.remove('toast-visible');
@@ -38,8 +34,9 @@
       elements.choiceMessage.textContent = message;
       elements.choicePrimary.textContent = primaryLabel;
       elements.choiceSecondary.textContent = secondaryLabel;
-      elements.choiceIcon.className = `fa ${icon} text-2xl ${danger ? 'text-red-500' : 'text-primary'}`;
-      elements.choicePrimary.style.backgroundColor = danger ? '#EF4444' : '';
+      elements.choiceIcon.className = `fa ${icon}`;
+      elements.choiceModal.dataset.danger = String(danger);
+      elements.choicePrimary.classList.toggle('danger', danger);
       choicePrimaryAction = typeof onPrimary === 'function' ? onPrimary : null;
       choiceSecondaryAction = typeof onSecondary === 'function' ? onSecondary : null;
       elements.choiceModal.classList.remove('hidden');

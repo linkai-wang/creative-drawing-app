@@ -40,6 +40,7 @@ test('scene choices work with the keyboard and view settings stay available with
   const preview = await page.locator('#scene-preview').boundingBox();
   const tasks = await page.locator('#tasks-container').boundingBox();
   expect(preview.x).toBeGreaterThanOrEqual(0);
+  expect(preview.height).toBeGreaterThan(100);
   expect(tasks.x + tasks.width).toBeLessThanOrEqual(page.viewportSize().width);
   const items = page.locator('#tasks-container .start-task');
   await items.last().scrollIntoViewIfNeeded();
@@ -67,8 +68,10 @@ test('scene choices work with the keyboard and view settings stay available with
   const toolbarFits = await page.locator('#toolbar').evaluate(el => el.scrollWidth <= el.clientWidth + 1);
   expect(toolbarFits).toBeTruthy();
   if (info.project.name === 'mobile-chromium') {
+    const guidance = await page.locator('#teacher-instructions').boundingBox();
     const canvas = await page.locator('#drawing-canvas').boundingBox();
     const references = await page.locator('#reference-materials').boundingBox();
+    expect(guidance.y + guidance.height).toBeLessThanOrEqual(canvas.y);
     expect(canvas.y).toBeLessThan(references.y);
   }
   await page.locator('#drawing-canvas').scrollIntoViewIfNeeded();

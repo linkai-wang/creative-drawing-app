@@ -7,11 +7,13 @@ test('all eight brush icons remain painted with external resources blocked', asy
   await page.locator('.start-task[data-task="shell"]').click();
   const icons = page.locator('#brush-select .brush-btn .fa');
   await expect(icons).toHaveCount(8);
+  const brushMasks = new Set();
   for (const icon of await icons.all()) {
     await icon.scrollIntoViewIfNeeded();
     await expect(icon).toBeVisible();
     const mask = await icon.evaluate(node => getComputedStyle(node, '::before').maskImage);
     expect(mask).toContain('data:image/svg+xml');
+    brushMasks.add(mask);
     const screenshot = await icon.screenshot({ animations: 'disabled' });
     // A missing icon leaves this rectangle a single background color.
     // Decode the real element screenshot in Chromium and check painted pixels.
@@ -29,4 +31,5 @@ test('all eight brush icons remain painted with external resources blocked', asy
     }, [...screenshot]);
     expect(colors).toBeGreaterThan(1);
   }
+  expect(brushMasks.size).toBe(8);
 });

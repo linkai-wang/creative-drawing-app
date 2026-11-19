@@ -20,12 +20,7 @@
         // 清空旧故事内容，显示加载状态
         if (elements.storyContent) {
           elements.storyContent.innerHTML = `
-            <div class="flex flex-col items-center justify-center h-full">
-              <div class="animate-spin mb-4">
-                <i class="fa fa-spinner text-4xl text-primary"></i>
-              </div>
-              <p class="text-gray-600">AI老师正在为你编织故事...✨</p>
-            </div>
+            <p class="story-notice" role="status">正在准备你的故事……</p>
           `;
         }
         elements.storyMode.classList.remove('hidden');
@@ -237,7 +232,6 @@
             const image = document.createElement('img');
             image.src = completeArtwork;
             image.alt = '你的完整艺术作品';
-            image.className = 'w-full h-full object-contain rounded-lg shadow-md';
             previewContainer.appendChild(image);
           }
         })
@@ -276,16 +270,14 @@
 
     function showStoryAccessForm(message = '') {
       elements.storyContent.innerHTML = `
-        <form id="story-access-form" class="flex flex-col gap-3 p-4">
-          <p class="text-gray-700 font-semibold">输入老师提供的故事访问码</p>
-          <p class="text-gray-500 text-sm">故事根据场景和已完成任务生成。画作图片不会上传。</p>
-          <label for="story-access-code" class="text-gray-700">故事访问码</label>
+        <form id="story-access-form" class="story-access-form">
+          <p>输入老师提供的访问码，就可以听故事了。</p>
+          <label for="story-access-code">故事访问码</label>
           <input id="story-access-code" type="password" minlength="16" maxlength="256" required
-            autocomplete="off" autocapitalize="none" spellcheck="false"
-            class="w-full border border-gray-300 rounded-lg p-2">
-          <p id="story-access-message" class="text-gray-600 text-sm" role="status"></p>
-          <button type="submit" class="btn-primary">生成故事</button>
-          <p class="text-gray-500 text-sm">访问码仅在当前页面使用。请使用老师提供的访问码。</p>
+            autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="story-access-help story-access-message">
+          <p id="story-access-message" role="status"></p>
+          <button type="submit" class="studio-button primary">生成故事</button>
+          <p class="story-access-help" id="story-access-help">故事根据场景和已完成任务生成，画作图片不会上传。访问码仅在当前页面使用。</p>
         </form>`;
       document.getElementById('story-access-message').textContent = message;
       document.getElementById('story-access-form').addEventListener('submit', event => {
@@ -316,10 +308,7 @@
       if (!sceneId || !scenes[sceneId]) return;
       if (!storyAccessToken) { showStoryAccessForm(); return; }
       elements.storyContent.innerHTML = `
-        <div class="flex flex-col items-center justify-center h-full p-6" role="status">
-          <i class="fa fa-spinner fa-spin text-4xl text-primary mb-4"></i>
-          <p class="text-gray-600">正在为你的绘画任务编故事……</p>
-        </div>`;
+        <p class="story-notice" role="status">正在为你的绘画任务编故事……</p>`;
       const controller = new AbortController();
       storyController = controller;
       let timedOut = false;
@@ -333,7 +322,6 @@
         if (!isCurrent()) return;
         const content = document.createElement('div');
         content.id = 'generated-story';
-        content.className = 'text-gray-700 leading-relaxed text-base whitespace-pre-wrap';
         content.textContent = story;
         elements.storyContent.replaceChildren(content);
         try { speakText(story); } catch { /* Text remains readable if speech is unavailable. */ }
@@ -355,7 +343,7 @@
         const retry = document.createElement('button');
         retry.id = 'retry-story';
         retry.type = 'button';
-        retry.className = 'btn-primary mt-4';
+        retry.className = 'studio-button primary';
         retry.textContent = '重新尝试';
         retry.addEventListener('click', fetchAIStory, { once: true });
         elements.storyContent.replaceChildren(notice, retry);

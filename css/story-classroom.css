@@ -1,0 +1,225 @@
+/* The illustration and the reading column share one cover and a page seam. */
+.story-page {
+  max-width: 69rem;
+  margin-inline: auto;
+  padding: 1.5rem 0 2rem;
+}
+
+.story-page h2 {
+  margin: .5rem 0 1.5rem;
+  color: var(--ink);
+  font-size: clamp(1.55rem, 3vw, 2.1rem);
+  font-weight: 650;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  border: 1px solid var(--line);
+  border-bottom: 4px solid var(--accent);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.story-panel { min-width: 0; padding: clamp(1.25rem, 3.2vw, 3rem); }
+.story-plate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .9rem;
+  border-radius: 13px 0 0 10px;
+  border-right: 1px solid var(--line);
+  background: #fbfaf5;
+}
+
+.story-preview {
+  display: grid;
+  place-items: center;
+  min-height: 9rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.story-preview img {
+  display: block;
+  max-height: 27rem;
+  width: 100%;
+  object-fit: contain;
+}
+
+.story-plate h3 {
+  align-self: center;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.story-reading h3 {
+  margin: 0 0 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-family: Georgia, "Songti SC", SimSun, serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+}
+
+.story-text { color: var(--ink); line-height: 1.8; overflow-wrap: anywhere; }
+#generated-story {
+  max-width: 36em;
+  white-space: pre-wrap;
+  font-family: Georgia, "Songti SC", SimSun, serif;
+  font-size: 1.125rem;
+  line-height: 1.95;
+}
+
+.story-notice { color: var(--muted); }
+.story-access-form { display: grid; align-items: start; gap: .6rem; }
+.story-access-form label { margin-top: .25rem; font-size: .875rem; font-weight: 600; }
+.story-access-form button { justify-self: start; }
+.story-access-help { margin-top: .4rem; font-size: .875rem; line-height: 1.7; color: var(--muted); }
+#story-access-message { color: var(--danger); font-size: .875rem; }
+#story-access-message:empty { display: none; }
+#story-error { margin-bottom: 1rem; }
+.story-page-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: .65rem; margin-top: 1.5rem; }
+
+/* A single planning surface, with the activity record within reach beside it. */
+.classroom-dialog {
+  width: min(74rem, calc(100% - 2rem));
+  max-width: 100%;
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  --editor-gutter: clamp(1rem, 2.5vw, 2rem);
+}
+
+.classroom-dialog::backdrop { background: rgba(34, 44, 45, .46); }
+.classroom-dialog-header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem var(--editor-gutter);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.classroom-dialog h2 { font-size: clamp(1.3rem, 2vw, 1.65rem); font-weight: 650; }
+.classroom-dialog h3 { font-size: 1.2rem; font-weight: 650; line-height: 1.45; }
+.classroom-muted, .classroom-storage-status { margin: .65rem 0; color: var(--muted); font-size: .875rem; line-height: 1.65; }
+.classroom-privacy { margin: 0; padding: .8rem var(--editor-gutter); background: var(--paper); border-bottom: 1px solid var(--line); }
+.classroom-studio-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.classroom-studio-grid > section { min-width: 0; padding: var(--editor-gutter); }
+.classroom-report { border-left: 1px solid var(--line); }
+.classroom-subheading { font-size: 1rem; font-weight: 650; }
+
+.classroom-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: .85rem 1rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.classroom-field { display: grid; gap: .35rem; min-width: 0; font-size: .875rem; font-weight: 600; }
+.classroom-field-wide { grid-column: 1 / -1; }
+.classroom-field :is(input, select, textarea), .classroom-steps-label textarea, .story-access-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: .55rem .75rem;
+  border: 1px solid #a9b4ac;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.classroom-dialog :is(button, input, textarea, select, summary, [tabindex]) { scroll-margin-block: 5rem 1rem; }
+.classroom-dialog textarea { resize: vertical; }
+.lesson-agent { margin: 1rem 0; padding: 0 1rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; }
+.lesson-agent[open] { padding-bottom: 1rem; }
+.lesson-agent summary { padding: .7rem 0; min-height: 44px; cursor: pointer; color: var(--ink); font-size: .94rem; font-weight: 600; }
+.lesson-agent summary::marker { color: var(--accent); }
+.lesson-agent .classroom-field { margin: .8rem 0; }
+.lesson-agent-actions, .classroom-report-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.lesson-agent-preview { margin-top: 1rem; padding: 1rem; border-radius: 8px; background: var(--surface); overflow-wrap: anywhere; }
+.lesson-agent-preview :is(h4, h5) { margin: .5rem 0; font-weight: 650; }
+.lesson-agent-preview h4:first-child { margin-top: 0; }
+.lesson-agent-preview ol, .lesson-agent-log { list-style: decimal; padding-left: 1.5rem; }
+.lesson-agent-preview li { margin: .3rem 0; }
+.lesson-agent-log { margin: .85rem 0; color: var(--muted); font-size: .875rem; overflow-wrap: anywhere; }
+.lesson-agent-log:empty, .lesson-agent [hidden], .classroom-dialog [hidden] { display: none; }
+
+.classroom-task-picker { max-height: 26rem; overflow: auto; border: 1px solid var(--line); border-radius: 10px; }
+.classroom-task-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .6rem;
+  padding: .3rem .75rem;
+}
+
+.classroom-task-row + .classroom-task-row { border-top: 1px solid var(--line); }
+.classroom-task-row > label:first-child, .classroom-check {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-height: 44px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.classroom-task-row > label:first-child { flex: 1; }
+.classroom-dialog input[type="checkbox"] { flex: 0 0 auto; width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+.classroom-row-actions { display: flex; gap: .35rem; }
+.classroom-row-actions button { min-width: 44px; padding: .35rem .55rem; font-size: .8rem; }
+.classroom-steps-label { flex: 1 1 100%; color: var(--muted); font-size: .8rem; }
+.classroom-steps-label textarea { display: block; margin: .3rem 0 .5rem; font-size: .9rem; }
+.classroom-preferences { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem 1rem; margin: 1.35rem 0 .8rem; }
+.classroom-preferences legend { margin-bottom: .6rem; }
+.classroom-check { align-items: flex-start; padding: .4rem 0; font-size: .94rem; }
+.classroom-check input { margin-top: .2rem; }
+.classroom-check small { display: block; margin-top: .2rem; color: var(--muted); font-size: .82rem; font-weight: 400; }
+.classroom-validation:not(:empty) { margin-top: .75rem; color: var(--danger); }
+
+.classroom-report .classroom-field { margin: 1.25rem 0 1rem; }
+#classroom-report-empty { padding: 1.2rem 1rem; border: 1px dashed var(--line); border-radius: 8px; }
+#classroom-report-goal { overflow-wrap: anywhere; }
+.classroom-report-summary { margin: 1rem 0; padding: .75rem; background: var(--accent-soft); border-radius: 8px; font-weight: 600; }
+.classroom-table-scroll { max-width: 100%; overflow-x: auto; }
+.classroom-table { width: 100%; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.classroom-table caption { padding-bottom: .5rem; text-align: left; font-weight: 600; }
+.classroom-table :is(th, td) { padding: .6rem .4rem; border-bottom: 1px solid var(--line); text-align: center; }
+.classroom-table tr > :first-child { min-width: 4rem; text-align: left; }
+.classroom-table th { min-width: 3rem; background: var(--paper); font-weight: 600; }
+.classroom-report-actions { margin: 1rem 0; }
+
+@media (max-width: 850px) {
+  .classroom-studio-grid { grid-template-columns: 1fr; }
+  .classroom-report { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+@media (max-width: 680px) {
+  .story-grid { grid-template-columns: 1fr; }
+  .story-plate { border: 0; border-bottom: 1px solid var(--line); border-radius: 13px 13px 0 0; }
+  .story-preview img { max-height: 18rem; }
+  .story-page-actions { justify-content: start; }
+}
+
+@media (max-width: 480px) {
+  .classroom-dialog { width: calc(100% - 1rem); max-height: calc(100dvh - 1rem); }
+  .classroom-fields { grid-template-columns: 1fr; }
+  .classroom-preferences { grid-template-columns: 1fr; }
+  .classroom-field :is(input, textarea, select), .classroom-steps-label textarea { font-size: 1rem; }
+}

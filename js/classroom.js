@@ -133,7 +133,7 @@ function classroomOnTaskStart(task) {
 function classroomButton(label, action) {
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = 'classroom-button';
+  button.className = 'studio-button classroom-button';
   button.textContent = label;
   button.addEventListener('click', action);
   return button;
@@ -201,7 +201,7 @@ function classroomRenderPlanner() {
   }
 }
 
-function classroomOpen() {
+function classroomOpen(event) {
   if (!elements.drawingMode.classList.contains('hidden')) flushDrawingDraft();
   const prior = classroomState.lastPlan;
   const sceneId = prior?.sceneId || appState.currentScene || 'beach';
@@ -218,6 +218,7 @@ function classroomOpen() {
   classroomRenderReport();
   lessonAgentReset();
   classroomNode('classroom-dialog').showModal();
+  if (event?.currentTarget?.id === 'classroom-review') classroomNode('classroom-report-select').focus();
 }
 
 function classroomApplyAgentDraft(input) {
@@ -305,7 +306,10 @@ function classroomRenderReport() {
   classroomNode('classroom-report-content').hidden = !current;
   classroomNode('classroom-report-empty').hidden = Boolean(current);
   classroomNode('classroom-report-download').disabled = !current;
-  if (!current) return;
+  if (!current) {
+    select.add(new Option('暂无活动记录', ''));
+    return;
+  }
   const total = ClassroomModel.summary(current);
   classroomNode('classroom-report-summary').textContent = `${ClassroomLabels.completed} ${total.completed}/${total.total} · ${ClassroomLabels.pen} ${total.penSeconds} · ${ClassroomLabels.helps} ${total.helps}`;
   classroomNode('classroom-report-goal').textContent = ClassroomLabels.goalPrefix + current.plan.goal;
